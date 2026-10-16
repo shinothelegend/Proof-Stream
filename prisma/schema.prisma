@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Campaign {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  title           String
+  ngoName         String
+  ngoAddress      String
+  story           String
+  goal            Float       // Goal in USDC
+  escrowBalance   Float       @default(0.0)
+  coverImageCid   String      // IPFS CID or high-res visual
+  siteLat         Float
+  siteLng         Float
+  siteAddress     String
+  status          String      @default("ACTIVE") // ACTIVE, FUNDRAISING, COMPLETED
+  contractAddress String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  milestones      Milestone[]
+  donations       Donation[]
+}
+
+model Milestone {
+  id             String       @id @default(cuid())
+  campaignId     String
+  campaign       Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  idx            Int
+  description    String
+  amount         Float        // Tranche amount in USDC
+  deadline       DateTime
+  geoFenceKm     Float        @default(5.0)
+  budgetLines    String       // JSON encoded line items
+  status         String       @default("PENDING") // PENDING, VERIFYING, RELEASED, REFUNDED, REJECTED, FLAGGED
+  released       Boolean      @default(false)
+  refunded       Boolean      @default(false)
+  attestationUID String?
+  releaseTxHash  String?
+  submissions    Submission[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Submission {
+  id            String     @id @default(cuid())
+  milestoneId   String
+  milestone     Milestone  @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  workerName    String
+  workerAddress String?
+  notes         String?
+  status        String     @default("PENDING") // PENDING, VERIFYING, PASSED, REJECTED, FLAGGED
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  evidence      Evidence[]
+  verdict       Verdict?
+}
+
+model Evidence {
+  id           String     @id @default(cuid())
+  submissionId String
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  kind         String     // photo, receipt, audio
+  cid          String     // IPFS CID
+  phash        String?    // Perceptual hash for reuse detection
+  fileName     String?
+  mimeType     String?
+  exif         String?    // JSON encoded EXIF metadata { lat, lng, time, device }
+  createdAt    DateTime   @default(now())
+}
+
+model Verdict {
+  id                 String     @id @default(cuid())
+  submissionId       String     @unique
+  submission         Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  confidence         Float      // 0.0 to 1.0
+  verdict            String     // PASSED, REJECTED, FLAGGED
+  reasoning          String
+  flags              String     // JSON array of strings: NO_GPS, REUSED_IMAGE, PHOTO_MISMATCH, etc.
+  receiptTotal       Float?
+  budgetMatch        Boolean?
+  photoMatchesClaim  Boolean?
+  attestationUID     String?
+  txHash             String?
+  releasedAt         DateTime?
+  createdAt          DateTime   @default(now())
+}
+
+model Donation {
+  id           String   @id @default(cuid())
+  campaignId   String
+  campaign     Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donorAddress String
+  amount       Float    // USDC amount
+  txHash       String
+  createdAt    DateTime @default(now())
+}
