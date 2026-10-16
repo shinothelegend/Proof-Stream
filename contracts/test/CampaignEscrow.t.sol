@@ -162,6 +162,10 @@ contract CampaignEscrowTest is Test {
         require(a == b, "assertEq failed");
     }
 
+    function assertEq(bytes32 a, bytes32 b) internal pure {
+        require(a == b, "assertEq bytes32 failed");
+    }
+
     function assertTrue(bool condition) internal pure {
         require(condition, "assertTrue failed");
     }
