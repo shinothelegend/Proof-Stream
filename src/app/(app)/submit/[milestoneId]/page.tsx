@@ -192,16 +192,16 @@ export default function SubmitEvidencePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6 font-sans pb-12">
       {/* Header */}
       <div>
         <Badge variant="testnet" className="mb-2">
           FIELD OPERATIVE PORTAL
         </Badge>
-        <h1 className="font-heading text-xl sm:text-2xl text-pix-ink uppercase tracking-wide">
+        <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1">
           <Typewriter text="SUBMIT FIELD PROOF" speed={40} />
         </h1>
-        <p className="font-body text-xs text-pix-dim mt-1">
+        <p className="font-sans text-[15px] text-pix-dim mt-1.5 leading-relaxed">
           Evidence is cryptographically verified against geofence coordinates and supplier receipts.
         </p>
       </div>
@@ -214,32 +214,32 @@ export default function SubmitEvidencePage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
           >
-            <GlassCard className="p-8 sm:p-10 text-center space-y-6 border-4 border-pix-gold">
-              <div className="relative w-16 h-16 mx-auto bg-pix-gold/20 border-2 border-pix-gold flex items-center justify-center text-pix-gold">
+            <GlassCard className="p-8 sm:p-10 text-center space-y-6 border border-pix-accent/50 shadow-2xl">
+              <div className="relative w-16 h-16 mx-auto rounded-[12px] bg-pix-accent/15 border border-pix-accent flex items-center justify-center text-pix-accent">
                 <Loader2 className="w-8 h-8 animate-spin" />
               </div>
 
               <div>
-                <h3 className="font-heading text-base sm:text-lg text-pix-ink uppercase tracking-wide">
-                  {stage === "UPLOADING" ? "PINNING EVIDENCE TO IPFS..." : "GEMINI MULTIMODAL AUDIT IN PROGRESS..."}
+                <h3 className="font-display font-semibold text-lg sm:text-xl text-pix-ink">
+                  {stage === "UPLOADING" ? "Pinning Evidence to IPFS…" : "Gemini Multimodal Audit in Progress…"}
                 </h3>
-                <p className="font-body text-xs text-pix-dim mt-2 max-w-sm mx-auto leading-relaxed">
+                <p className="font-sans text-[14px] text-pix-dim mt-2 max-w-sm mx-auto leading-relaxed">
                   Extracting EXIF GPS coordinates, comparing perceptual image dHash against database,
                   performing OCR on receipts, and validating against milestone budget.
                 </p>
               </div>
 
-              <div className="space-y-2 text-left max-w-xs mx-auto font-body text-xs">
-                <div className="flex items-center space-x-2 text-pix-mint">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+              <div className="space-y-2.5 text-left max-w-xs mx-auto font-sans text-[13px]">
+                <div className="flex items-center space-x-2 text-pix-success font-medium">
+                  <CheckCircle2 className="w-4 h-4" />
                   <span>Pinata IPFS Pinning</span>
                 </div>
-                <div className="flex items-center space-x-2 text-pix-gold">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <div className="flex items-center space-x-2 text-pix-accent font-medium">
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   <span>Multimodal Vision & OCR</span>
                 </div>
                 <div className="flex items-center space-x-2 text-pix-dim">
-                  <span className="w-3.5 h-3.5 border border-pix-dim inline-block" />
+                  <span className="w-4 h-4 border border-[var(--color-pix-hairline)] rounded-full inline-block" />
                   <span>Base Sepolia Attestation</span>
                 </div>
               </div>
@@ -253,12 +253,12 @@ export default function SubmitEvidencePage() {
             exit={{ opacity: 0, y: 10 }}
           >
             <GlassCard
-              className={`p-6 sm:p-8 space-y-6 border-4 ${
+              className={`p-6 sm:p-8 space-y-6 border ${
                 verdictResult.verdict === "PASSED"
-                  ? "border-pix-mint bg-pix-mint/[0.04]"
+                  ? "border-pix-success/40 bg-pix-success/[0.03]"
                   : verdictResult.verdict === "REJECTED"
-                  ? "border-pix-alert bg-pix-alert/[0.04]"
-                  : "border-pix-gold bg-pix-gold/[0.04]"
+                  ? "border-pix-alert/40 bg-pix-alert/[0.03]"
+                  : "border-pix-accent/40 bg-pix-accent/[0.03]"
               }`}
             >
               <div className="flex items-center justify-between">
@@ -275,37 +275,37 @@ export default function SubmitEvidencePage() {
                 </Badge>
 
                 {verdictResult.confidence !== undefined && (
-                  <span className="font-body text-xs text-pix-cyan font-bold">
+                  <span className="font-mono text-sm text-pix-accent font-medium">
                     CONFIDENCE: {Math.round(verdictResult.confidence * 100)}%
                   </span>
                 )}
               </div>
 
               <div>
-                <h3 className="font-heading text-lg text-pix-ink uppercase">
+                <h3 className="font-display font-bold text-xl text-pix-ink">
                   {verdictResult.verdict === "PASSED"
-                    ? "TRANCHE RELEASED ON-CHAIN!"
+                    ? "Tranche Released On-Chain!"
                     : verdictResult.verdict === "REJECTED"
-                    ? "VERIFICATION REJECTED: FRAUD DETECTED"
-                    : "FLAGGED FOR AUDITOR REVIEW"}
+                    ? "Verification Rejected: Anomaly Detected"
+                    : "Flagged for Auditor Oversight"}
                 </h3>
 
-                <p className="font-body text-xs text-pix-dim mt-3 leading-relaxed">
+                <p className="font-sans text-[15px] text-pix-dim mt-2 leading-relaxed">
                   {verdictResult.reasoning}
                 </p>
               </div>
 
               {/* Flags list */}
               {verdictResult.flags?.length > 0 && (
-                <div className="space-y-1">
-                  <span className="font-heading text-[10px] uppercase text-pix-alert block">
+                <div className="space-y-1.5">
+                  <span className="font-sans text-[12px] uppercase font-semibold text-pix-alert block">
                     Security Flags Detected
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {verdictResult.flags.map((f: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 text-[10px] font-body bg-pix-alert/20 text-pix-alert border border-pix-alert"
+                        className="px-2.5 py-1 text-[11px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
                       >
                         {f}
                       </span>
@@ -316,15 +316,15 @@ export default function SubmitEvidencePage() {
 
               {/* On-Chain Transaction link */}
               {verdictResult.txHash && (
-                <div className="p-3 bg-pix-bg border-2 border-pix-dim/30 space-y-1">
-                  <span className="font-heading text-[10px] uppercase text-pix-gold block">
+                <div className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] space-y-1">
+                  <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent block">
                     Base Sepolia Attestation Hash
                   </span>
                   <a
                     href={`https://sepolia.basescan.org/tx/${verdictResult.txHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-body text-xs text-pix-cyan hover:underline flex items-center space-x-1"
+                    className="font-mono text-xs text-pix-accent hover:underline flex items-center space-x-1"
                   >
                     <span>{formatTxHash(verdictResult.txHash)}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -356,13 +356,13 @@ export default function SubmitEvidencePage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Milestone Selector */}
             <GlassCard className="p-5 space-y-2">
-              <label className="font-heading text-xs uppercase text-pix-ink block">
+              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
                 Select Active Milestone Tranche
               </label>
               <select
                 value={selectedMilestoneId}
                 onChange={(e) => setSelectedMilestoneId(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-pix-bg border-2 border-pix-dim/40 font-body text-xs text-pix-ink focus:outline-none focus:border-pix-gold transition-all"
+                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent transition-all shadow-sm"
               >
                 {milestones.map((m) => (
                   <option key={m.id} value={m.id} className="bg-pix-panel text-pix-ink">
@@ -374,7 +374,7 @@ export default function SubmitEvidencePage() {
 
             {/* Field Worker Identity */}
             <GlassCard className="p-5 space-y-2">
-              <label className="font-heading text-xs uppercase text-pix-ink block">
+              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
                 Field Operative Identity
               </label>
               <input
@@ -382,22 +382,22 @@ export default function SubmitEvidencePage() {
                 value={workerName}
                 onChange={(e) => setWorkerName(e.target.value)}
                 placeholder="Worker Name / Lead Engineer"
-                className="w-full px-3.5 py-2 bg-pix-bg border-2 border-pix-dim/40 font-body text-xs text-pix-ink focus:outline-none focus:border-pix-gold"
+                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent shadow-sm"
               />
             </GlassCard>
 
             {/* Photo Capture (Mandatory) */}
             <GlassCard className="p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <label className="font-heading text-xs uppercase text-pix-ink flex items-center space-x-1.5">
-                  <Camera className="w-4 h-4 text-pix-gold" />
+                <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
+                  <Camera className="w-4 h-4 text-pix-accent" />
                   <span>Field Installation Photo (GPS EXIF)</span>
                 </label>
-                <span className="font-heading text-[10px] uppercase text-pix-alert">MANDATORY</span>
+                <span className="font-sans text-[10px] uppercase font-bold text-pix-alert">MANDATORY</span>
               </div>
 
               {photoPreview ? (
-                <div className="relative aspect-video border-2 border-pix-gold overflow-hidden">
+                <div className="relative aspect-video rounded-[8px] border border-pix-accent overflow-hidden">
                   <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
                   <div className="absolute top-2 right-2">
                     <SnapButton
@@ -413,10 +413,10 @@ export default function SubmitEvidencePage() {
                   </div>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-pix-dim/40 cursor-pointer hover:border-pix-gold hover:bg-pix-gold/5 transition-all">
+                <label className="flex flex-col items-center justify-center p-8 rounded-[10px] border border-dashed border-[var(--color-pix-hairline)] cursor-pointer hover:border-pix-accent hover:bg-pix-accent/5 transition-all">
                   <Camera className="w-8 h-8 text-pix-dim mb-2" />
-                  <span className="font-heading text-xs uppercase text-pix-ink">Take photo with camera or upload</span>
-                  <span className="font-body text-[10px] text-pix-dim mt-0.5">Location tagging must be enabled</span>
+                  <span className="font-sans text-[14px] font-medium text-pix-ink">Take photo with camera or upload</span>
+                  <span className="font-sans text-[12px] text-pix-dim mt-0.5">Location tagging must be enabled</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -431,11 +431,11 @@ export default function SubmitEvidencePage() {
             {/* Geolocation Tagging Helper */}
             <GlassCard className="p-5 flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="font-heading text-xs uppercase text-pix-ink flex items-center space-x-1">
-                  <MapPin className="w-3.5 h-3.5 text-pix-gold" />
+                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1">
+                  <MapPin className="w-4 h-4 text-pix-accent" />
                   <span>Device Geolocation</span>
                 </span>
-                <span className="font-body text-xs text-pix-cyan block">
+                <span className="font-mono text-xs text-pix-accent block">
                   {gpsCoords
                     ? `${gpsCoords.lat.toFixed(4)}, ${gpsCoords.lng.toFixed(4)}`
                     : "Uses camera EXIF or browser GPS"}
@@ -448,20 +448,20 @@ export default function SubmitEvidencePage() {
                 onClick={handleGetLocation}
                 disabled={isGettingGps}
               >
-                {isGettingGps ? "ACQUIRING..." : "GET GPS"}
+                {isGettingGps ? "Acquiring…" : "Get GPS"}
               </SnapButton>
             </GlassCard>
 
             {/* Receipt / Invoice Upload (OCR) */}
             <GlassCard className="p-5 space-y-3">
-              <label className="font-heading text-xs uppercase text-pix-ink flex items-center space-x-1.5">
-                <FileText className="w-4 h-4 text-pix-cyan" />
+              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
+                <FileText className="w-4 h-4 text-pix-accent" />
                 <span>Supplier Invoice / Receipt (OCR Verification)</span>
               </label>
 
               {receiptPreview ? (
-                <div className="flex items-center justify-between p-3 bg-pix-bg border-2 border-pix-dim/30">
-                  <span className="font-body text-xs text-pix-cyan truncate max-w-[200px]">{receiptFile?.name}</span>
+                <div className="flex items-center justify-between p-3 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)]">
+                  <span className="font-mono text-xs text-pix-accent truncate max-w-[200px]">{receiptFile?.name}</span>
                   <SnapButton
                     variant="ghost"
                     size="sm"
@@ -474,8 +474,8 @@ export default function SubmitEvidencePage() {
                   </SnapButton>
                 </div>
               ) : (
-                <label className="flex items-center justify-center p-4 border-2 border-dashed border-pix-dim/40 cursor-pointer hover:border-pix-gold transition-all font-heading text-xs uppercase text-pix-dim space-x-2">
-                  <UploadCloud className="w-4 h-4 text-pix-gold" />
+                <label className="flex items-center justify-center p-5 rounded-[10px] border border-dashed border-[var(--color-pix-hairline)] cursor-pointer hover:border-pix-accent transition-all font-sans text-[13px] text-pix-dim space-x-2">
+                  <UploadCloud className="w-4 h-4 text-pix-accent" />
                   <span>Upload supplier bill or receipt</span>
                   <input type="file" accept="image/*,application/pdf" onChange={handleReceiptSelect} className="hidden" />
                 </label>
@@ -485,29 +485,29 @@ export default function SubmitEvidencePage() {
             {/* Optional Voice Note */}
             <GlassCard className="p-5 flex items-center justify-between">
               <div>
-                <span className="font-heading text-xs uppercase text-pix-ink block">Local Language Voice Note</span>
-                <span className="font-body text-[11px] text-pix-dim">Gemini transcribes and translates</span>
+                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Local Language Voice Note</span>
+                <span className="font-sans text-[13px] text-pix-dim">Gemini transcribes and translates</span>
               </div>
 
               <SnapButton
-                variant={isRecording ? "alert" : audioBlob ? "mint" : "secondary"}
+                variant={isRecording ? "alert" : audioBlob ? "success" : "secondary"}
                 size="sm"
                 onClick={handleToggleVoice}
               >
                 {isRecording ? <MicOff className="w-3.5 h-3.5 mr-1" /> : <Mic className="w-3.5 h-3.5 mr-1" />}
-                {isRecording ? "STOP RECORDING" : audioBlob ? "RECORDED ✓" : "RECORD VOICE"}
+                {isRecording ? "Stop Recording" : audioBlob ? "Recorded ✓" : "Record Voice"}
               </SnapButton>
             </GlassCard>
 
             {/* Field Notes */}
             <GlassCard className="p-5 space-y-2">
-              <label className="font-heading text-xs uppercase text-pix-ink block">Field Notes & Observations</label>
+              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Field Notes & Observations</label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Details of installation, community recipient count, testing results..."
                 rows={3}
-                className="w-full p-3 bg-pix-bg border-2 border-pix-dim/40 font-body text-xs text-pix-ink focus:outline-none focus:border-pix-gold resize-none"
+                className="w-full p-3.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent resize-none shadow-sm"
               />
             </GlassCard>
 

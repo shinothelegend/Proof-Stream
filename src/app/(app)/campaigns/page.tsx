@@ -7,7 +7,7 @@ import { Typewriter } from "@/components/pixel/Typewriter";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelProgress } from "@/components/pixel/PixelProgress";
 import { PixelBanner } from "@/components/pixel/PixelBanner";
-import { PixelFlag, PixelShield } from "@/components/pixel/PixelIcons";
+import { PixelShield } from "@/components/pixel/PixelIcons";
 import { formatUSDC } from "@/lib/format";
 
 interface CampaignItem {
@@ -63,158 +63,157 @@ export default function CampaignsPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-12 font-sans">
       {/* Title Header with Typewriter */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b-2 border-[var(--color-pix-border)]">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[var(--color-pix-hairline)]">
         <div>
-          <span className="text-[10px] font-heading uppercase text-pix-gold font-bold tracking-widest block">
-            AVAILABLE BOUNTIES & QUESTS
+          <span className="text-[12px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
+            AVAILABLE BOUNTIES & IMPACT QUESTS
           </span>
-          <h1 className="font-heading font-bold text-2xl sm:text-3xl text-pix-ink tracking-wide mt-1">
+          <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1.5">
             <Typewriter text="SELECT A VERIFIABLE IMPACT QUEST" speed={35} />
           </h1>
         </div>
 
-        <div className="text-xs font-mono text-pix-dim">
+        <div className="text-[13px] font-mono text-pix-dim">
           <span>ACTIVE CAMPAIGNS: </span>
-          <span className="text-pix-cyan font-bold">{filteredCampaigns.length}</span>
+          <span className="text-pix-accent font-bold">{filteredCampaigns.length}</span>
         </div>
       </div>
 
-      {/* Cartridge Tabs Filters & Pixel Search Bar (§6) */}
+      {/* Cartridge Tabs Filters & Search Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Cartridge Insertion Tabs */}
-        <div className="flex items-center space-x-1 w-full md:w-auto bg-black/40 p-1 border-2 border-black shadow-[2px_2px_0_0_#000]">
+        {/* Filter Pills */}
+        <div className="flex items-center space-x-1.5 w-full md:w-auto bg-pix-panel p-1 rounded-[10px] border border-[var(--color-pix-hairline)]">
           {(["ALL", "ACTIVE", "COMPLETED"] as const).map((status) => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
-              className={`text-[11px] font-heading uppercase px-3 py-1.5 transition-all cursor-pointer ${
+              className={`text-[12px] font-sans font-semibold uppercase px-4 py-1.5 rounded-[8px] transition-all cursor-pointer ${
                 filterStatus === status
-                  ? "bg-pix-gold text-black font-bold shadow-[2px_2px_0_0_#000] translate-y-[-2px]"
+                  ? "bg-pix-accent text-[#1D1D26] shadow-sm"
                   : "text-pix-dim hover:text-pix-ink"
               }`}
             >
-              {status === "ALL" ? "[ ALL QUESTS ]" : `[ ${status} ]`}
+              {status === "ALL" ? "All Quests" : status}
             </button>
           ))}
         </div>
 
-        {/* Pixel Search Input with Blinking Cursor */}
+        {/* Search Input */}
         <div className="relative w-full md:w-80">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="SEARCH QUEST / NGO..."
-            className="w-full pl-9 pr-4 py-2 bg-pix-panel border-2 border-[var(--color-pix-border)] text-xs font-mono text-pix-ink placeholder-pix-dim focus:outline-none focus:border-pix-gold shadow-[2px_2px_0_0_#000]"
+            placeholder="Search quest or NGO..."
+            className="w-full pl-10 pr-4 py-2 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] text-[14px] font-sans text-pix-ink placeholder-pix-dim focus:outline-none focus:border-pix-accent shadow-sm"
           />
-          <Search className="w-4 h-4 text-pix-gold absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-pix-accent absolute left-3.5 top-1/2 -translate-y-1/2" />
         </div>
       </div>
 
-      {/* Full-Width Quest Cards Grid (grid-cols-1 md:2 xl:3, NO DEAD SPACE) */}
+      {/* Quest Cards Grid (§6.1: Banner >= 220px tall, title in Space Grotesk 24px) */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-96 bg-pix-panel border-2 border-[var(--color-pix-border)] animate-pulse shadow-pixel"
+              className="h-96 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] animate-pulse shadow-card"
             />
           ))}
         </div>
       ) : filteredCampaigns.length === 0 ? (
-        <div className="pixel-panel p-12 text-center max-w-md mx-auto space-y-3">
-          <div className="w-10 h-10 bg-pix-gold text-black flex items-center justify-center mx-auto border-2 border-black font-display text-sm">
+        <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-12 text-center max-w-md mx-auto space-y-3 shadow-panel">
+          <div className="w-12 h-12 rounded-[10px] bg-pix-accent text-[#1D1D26] font-bold flex items-center justify-center mx-auto font-display text-lg">
             ?
           </div>
-          <h3 className="font-heading font-bold text-sm text-pix-ink">NO QUESTS FOUND</h3>
-          <p className="text-xs font-mono text-pix-dim">Try adjusting search filters or keywords.</p>
+          <h3 className="font-display font-semibold text-base text-pix-ink">No Quests Found</h3>
+          <p className="text-[14px] font-sans text-pix-dim">Try adjusting search filters or keywords.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredCampaigns.map((camp) => {
-            const fundedPercent = Math.min(
-              100,
-              Math.round((camp.escrowBalance / camp.goal) * 100)
-            );
             const releasedCount = camp.milestones.filter((m) => m.released).length;
-            const nextMilestone = camp.milestones.find((m) => !m.released) || camp.milestones[0];
 
             return (
               <div
                 key={camp.id}
-                className="pixel-panel flex flex-col justify-between overflow-hidden border-2 border-[var(--color-pix-border)] hover:border-pix-gold transition-all duration-150 group shadow-pixel hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#000]"
+                className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] overflow-hidden shadow-card hover:border-[var(--color-pix-accent)]/50 transition-all duration-200 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Procedural Pixel Banner (Deterministic per slug) */}
-                  <PixelBanner seed={camp.slug} className="h-36" />
+                  {/* Banner: >= 220px tall, 128x72 canvas, title overlay Space Grotesk 24px (§6.1) */}
+                  <PixelBanner
+                    seed={camp.slug}
+                    title={camp.title}
+                    className="h-[230px]"
+                  />
 
                   {/* Card Content */}
-                  <div className="p-5 space-y-4">
+                  <div className="p-6 space-y-4">
                     {/* Header Chips */}
-                    <div className="flex items-center justify-between gap-2 text-[10px] font-heading">
-                      <span className="flex items-center space-x-1 text-pix-mint bg-pix-mint/10 border border-pix-mint/30 px-2 py-0.5">
+                    <div className="flex items-center justify-between gap-2 text-[12px] font-sans">
+                      <span className="flex items-center space-x-1.5 text-pix-accent bg-pix-accent/10 border border-pix-accent/20 px-2.5 py-1 rounded-[6px]">
                         <PixelShield size={12} />
-                        <span>GUILD: {camp.ngoName.slice(0, 18)}</span>
+                        <span className="font-semibold uppercase tracking-wider">{camp.ngoName.slice(0, 20)}</span>
                       </span>
 
-                      <span className="text-pix-dim font-mono truncate max-w-[140px] flex items-center space-x-1">
-                        <MapPin className="w-3 h-3 text-pix-gold flex-shrink-0" />
+                      <span className="text-pix-dim truncate max-w-[150px] flex items-center space-x-1">
+                        <MapPin className="w-3.5 h-3.5 text-pix-accent flex-shrink-0" />
                         <span>{camp.siteAddress.split(",")[0]}</span>
                       </span>
                     </div>
 
-                    {/* Quest Title */}
-                    <h3 className="font-heading font-bold text-base text-pix-ink group-hover:text-pix-gold transition-colors line-clamp-2 leading-snug">
-                      {camp.title}
-                    </h3>
+                    {/* Story snippet in Inter */}
+                    <p className="text-[14px] text-pix-dim leading-relaxed font-sans line-clamp-2">
+                      {camp.story}
+                    </p>
 
-                    {/* XP Funding Progress */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between items-center text-[10px] font-mono">
-                        <span className="text-pix-dim">ESCROWED</span>
-                        <span className="text-pix-cyan font-bold">
+                    {/* Escrow Progress */}
+                    <div className="space-y-1.5 pt-1">
+                      <div className="flex justify-between items-center text-[13px]">
+                        <span className="text-pix-dim font-sans uppercase tracking-wider text-[11px] font-semibold">Escrowed</span>
+                        <span className="text-pix-accent font-mono font-medium">
                           {formatUSDC(camp.escrowBalance)} / {formatUSDC(camp.goal)}
                         </span>
                       </div>
-                      <PixelProgress current={camp.escrowBalance} total={camp.goal} variant="gold" height={10} />
+                      <PixelProgress current={camp.escrowBalance} total={camp.goal} variant="gold" height={8} />
                     </div>
 
-                    {/* Milestone Flags & Event Timer */}
-                    <div className="pt-3 border-t border-[var(--color-pix-border-subtle)] flex items-center justify-between text-[11px] font-mono">
-                      {/* Flag dots */}
+                    {/* Milestone Flags */}
+                    <div className="pt-3 border-t border-[var(--color-pix-hairline)] flex items-center justify-between text-[12px] font-mono">
                       <div className="flex items-center space-x-1.5">
                         {camp.milestones.map((m, idx) => (
                           <span
                             key={m.id}
                             title={`Tranche #${idx + 1}: ${m.released ? "Proven" : "Pending"}`}
-                            className={`w-3 h-3 border border-black flex items-center justify-center text-[8px] font-bold ${
-                              m.released ? "bg-pix-mint text-black" : "bg-black text-pix-dim"
+                            className={`w-4 h-4 rounded-[4px] border flex items-center justify-center text-[9px] font-bold ${
+                              m.released
+                                ? "bg-pix-success/20 text-pix-success border-pix-success/40"
+                                : "bg-pix-bg text-pix-dim border-[var(--color-pix-hairline)]"
                             }`}
                           >
                             {idx + 1}
                           </span>
                         ))}
-                        <span className="text-[10px] text-pix-dim ml-1">
-                          {releasedCount}/{camp.milestones.length} PROVEN
+                        <span className="text-[12px] text-pix-dim ml-1.5 font-sans">
+                          {releasedCount}/{camp.milestones.length} Proven
                         </span>
                       </div>
 
-                      {/* Event timer */}
-                      <div className="flex items-center space-x-1 text-[10px] text-pix-gold font-mono">
-                        <Clock className="w-3 h-3" />
-                        <span>ACTIVE QUEST</span>
+                      <div className="flex items-center space-x-1 text-[11px] text-pix-accent font-sans uppercase tracking-wider font-semibold">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>Active</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Footer Button */}
-                <div className="p-4 pt-0">
+                <div className="p-6 pt-0">
                   <Link href={`/campaigns/${camp.slug || camp.id}`} className="block w-full">
-                    <SnapButton variant="gold" size="sm" className="w-full justify-between">
-                      <span>VIEW QUEST DETAIL</span>
+                    <SnapButton variant="primary" size="sm" className="w-full justify-between">
+                      <span>ENTER QUEST DETAILS</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </SnapButton>
                   </Link>

@@ -20,6 +20,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { Typewriter } from "@/components/pixel/Typewriter";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { formatAddress, formatTxHash, formatUSDC } from "@/lib/format";
 import { BRAND } from "@/lib/brand";
 
@@ -72,17 +73,18 @@ export default function PublicAuditPage() {
   );
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-pix-gold">
+    <div className="space-y-8 font-sans pb-12">
+      {/* Header (§6.2: brand mark in audit header) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--color-pix-hairline)]">
         <div>
-          <Badge variant="verified" className="mb-2">
-            PUBLIC CRYPTOGRAPHIC LEDGER
-          </Badge>
-          <h1 className="font-heading text-xl sm:text-2xl text-pix-ink uppercase tracking-wide">
-            <Typewriter text="ON-CHAIN AUDIT EXPLORER" speed={30} />
+          <div className="flex items-center space-x-3 mb-2">
+            <BrandLogo size={24} showWordmark={true} />
+            <Badge variant="verified">PUBLIC ON-CHAIN LEDGER</Badge>
+          </div>
+          <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1">
+            <Typewriter text="PUBLIC CRYPTOGRAPHIC AUDIT EXPLORER" speed={30} />
           </h1>
-          <p className="font-body text-xs text-pix-dim mt-1 max-w-2xl">
+          <p className="font-sans text-[15px] text-pix-dim mt-1.5 max-w-2xl leading-relaxed">
             Anyone can inspect humanitarian milestones, AI verification reasoning, IPFS evidence
             hashes, and Base Sepolia attestations without an account.
           </p>
@@ -92,11 +94,11 @@ export default function PublicAuditPage() {
           href={BRAND.links.baseScan}
           target="_blank"
           rel="noopener noreferrer"
-          className="self-start"
+          className="self-start sm:self-center"
         >
           <SnapButton variant="secondary" size="sm">
             <span>BASESCAN EXPLORER</span>
-            <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-cyan" />
+            <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-accent" />
           </SnapButton>
         </a>
       </div>
@@ -109,7 +111,7 @@ export default function PublicAuditPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Filter by milestone, reasoning, or UID..."
-          className="w-full pl-10 pr-4 py-2.5 bg-pix-panel border-2 border-pix-dim/40 font-body text-xs text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-gold transition-all"
+          className="w-full pl-10 pr-4 py-2.5 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-accent transition-all shadow-sm"
         />
       </div>
 
@@ -117,16 +119,16 @@ export default function PublicAuditPage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="p-6 h-28 bg-pix-panel border-2 border-pix-dim/30 animate-pulse" />
+            <div key={i} className="p-6 h-28 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] animate-pulse shadow-card" />
           ))}
         </div>
       ) : filteredRows.length === 0 ? (
         <GlassCard className="p-12 text-center max-w-md mx-auto">
-          <div className="w-12 h-12 bg-pix-panel border-2 border-pix-dim/30 flex items-center justify-center mx-auto text-pix-dim mb-4">
+          <div className="w-12 h-12 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] flex items-center justify-center mx-auto text-pix-dim mb-4">
             <FileCheck2 className="w-6 h-6" />
           </div>
-          <h3 className="font-heading text-sm text-pix-ink uppercase">NO ATTESTATION RECORDS FOUND</h3>
-          <p className="font-body text-xs text-pix-dim mt-1">
+          <h3 className="font-display font-semibold text-base text-pix-ink uppercase">No Attestation Records Found</h3>
+          <p className="font-sans text-[14px] text-pix-dim mt-1">
             Verified milestones will appear here as soon as field proofs pass audit.
           </p>
         </GlassCard>
@@ -135,37 +137,37 @@ export default function PublicAuditPage() {
           {filteredRows.map((row) => (
             <GlassCard
               key={row.id}
-              className="p-5 sm:p-6 cursor-pointer hover:border-pix-gold transition-all"
+              className="p-5 sm:p-6 cursor-pointer hover:border-[var(--color-pix-accent)]/50 transition-all"
               onClick={() => setSelectedItem(row)}
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className="space-y-2 flex-1">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <Badge variant={row.released ? "released" : "pending"}>
                       {row.released ? "Tranche Released · 94%" : "Pending"}
                     </Badge>
-                    <span className="font-heading text-[10px] uppercase text-pix-gold">
-                      Tranche #{row.milestoneIdx} · <span className="font-body text-pix-cyan">{formatUSDC(row.amount)}</span>
+                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-accent">
+                      Tranche #{row.milestoneIdx} · <span className="font-mono text-pix-accent font-medium text-sm">{formatUSDC(row.amount)}</span>
                     </span>
-                    <span className="font-body text-xs text-pix-dim">({row.campaignTitle})</span>
+                    <span className="font-sans text-[13px] text-pix-dim">({row.campaignTitle})</span>
                   </div>
 
-                  <h3 className="font-heading text-sm sm:text-base text-pix-ink hover:text-pix-gold transition-colors">
+                  <h3 className="font-display font-semibold text-base sm:text-lg text-pix-ink hover:text-pix-accent transition-colors">
                     {row.description}
                   </h3>
 
-                  <div className="flex flex-wrap items-center gap-4 text-xs font-body text-pix-dim pt-1">
+                  <div className="flex flex-wrap items-center gap-4 text-[13px] font-mono text-pix-dim pt-1">
                     {row.attestationUID && (
                       <span>
-                        UID: <span className="text-pix-cyan">{formatTxHash(row.attestationUID)}</span>
+                        UID: <span className="text-pix-accent">{formatTxHash(row.attestationUID)}</span>
                       </span>
                     )}
                     {row.txHash && (
                       <span>
-                        Tx: <span className="text-pix-cyan">{formatTxHash(row.txHash)}</span>
+                        Tx: <span className="text-pix-accent">{formatTxHash(row.txHash)}</span>
                       </span>
                     )}
-                    <span>
+                    <span className="font-sans">
                       {new Date(row.releasedAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -181,7 +183,7 @@ export default function PublicAuditPage() {
                     }}
                   >
                     <span>INSPECT PROOF</span>
-                    <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-cyan" />
+                    <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-accent" />
                   </SnapButton>
                 </div>
               </div>
@@ -193,12 +195,12 @@ export default function PublicAuditPage() {
       {/* Inspector Modal */}
       <AnimatePresence>
         {selectedItem && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-pix-panel border-4 border-pix-gold p-6 sm:p-8 space-y-6 shadow-pixel-lg"
+              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[12px] bg-pix-panel border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-2xl"
             >
               {/* Close Button */}
               <div className="absolute top-4 right-4">
@@ -215,33 +217,33 @@ export default function PublicAuditPage() {
                 <Badge variant="verified" className="mb-2">
                   VERIFIED ON-CHAIN PROOF
                 </Badge>
-                <h2 className="font-heading text-lg sm:text-xl text-pix-ink uppercase tracking-wide">
+                <h2 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
                   Cryptographic Audit Inspection
                 </h2>
-                <p className="font-body text-xs text-pix-dim mt-1">
+                <p className="font-sans text-[14px] text-pix-dim mt-1">
                   Tranche #{selectedItem.milestoneIdx} of {selectedItem.campaignTitle}
                 </p>
               </div>
 
               {/* Hashes & Explorer Links */}
-              <div className="space-y-3 p-4 bg-pix-bg border-2 border-pix-dim/30 font-body text-xs">
+              <div className="space-y-3 p-4 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] font-mono text-xs">
                 <div className="flex justify-between items-center">
-                  <span className="font-heading text-[10px] uppercase text-pix-dim">EAS Attestation UID</span>
-                  <span className="text-pix-cyan truncate max-w-[240px]">
+                  <span className="font-sans text-[11px] uppercase font-semibold text-pix-dim">EAS Attestation UID</span>
+                  <span className="text-pix-accent truncate max-w-[260px]">
                     {selectedItem.attestationUID || "Logged via Contract Event"}
                   </span>
                 </div>
 
                 {selectedItem.txHash && (
                   <div className="flex justify-between items-center">
-                    <span className="font-heading text-[10px] uppercase text-pix-dim">Base Sepolia Tx</span>
+                    <span className="font-sans text-[11px] uppercase font-semibold text-pix-dim">Base Sepolia Tx</span>
                     <a
                       href={`https://sepolia.basescan.org/tx/${selectedItem.txHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-pix-cyan hover:underline flex items-center space-x-1"
+                      className="text-pix-accent hover:underline flex items-center space-x-1"
                     >
-                      <span className="truncate max-w-[200px]">{selectedItem.txHash}</span>
+                      <span className="truncate max-w-[220px]">{selectedItem.txHash}</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
@@ -251,14 +253,14 @@ export default function PublicAuditPage() {
               {/* Gemini Agent Reasoning */}
               {selectedItem.verdict && (
                 <div className="space-y-2">
-                  <span className="font-heading text-xs uppercase text-pix-mint flex items-center space-x-1.5">
-                    <ShieldCheck className="w-4 h-4 text-pix-mint" />
+                  <span className="font-sans text-xs uppercase font-semibold text-pix-success flex items-center space-x-1.5">
+                    <ShieldCheck className="w-4 h-4 text-pix-success" />
                     <span>
                       Gemini Multimodal Auditor Reasoning ({Math.round(selectedItem.verdict.confidence * 100)}% Confidence)
                     </span>
                   </span>
 
-                  <div className="p-4 bg-pix-bg border-2 border-pix-mint/30 text-xs font-body text-pix-dim leading-relaxed whitespace-pre-line">
+                  <div className="p-4 rounded-[8px] bg-pix-bg border border-pix-success/20 text-[14px] font-sans text-pix-dim leading-relaxed whitespace-pre-line">
                     {selectedItem.verdict.reasoning}
                   </div>
                 </div>
@@ -266,24 +268,24 @@ export default function PublicAuditPage() {
 
               {/* Evidence & IPFS CIDs */}
               <div className="space-y-2">
-                <span className="font-heading text-xs uppercase text-pix-ink block">
+                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
                   IPFS Pinned Evidence (Pinata Gateway)
                 </span>
                 <div className="space-y-2">
                   {selectedItem.evidence?.map((ev: any) => (
                     <div
                       key={ev.id}
-                      className="p-3 bg-pix-bg border-2 border-pix-dim/20 flex items-center justify-between text-xs"
+                      className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center space-x-2">
-                        <FileText className="w-4 h-4 text-pix-cyan" />
-                        <span className="font-body text-pix-ink">{ev.fileName || ev.kind}</span>
+                        <FileText className="w-4 h-4 text-pix-accent" />
+                        <span className="font-sans text-pix-ink text-[13px]">{ev.fileName || ev.kind}</span>
                       </div>
                       <a
                         href={`https://gateway.pinata.cloud/ipfs/${ev.cid}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-pix-cyan hover:underline font-body text-[11px] flex items-center space-x-1"
+                        className="text-pix-accent hover:underline font-mono text-[12px] flex items-center space-x-1"
                       >
                         <span>CID: {formatAddress(ev.cid)}</span>
                         <ExternalLink className="w-3 h-3" />

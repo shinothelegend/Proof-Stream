@@ -27,6 +27,7 @@ import {
   PixelCamera,
 } from "@/components/pixel/PixelIcons";
 import { PixelBanner } from "@/components/pixel/PixelBanner";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/brand";
 import { formatUSDC } from "@/lib/format";
 
@@ -58,51 +59,41 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen text-pix-ink bg-pix-bg">
-      {/* Surfer Transition (§8) */}
+    <div className="min-h-screen text-pix-ink bg-pix-bg font-sans selection:bg-pix-accent selection:text-[#1D1D26]">
+      {/* Surfer Transition (§6.4) */}
       <SurferTransition trigger={triggerSurfer} onComplete={() => setTriggerSurfer(false)} />
 
-      {/* Top Arcade Header */}
-      <header className="sticky top-0 z-40 w-full bg-pix-panel border-b-4 border-pix-gold shadow-[0_4px_0_0_#000000]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      {/* Top Header with Brand Logo (§6.2) */}
+      <header className="sticky top-0 z-40 w-full bg-pix-panel/90 backdrop-blur-md border-b border-[var(--color-pix-hairline)] shadow-panel">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 h-18 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-pix-gold flex items-center justify-center border-2 border-black shadow-[2px_2px_0_0_#000]">
-              <span className="font-display text-xs text-black font-bold">PS</span>
-            </div>
-            <div>
-              <span className="font-heading font-bold text-sm sm:text-base tracking-wider text-pix-ink block">
-                PROOFSTREAM
-              </span>
-              <span className="text-[9px] font-mono text-pix-gold uppercase tracking-widest block font-bold">
-                [ARCADE LEDGER]
-              </span>
-            </div>
+            <BrandLogo size={28} showWordmark={true} />
           </Link>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-6 text-xs font-heading uppercase tracking-wider text-pix-dim">
-            <a href="#how-it-works" className="hover:text-pix-gold transition-colors">
-              HOW IT WORKS
+          {/* Navigation Links (Inter 13px uppercase) */}
+          <nav className="hidden md:flex items-center space-x-8 text-[13px] font-sans font-semibold uppercase tracking-wider text-pix-dim">
+            <a href="#how-it-works" className="hover:text-pix-accent transition-colors">
+              How It Works
             </a>
-            <a href="#tech-stack" className="hover:text-pix-gold transition-colors">
-              CARTRIDGES
+            <a href="#tech-stack" className="hover:text-pix-accent transition-colors">
+              Architecture
             </a>
-            <a href="#impact" className="hover:text-pix-gold transition-colors">
-              IMPACT
+            <a href="#impact" className="hover:text-pix-accent transition-colors">
+              Impact
             </a>
-            <Link href="/docs" className="hover:text-pix-gold transition-colors">
-              DOCS
+            <Link href="/docs" className="hover:text-pix-accent transition-colors">
+              Docs
             </Link>
-            <Link href="/audit" className="hover:text-pix-gold transition-colors text-pix-cyan">
-              PUBLIC AUDIT
+            <Link href="/audit" className="hover:text-pix-accent text-pix-accent transition-colors font-bold">
+              Public Audit
             </Link>
           </nav>
 
-          {/* Right Action: Theme Toggle & Launch App */}
+          {/* Right Actions: Theme Toggle & Launch App */}
           <div className="flex items-center space-x-3">
             <PixelDissolve />
 
-            <SnapButton onClick={handleGetStarted} variant="gold" size="sm">
+            <SnapButton onClick={handleGetStarted} variant="primary" size="sm">
               <span>LAUNCH APP</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
             </SnapButton>
@@ -112,335 +103,351 @@ export default function LandingPage() {
 
       {/* Main Content Landmark */}
       <main className="flex-1">
-        {/* 1. Hero Section */}
-        <section className="pt-12 pb-16 sm:pt-20 sm:pb-24 max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-8">
-        {/* Pixel-art scene banner (wave motif with flag) */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center space-x-3 p-2 bg-pix-panel border-2 border-[var(--color-pix-border)] shadow-pixel">
-            <svg width="24" height="16" viewBox="0 0 24 16" shapeRendering="crispEdges">
-              <rect x="0" y="10" width="24" height="6" fill="#0077A8" />
-              <rect x="4" y="6" width="16" height="4" fill="#43E8FF" />
-              <rect x="10" y="2" width="6" height="4" fill="#FFFFFF" />
-              <rect x="16" y="2" width="2" height="6" fill="#FFC93C" />
-            </svg>
-            <span className="text-[11px] font-heading uppercase tracking-widest text-pix-gold font-bold">
-              BASE SEPOLIA · ARCADE ESCROW
-            </span>
-          </div>
-        </div>
-
-        {/* Typewriter H1 */}
-        <h1 className="font-display font-bold text-2xl sm:text-4xl md:text-5xl text-pix-ink tracking-tight leading-[1.3] max-w-4xl mx-auto">
-          <Typewriter text="TRUST IS EARNED IN BLOCKS" highlightWord="BLOCKS" speed={45} />
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-xs sm:text-sm md:text-base text-pix-dim max-w-2xl mx-auto font-mono leading-relaxed">
-          Donors stream stablecoins to frontline NGOs into smart contract escrows.
-          Funds release automatically only when multimodal AI proves geotagged field
-          evidence and logs public on-chain attestations.
-        </p>
-
-        {/* CTAs */}
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <SnapButton onClick={handleGetStarted} variant="gold" size="lg" className="w-full sm:w-auto">
-            <span>GET STARTED ▸</span>
-          </SnapButton>
-
-          <Link href="/audit" className="w-full sm:w-auto">
-            <SnapButton variant="outline" size="lg" className="w-full sm:w-auto">
-              <span>VIEW LIVE AUDIT</span>
-            </SnapButton>
-          </Link>
-        </div>
-      </section>
-
-      {/* 4px Gold Rule Divider */}
-      <div className="w-full h-1 bg-pix-gold border-y border-black" />
-
-      {/* 2. Live Stats Strip */}
-      <section className="py-10 bg-pix-panel">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <StatChip
-              label="TOTAL ESCROWED"
-              value={formatUSDC(stats.totalEscrowed)}
-              subValue="USDC"
-              icon={<PixelChest />}
-            />
-            <StatChip
-              label="TRANCHES PROVEN"
-              value={`${stats.totalVerdicts} RELEASED`}
-              subValue="EAS VERIFIED"
-              icon={<PixelShield />}
-            />
-            <StatChip
-              label="CHAIN SETTLEMENT"
-              value="BASE SEPOLIA"
-              subValue="TESTNET 84532"
-              icon={<PixelScroll />}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* 4px Gold Rule Divider */}
-      <div className="w-full h-1 bg-pix-gold border-y border-black" />
-
-      {/* 3. HOW IT WORKS — 4-Step Pixel Quest Line */}
-      <section id="how-it-works" className="py-20 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-2">
-          <span className="text-[11px] font-heading uppercase text-pix-gold tracking-widest block font-bold">
-            QUEST EXECUTION ENGINE
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-pix-ink">
-            HOW PROOFSTREAM STREAMS AID
-          </h2>
-          <p className="text-xs text-pix-dim font-mono">
-            4 deterministic steps. Zero human gatekeepers. 100% cryptographic consensus.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {/* Step 1 */}
-          <div className="pixel-panel p-6 space-y-3">
-            <div className="w-10 h-10 bg-pix-gold flex items-center justify-center border-2 border-black shadow-[2px_2px_0_0_#000] text-black">
-              <Lock className="w-5 h-5" />
-            </div>
-            <div className="text-[10px] font-mono text-pix-gold font-bold">STEP ①</div>
-            <h3 className="font-heading font-bold text-sm text-pix-ink">TRANCHE ESCROW</h3>
-            <p className="text-xs text-pix-dim leading-relaxed">
-              Donors fund campaigns in USDC. Capital sits locked in `CampaignEscrow.sol`, split into milestone tranches.
-            </p>
-          </div>
-
-          {/* Step 2 */}
-          <div className="pixel-panel p-6 space-y-3">
-            <div className="w-10 h-10 bg-pix-cyan flex items-center justify-center border-2 border-black shadow-[2px_2px_0_0_#000] text-black">
-              <PixelCamera className="w-5 h-5" />
-            </div>
-            <div className="text-[10px] font-mono text-pix-cyan font-bold">STEP ②</div>
-            <h3 className="font-heading font-bold text-sm text-pix-ink">FIELD EVIDENCE</h3>
-            <p className="text-xs text-pix-dim leading-relaxed">
-              Workers take geotagged photos and scan receipts in the field. Files are pinned to IPFS via Pinata.
-            </p>
-          </div>
-
-          {/* Step 3 */}
-          <div className="pixel-panel p-6 space-y-3">
-            <div className="w-10 h-10 bg-pix-mint flex items-center justify-center border-2 border-black shadow-[2px_2px_0_0_#000] text-black">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <div className="text-[10px] font-mono text-pix-mint font-bold">STEP ③</div>
-            <h3 className="font-heading font-bold text-sm text-pix-ink">AI AUDIT GATE</h3>
-            <p className="text-xs text-pix-dim leading-relaxed">
-              Gemini Flash checks scene matching, performs invoice OCR, verifies GPS fences, and rejects reused dHashes.
-            </p>
-          </div>
-
-          {/* Step 4 */}
-          <div className="pixel-panel p-6 space-y-3">
-            <div className="w-10 h-10 bg-[#FF5C7A] flex items-center justify-center border-2 border-black shadow-[2px_2px_0_0_#000] text-black">
-              <FileCheck2 className="w-5 h-5" />
-            </div>
-            <div className="text-[10px] font-mono text-[#FF5C7A] font-bold">STEP ④</div>
-            <h3 className="font-heading font-bold text-sm text-pix-ink">ON-CHAIN RELEASE</h3>
-            <p className="text-xs text-pix-dim leading-relaxed">
-              Passing audits write EAS attestations and release USDC directly to the NGO wallet.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 4px Gold Rule Divider */}
-      <div className="w-full h-1 bg-pix-gold border-y border-black" />
-
-      {/* 4. WHAT POWERS PROOFSTREAM — Pixel Cartridge Cards for Judges */}
-      <section id="tech-stack" className="py-20 bg-pix-panel">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-2">
-            <span className="text-[11px] font-heading uppercase text-pix-gold tracking-widest block font-bold">
-              THE HARDWARE & SOFTWARE
-            </span>
-            <h2 className="font-heading font-bold text-2xl sm:text-3xl text-pix-ink">
-              WHAT POWERS PROOFSTREAM
-            </h2>
-            <p className="text-xs text-pix-dim font-mono">
-              Engineered with production-grade protocols. Every layer independently auditable.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              {
-                name: "BASE SEPOLIA",
-                role: "EVM Settlement Layer",
-                desc: "Sub-cent gas fees, native Circle USDC faucet, and instant transaction finality on Chain 84532.",
-              },
-              {
-                name: "SOLIDITY / FOUNDRY",
-                role: "CampaignEscrow.sol",
-                desc: "Milestone-tranche escrow with AccessControl, verifier isolation, and time-locked refund safety.",
-              },
-              {
-                name: "EAS ATTESTATIONS",
-                role: "Public Audit Trail",
-                desc: "Ethereum Attestation Service logs immutable proof hashes and decision records permanently on-chain.",
-              },
-              {
-                name: "GEMINI FLASH 2.5",
-                role: "Multimodal AI Agent",
-                desc: "Zero-latency visual verification, supplier receipt OCR, and line-item budget validation.",
-              },
-              {
-                name: "PINATA IPFS",
-                role: "Decentralized Storage",
-                desc: "Cryptographic content pinning ensuring immutable evidence storage with no single point of failure.",
-              },
-              {
-                name: "PERCEPTUAL DHASH",
-                role: "Image Fraud Defense",
-                desc: "64-bit gradient hashing detects reused or cropped evidence via Hamming distance < 8 comparisons.",
-              },
-              {
-                name: "WAGMI & VIEM",
-                role: "Web3 Client Pipeline",
-                desc: "Strict type-safe wallet connection supporting MetaMask, Coinbase Wallet, and WalletConnect.",
-              },
-              {
-                name: "NEXT.JS 15 + PRISMA",
-                role: "Full-Stack App Router",
-                desc: "Fast client hydration, server-side signer isolation, and SQLite/Postgres schema parity.",
-              },
-            ].map((cart, idx) => (
-              <div
-                key={idx}
-                className="bg-pix-bg border-2 border-[var(--color-pix-border)] p-5 shadow-pixel space-y-2"
-              >
-                <div className="flex items-center space-x-2">
-                  <PixelCartridge />
-                  <span className="font-heading font-bold text-xs text-pix-gold">{cart.name}</span>
-                </div>
-                <div className="text-[10px] font-mono text-pix-cyan font-bold uppercase">{cart.role}</div>
-                <p className="text-xs text-pix-dim leading-relaxed">{cart.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4px Gold Rule Divider */}
-      <div className="w-full h-1 bg-pix-gold border-y border-black" />
-
-      {/* 5. IMPACT DATA STRIP — Pixel Progress Bars */}
-      <section id="impact" className="py-20 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-2">
-          <span className="text-[11px] font-heading uppercase text-pix-alert tracking-widest block font-bold">
-            THE ACCOUNTABILITY CRISIS
-          </span>
-          <h2 className="font-heading font-bold text-2xl sm:text-3xl text-pix-ink">
-            WHY PROOF-OF-IMPACT IS MANDATORY
-          </h2>
-          <p className="text-xs text-pix-dim font-mono">
-            Uncontested humanitarian funding statistics from OCHA, UNDP, and UNCTAD.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {BRAND.impactStats.map((item, idx) => (
-            <div key={idx} className="pixel-panel p-6 space-y-4">
-              <div className="flex justify-between items-baseline">
-                <span className="font-heading font-bold text-sm text-pix-ink uppercase">
-                  {item.label}
-                </span>
-                <span className="font-display font-bold text-xl text-pix-alert">
-                  {item.metric}
-                </span>
-              </div>
-
-              <PixelProgress
-                current={parseInt(item.metric) || 75}
-                total={100}
-                variant="mint"
-                height={12}
+        {/* 1. Hero Section (§6.3) */}
+        <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-32 max-w-5xl mx-auto px-5 sm:px-6 text-center space-y-8 overflow-hidden">
+          {/* Pixel Wave Motif SVG scene decoration behind/below headline (blurred 0%, opacity 60%) */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[720px] max-w-full opacity-60 pointer-events-none select-none">
+            <svg viewBox="0 0 400 120" className="w-full h-auto" shapeRendering="crispEdges">
+              <path
+                d="M0 80 Q50 60 100 80 T200 80 T300 80 T400 80 L400 120 L0 120 Z"
+                fill="var(--color-pix-panel)"
               />
+              <path
+                d="M0 92 Q50 72 100 92 T200 92 T300 92 T400 92"
+                stroke="var(--color-pix-accent)"
+                strokeWidth="2"
+                fill="none"
+                opacity="0.35"
+              />
+              <circle cx="200" cy="40" r="14" fill="var(--color-pix-accent)" opacity="0.15" />
+            </svg>
+          </div>
 
-              <p className="text-xs text-pix-dim leading-relaxed">{item.description}</p>
-              <div className="text-[10px] font-mono text-pix-gold italic">Source: {item.source}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4px Gold Rule Divider */}
-      <div className="w-full h-1 bg-pix-gold border-y border-black" />
-
-      {/* 6. FEATURED CAMPAIGN CARTRIDGE */}
-      <section className="py-20 bg-pix-panel">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="pixel-panel border-4 border-pix-gold p-6 sm:p-8 space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="font-heading font-bold text-xs px-2.5 py-1 bg-pix-mint text-black border border-black shadow-[2px_2px_0_0_#000]">
-                ACTIVE QUEST
-              </span>
-              <span className="text-[11px] font-mono text-pix-cyan">
-                CENTRAL KALIMANTAN, INDONESIA
+          {/* Network Chip */}
+          <div className="flex justify-center mb-2">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-pix-panel border border-[var(--color-pix-hairline)] shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-pix-accent animate-pulse" />
+              <span className="text-[12px] font-sans font-semibold uppercase tracking-widest text-pix-accent">
+                Base Sepolia · Verifiable Escrow
               </span>
             </div>
+          </div>
 
-            {/* Procedural Banner for Kalimantan */}
-            <PixelBanner seed="kalimantan-clean-water" className="h-44 sm:h-56" />
+          {/* Typewriter H1: 56-72px Space Grotesk */}
+          <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-[68px] text-pix-ink tracking-tight leading-[1.15] max-w-4xl mx-auto">
+            <Typewriter text="TRUST IS EARNED IN BLOCKS" highlightWord="BLOCKS" speed={45} />
+          </h1>
 
-            <div className="space-y-3">
-              <h3 className="font-heading font-bold text-lg sm:text-2xl text-pix-ink">
-                Clean Drinking Water & Sanitation for Kahayan Basin Communities
-              </h3>
-              <p className="text-xs text-pix-dim leading-relaxed">
-                Tirta Lestari Borneo Initiative deploys ceramic bio-sand water filtration
-                units and family hygiene kits to 3,400 indigenous Dayak families.
+          {/* Subtitle: 17px Inter */}
+          <p className="text-[17px] text-pix-dim max-w-2xl mx-auto font-sans leading-relaxed">
+            Donors stream stablecoins to frontline NGOs into smart contract escrows.
+            Funds release automatically only when multimodal AI proves geotagged field
+            evidence and logs public on-chain attestations.
+          </p>
+
+          {/* CTAs */}
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <SnapButton onClick={handleGetStarted} variant="primary" size="lg" className="w-full sm:w-auto">
+              <span>EXPLORE ACTIVE CAMPAIGNS</span>
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </SnapButton>
+
+            <Link href="/audit" className="w-full sm:w-auto">
+              <SnapButton variant="secondary" size="lg" className="w-full sm:w-auto">
+                <span>VIEW LIVE AUDIT TRAIL</span>
+              </SnapButton>
+            </Link>
+          </div>
+        </section>
+
+        {/* Hairline Divider */}
+        <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
+
+        {/* 2. Live Stats Strip */}
+        <section className="py-12 bg-pix-panel border-y border-[var(--color-pix-hairline)]">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <StatChip
+                label="TOTAL ESCROWED"
+                value={formatUSDC(stats.totalEscrowed)}
+                subValue="USDC ON BASE"
+                icon={<PixelChest />}
+              />
+              <StatChip
+                label="TRANCHES PROVEN"
+                value={`${stats.totalVerdicts} RELEASED`}
+                subValue="EAS ATTESTED"
+                icon={<PixelShield />}
+              />
+              <StatChip
+                label="SETTLEMENT CHAIN"
+                value="BASE SEPOLIA"
+                subValue="CHAIN ID 84532"
+                icon={<PixelScroll />}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* 3. HOW IT WORKS — 4 Deterministic Steps (§6.5: 24px section gaps) */}
+        <section id="how-it-works" className="py-24 max-w-7xl mx-auto px-5 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <span className="text-[12px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
+              EXECUTION PIPELINE
+            </span>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
+              How ProofStream Streams Aid
+            </h2>
+            <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
+              Four deterministic steps. Zero human gatekeepers. 100% cryptographic consensus.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Step 1 */}
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-6 space-y-4 shadow-card hover:border-[var(--color-pix-accent)]/40 transition-colors">
+              <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
+                <Lock className="w-5 h-5" />
+              </div>
+              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 01</div>
+              <h3 className="font-display font-semibold text-lg text-pix-ink">Tranche Escrow</h3>
+              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+                Donors fund campaigns in USDC. Capital sits locked in <code className="text-xs bg-pix-bg px-1.5 py-0.5 rounded text-pix-accent font-mono">CampaignEscrow.sol</code>, partitioned into milestone tranches.
               </p>
             </div>
 
-            {/* XP Funding Progress */}
-            <PixelProgress current={2500} total={2500} variant="gold" height={16} showLabel />
+            {/* Step 2 */}
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-6 space-y-4 shadow-card hover:border-[var(--color-pix-accent)]/40 transition-colors">
+              <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
+                <PixelCamera className="w-5 h-5" />
+              </div>
+              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 02</div>
+              <h3 className="font-display font-semibold text-lg text-pix-ink">Field Evidence</h3>
+              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+                Workers capture geotagged photos and supplier invoices in the field. Files are pinned cryptographically to IPFS via Pinata.
+              </p>
+            </div>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-border)]">
-              <span className="font-mono text-xs text-pix-cyan font-bold">
-                100% ESCROWED ($2,500.00 USDC)
-              </span>
+            {/* Step 3 */}
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-6 space-y-4 shadow-card hover:border-[var(--color-pix-accent)]/40 transition-colors">
+              <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 03</div>
+              <h3 className="font-display font-semibold text-lg text-pix-ink">AI Audit Gate</h3>
+              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+                Multimodal Gemini Flash validates scene content, runs invoice OCR, verifies GPS fences, and rejects duplicate dHashes.
+              </p>
+            </div>
 
-              <Link href="/campaigns/kalimantan-clean-water">
-                <SnapButton variant="gold" size="md">
-                  <span>ENTER QUEST DETAIL ▸</span>
-                </SnapButton>
-              </Link>
+            {/* Step 4 */}
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-6 space-y-4 shadow-card hover:border-[var(--color-pix-accent)]/40 transition-colors">
+              <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
+                <FileCheck2 className="w-5 h-5" />
+              </div>
+              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 04</div>
+              <h3 className="font-display font-semibold text-lg text-pix-ink">On-Chain Release</h3>
+              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+                Verified audits issue EAS attestations and release USDC directly to the verified frontline NGO wallet.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Hairline Divider */}
+        <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
+
+        {/* 4. WHAT POWERS PROOFSTREAM — Tech Architecture */}
+        <section id="tech-stack" className="py-24 bg-pix-panel">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6">
+            <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+              <span className="text-[12px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
+                PRODUCTION STACK
+              </span>
+              <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
+                What Powers ProofStream
+              </h2>
+              <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
+                Engineered with production-grade protocols. Every layer independently auditable.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  name: "Base Sepolia",
+                  role: "EVM Settlement",
+                  desc: "Sub-cent gas fees, native Circle USDC faucet, and instant transaction finality on Chain 84532.",
+                },
+                {
+                  name: "Solidity / Foundry",
+                  role: "CampaignEscrow.sol",
+                  desc: "Milestone-tranche escrow with AccessControl, verifier isolation, and time-locked refund safety.",
+                },
+                {
+                  name: "EAS Attestations",
+                  role: "Public Audit Trail",
+                  desc: "Ethereum Attestation Service logs immutable proof hashes and decision records permanently on-chain.",
+                },
+                {
+                  name: "Gemini Flash 2.5",
+                  role: "Multimodal AI Agent",
+                  desc: "High-accuracy visual verification, supplier receipt OCR, and line-item budget validation.",
+                },
+                {
+                  name: "Pinata IPFS",
+                  role: "Decentralized Storage",
+                  desc: "Cryptographic content pinning ensuring immutable evidence storage with no single point of failure.",
+                },
+                {
+                  name: "Perceptual dHash",
+                  role: "Image Fraud Defense",
+                  desc: "64-bit gradient hashing detects reused or cropped evidence via Hamming distance < 8 comparisons.",
+                },
+                {
+                  name: "Wagmi & Viem",
+                  role: "Web3 Client Pipeline",
+                  desc: "Strict type-safe wallet connection supporting MetaMask, Coinbase Wallet, and Rainbow.",
+                },
+                {
+                  name: "Next.js 15 + Prisma",
+                  role: "Full-Stack App Router",
+                  desc: "Fast client hydration, server-side signer isolation, and SQLite/Postgres schema parity.",
+                },
+              ].map((cart, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] p-5 shadow-card space-y-2 hover:border-[var(--color-pix-accent)]/30 transition-colors"
+                >
+                  <div className="flex items-center space-x-2">
+                    <PixelCartridge />
+                    <span className="font-display font-semibold text-sm text-pix-ink">{cart.name}</span>
+                  </div>
+                  <div className="text-[12px] font-mono text-pix-accent font-medium uppercase tracking-wider">{cart.role}</div>
+                  <p className="text-[14px] text-pix-dim leading-relaxed font-sans">{cart.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Hairline Divider */}
+        <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
+
+        {/* 5. IMPACT DATA STRIP — Real statistics */}
+        <section id="impact" className="py-24 max-w-7xl mx-auto px-5 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <span className="text-[12px] font-sans font-semibold uppercase text-pix-alert tracking-widest block">
+              THE ACCOUNTABILITY GAP
+            </span>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
+              Why Proof-of-Impact is Mandatory
+            </h2>
+            <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
+              Uncontested humanitarian funding statistics from OCHA, UNDP, and UNCTAD.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {BRAND.impactStats.map((item, idx) => (
+              <div key={idx} className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-6 space-y-4 shadow-card">
+                <div className="flex justify-between items-baseline">
+                  <span className="font-sans font-semibold text-[15px] text-pix-ink">
+                    {item.label}
+                  </span>
+                  <span className="font-mono font-medium text-2xl text-pix-accent">
+                    {item.metric}
+                  </span>
+                </div>
+
+                <PixelProgress
+                  current={parseInt(item.metric) || 75}
+                  total={100}
+                  variant="gold"
+                  height={10}
+                />
+
+                <p className="text-[14px] text-pix-dim leading-relaxed font-sans">{item.description}</p>
+                <div className="text-[12px] font-mono text-pix-dim italic">Source: {item.source}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Hairline Divider */}
+        <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
+
+        {/* 6. FEATURED CAMPAIGN CARTRIDGE (§6.1: banner >= 280px tall) */}
+        <section className="py-24 bg-pix-panel">
+          <div className="max-w-4xl mx-auto px-5 sm:px-6">
+            <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="text-[12px] font-mono font-semibold px-3 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-accent)]/40 text-pix-accent">
+                  ACTIVE CAMPAIGN
+                </span>
+                <span className="text-[13px] font-mono text-pix-dim">
+                  CENTRAL KALIMANTAN, INDONESIA
+                </span>
+              </div>
+
+              {/* Procedural Banner: >= 280px tall canvas with title overlay (§6.1) */}
+              <PixelBanner
+                seed="kalimantan-clean-water"
+                title="Central Kalimantan Bio-Sand Filtration"
+                className="h-72 sm:h-80"
+              />
+
+              <div className="space-y-3 pt-2">
+                <h3 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
+                  Clean Drinking Water & Sanitation for Kahayan Basin Communities
+                </h3>
+                <p className="text-[15px] text-pix-dim leading-relaxed font-sans">
+                  Tirta Lestari Borneo Initiative deploys ceramic bio-sand water filtration
+                  units and family hygiene kits to 3,400 indigenous Dayak families.
+                </p>
+              </div>
+
+              {/* Funding Progress */}
+              <PixelProgress current={2500} total={2500} variant="gold" height={12} showLabel />
+
+              <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-hairline)]">
+                <span className="font-mono text-[15px] text-pix-accent font-medium">
+                  100% ESCROWED ($2,500.00 USDC)
+                </span>
+
+                <Link href="/campaigns/kalimantan-clean-water">
+                  <SnapButton variant="primary" size="md">
+                    <span>VIEW CAMPAIGN DETAILS</span>
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </SnapButton>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t-4 border-pix-gold py-12 bg-pix-bg text-center text-xs text-pix-dim">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center space-x-2">
-            <span className="font-display font-bold text-pix-gold text-xs">PROOFSTREAM</span>
-            <span>·</span>
-            <span className="font-heading text-[11px]">{BRAND.hackathon}</span>
+      <footer className="border-t border-[var(--color-pix-hairline)] py-12 bg-pix-bg text-center text-sm text-pix-dim">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-3">
+            <BrandLogo size={24} showWordmark={true} />
+            <span className="text-pix-hairline">|</span>
+            <span className="text-xs text-pix-dim">{BRAND.hackathon}</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-heading uppercase tracking-wider text-pix-dim">
-            <Link href="/campaigns" className="hover:text-pix-gold">
-              CAMPAIGNS
+          <div className="flex flex-wrap items-center justify-center gap-6 text-[13px] font-sans font-semibold uppercase tracking-wider text-pix-dim">
+            <Link href="/campaigns" className="hover:text-pix-accent transition-colors">
+              Campaigns
             </Link>
-            <Link href="/docs" className="hover:text-pix-gold">
-              DOCS
+            <Link href="/docs" className="hover:text-pix-accent transition-colors">
+              Docs
             </Link>
-            <Link href="/audit" className="hover:text-pix-gold text-pix-cyan">
-              AUDIT
+            <Link href="/audit" className="hover:text-pix-accent text-pix-accent transition-colors">
+              Audit
             </Link>
-            <a href={BRAND.links.baseScan} target="_blank" rel="noopener noreferrer" className="hover:text-pix-gold">
-              BASESCAN
+            <a href={BRAND.links.baseScan} target="_blank" rel="noopener noreferrer" className="hover:text-pix-accent transition-colors">
+              BaseScan
             </a>
           </div>
         </div>

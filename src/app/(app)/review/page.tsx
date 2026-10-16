@@ -79,17 +79,17 @@ export default function ReviewQueuePage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans pb-12">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-pix-gold">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[var(--color-pix-hairline)]">
         <div>
           <Badge variant="flagged" className="mb-2">
             AUDITOR OVERSIGHT PORTAL
           </Badge>
-          <h1 className="font-heading text-xl sm:text-2xl text-pix-ink uppercase tracking-wide">
+          <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1">
             <Typewriter text="REVIEWER QUEUE & DISPUTE WINDOW" speed={30} />
           </h1>
-          <p className="font-body text-xs text-pix-dim mt-1">
+          <p className="font-sans text-[15px] text-pix-dim mt-1.5 max-w-2xl leading-relaxed">
             Submissions with security flags, border anomalies, or confidence &lt; 85% held for human verification.
           </p>
         </div>
@@ -99,7 +99,7 @@ export default function ReviewQueuePage() {
           size="sm"
           onClick={fetchQueue}
           disabled={loading}
-          className="self-start"
+          className="self-start sm:self-center"
         >
           <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${loading ? "animate-spin" : ""}`} />
           <span>REFRESH QUEUE</span>
@@ -109,16 +109,16 @@ export default function ReviewQueuePage() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="p-6 h-48 bg-pix-panel border-2 border-pix-dim/30 animate-pulse" />
+            <div key={i} className="p-6 h-48 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] animate-pulse shadow-card" />
           ))}
         </div>
       ) : submissions.length === 0 ? (
         <GlassCard className="p-12 text-center max-w-md mx-auto">
-          <div className="w-12 h-12 bg-pix-mint/10 border-2 border-pix-mint text-pix-mint flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 rounded-[10px] bg-pix-success/10 border border-pix-success/30 text-pix-success flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h3 className="font-heading text-sm text-pix-ink uppercase">QUEUE CLEAN</h3>
-          <p className="font-body text-xs text-pix-dim mt-1">
+          <h3 className="font-display font-semibold text-base text-pix-ink uppercase">Queue Clean</h3>
+          <p className="font-sans text-[14px] text-pix-dim mt-1">
             All submitted proofs have been automatically resolved or verified.
           </p>
         </GlassCard>
@@ -133,16 +133,16 @@ export default function ReviewQueuePage() {
               <GlassCard key={sub.id} className="p-6 md:p-8 space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <span className="font-heading text-[10px] text-pix-gold uppercase">
+                    <span className="font-sans text-[11px] font-semibold text-pix-accent uppercase tracking-wider">
                       Campaign: {sub.milestone?.campaign?.title || "Kalimantan Clean Water"}
                     </span>
-                    <h3 className="font-heading text-base text-pix-ink mt-1">
+                    <h3 className="font-display font-semibold text-lg text-pix-ink mt-1">
                       {sub.milestone?.description}
                     </h3>
-                    <div className="flex items-center space-x-3 text-xs text-pix-dim mt-1.5 font-body">
-                      <span>Worker: <span className="text-pix-ink">{sub.workerName}</span></span>
+                    <div className="flex items-center space-x-3 text-[13px] text-pix-dim mt-1.5 font-sans">
+                      <span>Worker: <span className="text-pix-ink font-medium">{sub.workerName}</span></span>
                       <span>·</span>
-                      <span>Target: <span className="text-pix-cyan">${sub.milestone?.amount} USDC</span></span>
+                      <span>Target: <span className="text-pix-accent font-mono font-medium">${sub.milestone?.amount} USDC</span></span>
                     </div>
                   </div>
 
@@ -152,51 +152,51 @@ export default function ReviewQueuePage() {
                 </div>
 
                 {/* Agent Reasoning & Flags Breakdown */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-pix-bg border-2 border-pix-dim/20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)]">
                   <div className="space-y-2">
-                    <span className="font-heading text-xs uppercase text-pix-alert flex items-center space-x-1.5">
+                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-alert flex items-center space-x-1.5">
                       <ShieldAlert className="w-4 h-4 text-pix-alert" />
                       <span>Gemini Audit Finding</span>
                     </span>
-                    <p className="font-body text-xs text-pix-dim leading-relaxed">
+                    <p className="font-sans text-[14px] text-pix-dim leading-relaxed">
                       {verdict?.reasoning || "Pending agent analysis or EXIF extraction."}
                     </p>
                     {verdict?.confidence !== undefined && (
-                      <div className="font-body text-xs text-pix-cyan pt-1">
+                      <div className="font-mono text-xs text-pix-accent pt-1">
                         Confidence Score: {Math.round(verdict.confidence * 100)}%
                       </div>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <span className="font-heading text-xs uppercase text-pix-ink block">Security Flags</span>
+                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Security Flags</span>
                     {flags.length > 0 ? (
                       <div className="flex flex-wrap gap-1.5">
                         {flags.map((flag, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-0.5 text-[10px] font-body bg-pix-alert/20 text-pix-alert border border-pix-alert"
+                            className="px-2.5 py-1 text-[11px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
                           >
                             {flag}
                           </span>
                         ))}
                       </div>
                     ) : (
-                      <span className="font-body text-xs text-pix-dim">No hard flags. Low confidence manual check.</span>
+                      <span className="font-sans text-[13px] text-pix-dim">No hard flags. Low confidence manual check.</span>
                     )}
 
                     {/* Evidence files preview */}
                     <div className="pt-2">
-                      <span className="font-heading text-[10px] uppercase text-pix-gold block mb-1">
+                      <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent block mb-1.5">
                         Attached Evidence
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {sub.evidence?.map((ev: any) => (
                           <span
                             key={ev.id}
-                            className="px-2 py-1 bg-pix-panel border border-pix-dim/30 text-[11px] font-body text-pix-dim flex items-center space-x-1"
+                            className="px-2.5 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-hairline)] text-[12px] font-mono text-pix-dim flex items-center space-x-1.5"
                           >
-                            <FileText className="w-3 h-3 text-pix-cyan" />
+                            <FileText className="w-3.5 h-3.5 text-pix-accent" />
                             <span>{ev.fileName || ev.kind}</span>
                           </span>
                         ))}
@@ -214,7 +214,7 @@ export default function ReviewQueuePage() {
                       setReviewerNotes({ ...reviewerNotes, [sub.id]: e.target.value })
                     }
                     placeholder="Enter audit notes / justification for manual override..."
-                    className="w-full px-3.5 py-2.5 bg-pix-bg border-2 border-pix-dim/40 font-body text-xs text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-gold"
+                    className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-accent shadow-sm"
                   />
 
                   <div className="flex items-center justify-end space-x-3">
@@ -222,19 +222,21 @@ export default function ReviewQueuePage() {
                       variant="alert"
                       size="sm"
                       onClick={() => handleAction(sub.id, "REJECT")}
+                      isLoading={isProcessing}
                       disabled={isProcessing}
                     >
-                      {isProcessing ? "PROCESSING..." : "REJECT SUBMISSION"}
+                      {isProcessing ? "Rejecting…" : "Reject Submission"}
                     </SnapButton>
 
                     <SnapButton
-                      variant="mint"
+                      variant="success"
                       size="sm"
                       onClick={() => handleAction(sub.id, "APPROVE")}
+                      isLoading={isProcessing}
                       disabled={isProcessing}
                     >
                       <CheckCircle2 className="w-4 h-4 mr-1.5" />
-                      <span>{isProcessing ? "RELEASING..." : "APPROVE & RELEASE"}</span>
+                      <span>{isProcessing ? "Releasing…" : "Approve & Release"}</span>
                     </SnapButton>
                   </div>
                 </div>
