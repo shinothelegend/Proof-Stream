@@ -40,3 +40,4 @@ cache/
 broadcast/
 contracts/out/
 contracts/cache/
+*.tsbuildinfo
