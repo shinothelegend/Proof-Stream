@@ -1,0 +1,43 @@
+export const BRAND = {
+  name: "ProofStream",
+  tagline: "Impact-Gated Streaming Donations",
+  subheadline: "Trust is earned in blocks. Real-world aid streamed to NGOs only when AI & on-chain verification confirm verifiable impact.",
+  hackathon: "Web3 for Social Good Hackathon 2026",
+  track: "Tech Track",
+  network: "Base Sepolia",
+  chainId: 84532,
+  currency: "USDC",
+  links: {
+    github: "https://github.com/proofstream/proofstream",
+    baseScan: "https://sepolia.basescan.org",
+    easScan: "https://base-sepolia.easscan.org",
+    circleFaucet: "https://faucet.circle.com",
+    alchemyFaucet: "https://www.alchemy.com/faucets/base-sepolia",
+  },
+  impactStats: [
+    {
+      metric: "4.5%",
+      label: "Direct Aid Reaching Local NGOs",
+      description: "Only 4.5% of humanitarian funding reached local/national actors in 2023 vs 25% Grand Bargain target (OCHA/FTS, 2024).",
+      source: "OCHA/FTS via Défis Humanitaires, 2024",
+    },
+    {
+      metric: "1.2%",
+      label: "Direct Funding Historical Low",
+      description: "Direct funding to frontline local NGOs dropped to a five-year low in 2021 before slow recovery.",
+      source: "Development Initiatives / The New Humanitarian",
+    },
+    {
+      metric: "10×",
+      label: "Lost to Corruption vs ODA",
+      description: "UNDP estimates illicit financial flows and corruption in developing nations exceed total official development assistance by 10×.",
+      source: "UNDP Global Report on Illicit Flows",
+    },
+    {
+      metric: "$88B+",
+      label: "Annual Illegal Capital Flight",
+      description: "Over $88 Billion lost annually from Africa alone, starving critical infrastructure projects of verified resources.",
+      source: "UNCTAD Economic Development in Africa",
+    },
+  ],
+};
