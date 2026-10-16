@@ -1,35 +1,35 @@
 import type { Metadata } from "next";
-import { Press_Start_2P, Silkscreen, IBM_Plex_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { BRAND } from "@/lib/brand";
 
-const pressStart = Press_Start_2P({
-  weight: "400",
+const spaceGrotesk = Space_Grotesk({
+  weight: ["500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
-const silkscreen = Silkscreen({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
+const inter = Inter({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: `${BRAND.name} — Arcade Ledger`,
+  title: `${BRAND.name} — Autonomous Verification Streaming Protocol`,
   description: BRAND.subheadline,
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23FFC93C'/><rect x='4' y='4' width='8' height='8' fill='%230B0B14'/></svg>",
+    icon: "/icon.svg",
   },
 };
 
@@ -42,9 +42,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${pressStart.variable} ${silkscreen.variable} ${ibmPlexMono.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="scanlines pixel-grid-bg min-h-screen text-pix-ink bg-pix-bg font-mono">
+      <body className="min-h-screen text-[var(--color-ink)] bg-[var(--color-bg)] font-body antialiased selection:bg-[var(--color-accent)] selection:text-black">
         <Providers>{children}</Providers>
       </body>
     </html>

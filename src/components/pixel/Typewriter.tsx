@@ -62,7 +62,7 @@ export function Typewriter({
     return (
       <>
         {parts[0]}
-        <span className="text-pix-gold">{highlightWord}</span>
+        <span className="text-[var(--color-accent)]">{highlightWord}</span>
         {parts.slice(1).join(highlightWord)}
       </>
     );
