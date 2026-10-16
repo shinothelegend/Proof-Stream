@@ -64,16 +64,16 @@ export function SurferTransition({
     <div className="fixed inset-0 z-[300] overflow-hidden pointer-events-none select-none">
       {/* 1. The Giant Pixel Wave Sweeping Left to Right */}
       <motion.div
-        className="absolute inset-0 bg-[#0077A8]"
+        className="absolute inset-0 bg-[#0E0E12]"
         initial={{ x: "-100%" }}
         animate={{ x: phase === "DISSOLVE" ? "0%" : "0%" }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       >
         {/* Wave Crest Pixel Ridge */}
         <div
-          className="absolute right-0 top-0 bottom-0 w-16 bg-[#43E8FF]"
+          className="absolute right-0 top-0 bottom-0 w-16 bg-[#16161C]"
           style={{
-            backgroundImage: "repeating-linear-gradient(to bottom, #43E8FF 0, #43E8FF 16px, #FFFFFF 16px, #FFFFFF 32px)",
+            backgroundImage: "repeating-linear-gradient(to bottom, #16161C 0, #16161C 16px, #FFB454 16px, #FFB454 32px)",
           }}
         />
       </motion.div>
@@ -99,38 +99,38 @@ export function SurferTransition({
               height="64"
               viewBox="0 0 32 32"
               shapeRendering="crispEdges"
-              className="drop-shadow-[4px_4px_0_#000]"
+              className="drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
             >
               {/* Arms Up */}
-              <rect x="8" y="4" width="3" height="3" fill="#FFC93C" />
-              <rect x="21" y="4" width="3" height="3" fill="#FFC93C" />
-              <rect x="10" y="7" width="2" height="4" fill="#FFC93C" />
-              <rect x="20" y="7" width="2" height="4" fill="#FFC93C" />
+              <rect x="8" y="4" width="3" height="3" fill="#FFB454" />
+              <rect x="21" y="4" width="3" height="3" fill="#FFB454" />
+              <rect x="10" y="7" width="2" height="4" fill="#FFB454" />
+              <rect x="20" y="7" width="2" height="4" fill="#FFB454" />
 
               {/* Head / Helmet */}
-              <rect x="13" y="4" width="6" height="6" fill="#F4F4FF" />
-              <rect x="15" y="6" width="3" height="2" fill="#0B0B14" />
+              <rect x="13" y="4" width="6" height="6" fill="#F2F0EA" />
+              <rect x="15" y="6" width="3" height="2" fill="#16161C" />
 
               {/* Torso */}
-              <rect x="12" y="10" width="8" height="8" fill="#FF5C7A" />
+              <rect x="12" y="10" width="8" height="8" fill="#FFB454" />
 
               {/* Legs */}
-              <rect x="12" y="18" width="3" height="6" fill="#15152A" />
-              <rect x="17" y="18" width="3" height="6" fill="#15152A" />
+              <rect x="12" y="18" width="3" height="6" fill="#16161C" />
+              <rect x="17" y="18" width="3" height="6" fill="#16161C" />
 
-              {/* Surfboard (Gold & Mint) */}
-              <rect x="4" y="24" width="24" height="4" fill="#FFC93C" />
-              <rect x="8" y="25" width="16" height="2" fill="#3CE87C" />
+              {/* Surfboard (Amber Accent) */}
+              <rect x="4" y="24" width="24" height="4" fill="#FFB454" />
+              <rect x="8" y="25" width="16" height="2" fill="#F2F0EA" />
             </svg>
 
-            {/* Gold Pixel Sparkles Trailing the Surfer */}
+            {/* Amber Pixel Sparkles Trailing the Surfer */}
             <motion.div
-              className="absolute -left-6 top-6 w-3 h-3 bg-[#FFC93C]"
+              className="absolute -left-6 top-6 w-3 h-3 bg-[#FFB454]"
               animate={{ opacity: [1, 0], scale: [1, 0.4], x: [-5, -25] }}
               transition={{ repeat: Infinity, duration: 0.3 }}
             />
             <motion.div
-              className="absolute -left-10 top-10 w-2 h-2 bg-[#FFC93C]"
+              className="absolute -left-10 top-10 w-2 h-2 bg-[#FFB454]"
               animate={{ opacity: [1, 0], scale: [1, 0.4], x: [-10, -35] }}
               transition={{ repeat: Infinity, duration: 0.35, delay: 0.1 }}
             />
@@ -141,7 +141,7 @@ export function SurferTransition({
       {/* 3. Final Dissolve Wipe into Midnight Dark Background */}
       {phase === "DISSOLVE" && (
         <motion.div
-          className="absolute inset-0 bg-[#0B0B14]"
+          className="absolute inset-0 bg-[#0E0E12]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}

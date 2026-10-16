@@ -26,7 +26,7 @@ export function PixelDissolve() {
       return;
     }
 
-    setTransitionBg(isDark ? "#0B0B14" : "#F4EFDF");
+    setTransitionBg(isDark ? "#0E0E12" : "#F6F4EE");
     setIsTransitioning(true);
 
     // Swap theme halfway through cover (~350ms)
@@ -50,20 +50,20 @@ export function PixelDissolve() {
       {/* The Toggle Button (Pixel Sun/Moon Sprite) */}
       <button
         onClick={handleToggle}
-        aria-label="Toggle Pixel Dark/Light Theme"
-        className="w-10 h-10 p-1 flex items-center justify-center bg-pix-panel border-2 border-[var(--color-pix-border)] shadow-[2px_2px_0_0_#000000] hover:border-pix-gold active:translate-x-[1px] active:translate-y-[1px] cursor-pointer transition-colors"
+        aria-label="Toggle Ember & Paper Theme"
+        className="w-10 h-10 p-1 flex items-center justify-center rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] shadow-sm hover:border-[var(--color-pix-accent)] active:scale-95 cursor-pointer transition-all"
       >
         {mounted && (
           <svg
-            width="22"
-            height="22"
+            width="20"
+            height="20"
             viewBox="0 0 16 16"
             shapeRendering="crispEdges"
             className="w-5 h-5 transition-transform duration-150"
           >
             {isDark ? (
-              /* Pixel Moon Sprite (Midnight) */
-              <g fill="#FFC93C">
+              /* Moon Sprite (Ember Amber) */
+              <g fill="#FFB454">
                 <rect x="5" y="1" width="6" height="2" />
                 <rect x="3" y="3" width="4" height="2" />
                 <rect x="2" y="5" width="3" height="6" />
@@ -74,8 +74,8 @@ export function PixelDissolve() {
                 <rect x="9" y="3" width="3" height="2" />
               </g>
             ) : (
-              /* Pixel Sun Sprite (Daylight) */
-              <g fill="#C88800">
+              /* Sun Sprite (Paper Amber) */
+              <g fill="#B36612">
                 <rect x="7" y="0" width="2" height="2" />
                 <rect x="7" y="14" width="2" height="2" />
                 <rect x="0" y="7" width="2" height="2" />

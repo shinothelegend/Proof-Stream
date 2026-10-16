@@ -2,141 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── "Arcade Ledger" Strict Pixel Design System (§3) ── */
-:root {
-  /* Daylight Arcade (Light Mode) */
-  --color-pix-bg: #F4EFDF;
-  --color-pix-panel: #FFFCF2;
-  --color-pix-ink: #1A1A2E;
-  --color-pix-dim: #5A5A74;
-  --color-pix-gold: #C88800;
-  --color-pix-cyan: #0077A8;
-  --color-pix-mint: #1B9E52;
-  --color-pix-alert: #D63450;
-  --color-pix-border: rgba(26, 26, 46, 0.2);
-  --color-pix-border-subtle: rgba(26, 26, 46, 0.1);
-  --grid-line: rgba(26, 26, 46, 0.04);
+@layer base {
+  :root {
+    /* DARK (default) — "Ember" */
+    --color-bg: #0E0E12;
+    --color-panel: #16161C;
+    --color-hairline: rgba(255, 255, 255, 0.08);
+    --color-ink: #F2F0EA;          /* warm white */
+    --color-dim: #9C9CA8;
+    --color-accent: #FFB454;       /* amber — interactive, CTAs, key words, ALL data values */
+    --color-success: #6FCF8E;      /* semantic only */
+    --color-alert: #F0787E;        /* semantic only */
+
+    /* Legacy compatibility aliases */
+    --color-pix-bg: var(--color-bg);
+    --color-pix-panel: var(--color-panel);
+    --color-pix-border: var(--color-hairline);
+    --color-pix-border-subtle: rgba(255, 255, 255, 0.05);
+    --color-pix-ink: var(--color-ink);
+    --color-pix-dim: var(--color-dim);
+    --color-pix-gold: var(--color-accent);
+    --color-pix-cyan: var(--color-accent);
+    --color-pix-mint: var(--color-success);
+    --color-pix-alert: var(--color-alert);
+  }
+
+  .light,
+  [data-theme="light"] {
+    /* LIGHT — "Paper" */
+    --color-bg: #F6F4EE;
+    --color-panel: #FFFFFF;
+    --color-hairline: rgba(20, 20, 30, 0.10);
+    --color-ink: #1D1D26;
+    --color-dim: #63636E;
+    --color-accent: #B36612;     /* darker amber for contrast on paper */
+    --color-success: #22794A;
+    --color-alert: #C0453B;
+
+    --color-pix-bg: var(--color-bg);
+    --color-pix-panel: var(--color-panel);
+    --color-pix-border: var(--color-hairline);
+    --color-pix-border-subtle: rgba(20, 20, 30, 0.06);
+    --color-pix-ink: var(--color-ink);
+    --color-pix-dim: var(--color-dim);
+    --color-pix-gold: var(--color-accent);
+    --color-pix-cyan: var(--color-accent);
+    --color-pix-mint: var(--color-success);
+    --color-pix-alert: var(--color-alert);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-body), "Inter", sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 }
 
-.dark {
-  /* Midnight Arcade (Dark Mode - Default) */
-  --color-pix-bg: #0B0B14;
-  --color-pix-panel: #15152A;
-  --color-pix-ink: #F4F4FF;
-  --color-pix-dim: #9A9AB8;
-  --color-pix-gold: #FFC93C;
-  --color-pix-cyan: #43E8FF;
-  --color-pix-mint: #3CE87C;
-  --color-pix-alert: #FF5C7A;
-  --color-pix-border: rgba(244, 244, 255, 0.2);
-  --color-pix-border-subtle: rgba(244, 244, 255, 0.08);
-  --grid-line: rgba(244, 244, 255, 0.03);
+/* Pixel notch chamfer: top-right 8px cut */
+.card-chamfer {
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
 }
 
-/* Base resets for pixel rendering law */
-* {
-  border-radius: 0 !important;
-  image-rendering: pixelated;
-  -webkit-font-smoothing: antialiased;
-}
-
-body {
-  background-color: var(--color-pix-bg);
-  color: var(--color-pix-ink);
-  font-family: var(--font-body), "IBM Plex Mono", monospace;
-  min-height: 100vh;
+/* Subtle 2% scanline texture */
+.scanlines-subtle {
   position: relative;
-  overflow-x: hidden;
-  transition: background-color 0.25s steps(4), color 0.25s steps(4);
 }
-
-/* 8px Retro Grid Floor Ambience */
-.pixel-grid-bg {
-  background-size: 16px 16px;
-  background-image: 
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-}
-
-/* Optional CRT Scanlines (3% opacity) */
-.scanlines::after {
-  content: "";
+.scanlines-subtle::after {
+  content: " ";
+  display: block;
   position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.04) 2px,
-    rgba(0, 0, 0, 0.04) 4px
-  );
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 999;
   pointer-events: none;
-  z-index: 99;
+  opacity: 0.02;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scanlines::after {
+  .scanlines-subtle::after {
     display: none;
   }
 }
 
-/* Pixel Card & Panel Primitive */
-.pixel-panel {
-  background-color: var(--color-pix-panel);
-  border: 2px solid var(--color-pix-border);
-  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.85);
-  position: relative;
-}
-
-.pixel-panel-gold {
-  background-color: var(--color-pix-panel);
-  border: 2px solid var(--color-pix-gold);
-  box-shadow: 4px 4px 0 0 var(--color-pix-gold);
-}
-
-/* Pixel Button Primitive with physical 2px depression */
-.pixel-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading), "Silkscreen", monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 10px 18px;
-  border: 2px solid #000000;
-  box-shadow: 4px 4px 0 0 #000000;
-  transition: transform 0.05s ease, box-shadow 0.05s ease;
-  cursor: pointer;
-  user-select: none;
-}
-
-.pixel-btn:hover {
-  filter: brightness(1.08);
-}
-
-.pixel-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 0 #000000;
-}
-
-.pixel-btn-gold {
-  background-color: var(--color-pix-gold);
-  color: #000000;
-}
-
-.pixel-btn-ink {
-  background-color: var(--color-pix-ink);
-  color: var(--color-pix-bg);
-}
-
-.pixel-btn-outline {
-  background-color: var(--color-pix-panel);
-  color: var(--color-pix-ink);
-  border: 2px solid var(--color-pix-border);
-}
-
-/* Blinking Cursor */
+/* Blinking Cursor for Typewriter */
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -144,41 +95,42 @@ body {
 
 .pixel-cursor {
   display: inline-block;
-  color: var(--color-pix-gold);
+  color: var(--color-accent);
   font-weight: bold;
   animation: blink 0.85s steps(1) infinite;
   margin-left: 2px;
 }
 
-/* Pixel Toast Notification (Replacing floating 1-issue badge) */
+/* Refined Toast Notification */
 .pixel-toast {
-  background-color: var(--color-pix-panel);
-  border: 2px solid var(--color-pix-gold);
-  box-shadow: 4px 4px 0 0 #000000;
-  color: var(--color-pix-ink);
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-hairline);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  color: var(--color-ink);
+  border-radius: 10px;
 }
 
-/* Pixel Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-pix-bg);
-  border-left: 2px solid var(--color-pix-border-subtle);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-pix-gold);
-  border: 2px solid var(--color-pix-bg);
+  background: var(--color-dim);
+  border-radius: 4px;
+  border: 2px solid var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-pix-cyan);
+  background: var(--color-accent);
 }
 
-/* Remove generic floating Next.js dev indicator badge */
+/* Suppress Next.js dev overlay indicator */
 nextjs-portal,
 [data-nextjs-toast],
 [data-nextjs-dialog-overlay],
