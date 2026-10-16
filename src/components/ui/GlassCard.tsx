@@ -8,16 +8,18 @@ import { twMerge } from "tailwind-merge";
 interface GlassCardProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   glowOnHover?: boolean;
+  chamfer?: boolean;
   className?: string;
 }
 
 /**
- * PixelPanel (historically GlassCard):
- * Standard arcade panel with 2px solid border, zero border-radius, and hard 4px shadow.
+ * Retro-Modern Card Panel:
+ * 10px radius, 1px hairline border, soft shadow, and optional chamfered top-right corner.
  */
 export function GlassCard({
   children,
   glowOnHover = false,
+  chamfer = true,
   className,
   ...props
 }: GlassCardProps) {
@@ -25,8 +27,9 @@ export function GlassCard({
     <motion.div
       className={twMerge(
         clsx(
-          "bg-pix-panel border-2 border-pix-dim/30 shadow-pixel transition-all rounded-none",
-          glowOnHover && "hover:border-pix-gold hover:-translate-y-0.5 hover:shadow-pixel-lg",
+          "bg-[var(--color-panel)] border border-[var(--color-hairline)] rounded-[10px] shadow-card transition-all duration-200",
+          chamfer && "card-chamfer",
+          glowOnHover && "hover:border-[var(--color-hairline)]/80 hover:-translate-y-[2px] hover:shadow-panel",
           className
         )
       )}

@@ -51,24 +51,24 @@ export function StatChip({
   return (
     <div
       ref={ref}
-      className={`pixel-panel p-3 sm:p-4 flex items-center space-x-3 bg-pix-panel border-2 border-[var(--color-pix-border)] shadow-[4px_4px_0_0_#000000] ${className}`}
+      className={`p-3.5 sm:p-4 flex items-center space-x-3 bg-[var(--color-panel)] border border-[var(--color-hairline)] rounded-[10px] shadow-card ${className}`}
     >
       {icon && (
-        <div className="w-8 h-8 flex items-center justify-center bg-black/40 border border-white/10 text-pix-gold flex-shrink-0">
+        <div className="w-9 h-9 rounded-[8px] flex items-center justify-center bg-black/30 border border-[var(--color-hairline)] text-[var(--color-accent)] flex-shrink-0">
           {icon}
         </div>
       )}
 
       <div className="min-w-0">
-        <span className="text-[10px] sm:text-[11px] font-heading uppercase tracking-wider text-pix-dim block truncate">
+        <span className="text-[12px] font-body uppercase font-semibold tracking-wider text-[var(--color-dim)] block truncate">
           {label}
         </span>
         <div className="flex items-baseline space-x-1.5 mt-0.5">
-          <span className="font-mono font-bold text-base sm:text-lg text-pix-cyan tracking-tight">
+          <span className="font-mono font-medium text-base sm:text-lg text-[var(--color-accent)] tracking-tight">
             {typeof displayValue === "number" ? displayValue.toLocaleString() : displayValue}
           </span>
           {subValue && (
-            <span className="text-[10px] font-mono text-pix-dim uppercase">{subValue}</span>
+            <span className="text-[11px] font-mono text-[var(--color-dim)] uppercase">{subValue}</span>
           )}
         </div>
       </div>

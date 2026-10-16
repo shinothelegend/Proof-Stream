@@ -1,20 +1,22 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useSpring } from "framer-motion";
+import React, { useRef, useState, useEffect } from "react";
+import { motion, useSpring, AnimatePresence } from "framer-motion";
+import { Loader2, Check } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export type SnapButtonVariant =
-  | "gold"
   | "primary"
-  | "ink"
-  | "outline"
   | "secondary"
+  | "gold"
+  | "outline"
+  | "ghost"
   | "danger"
   | "alert"
   | "mint"
-  | "ghost";
+  | "success"
+  | "ink";
 
 interface SnapButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -22,26 +24,47 @@ interface SnapButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   size?: "sm" | "md" | "lg";
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  asChild?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
+  isSuccess?: boolean;
+  successText?: string;
+  isError?: boolean;
+  disabledReason?: string;
 }
 
 export function SnapButton({
   children,
-  variant = "gold",
+  variant = "primary",
   size = "md",
   className = "",
   onClick,
   disabled,
+  isLoading = false,
+  loadingText,
+  isSuccess = false,
+  successText,
+  isError = false,
+  disabledReason,
   ...props
 }: SnapButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [showSuccessState, setShowSuccessState] = useState(false);
 
-  // Magnetic spring physics (stiffness 400, damping 28)
-  const springX = useSpring(0, { stiffness: 400, damping: 28 });
-  const springY = useSpring(0, { stiffness: 400, damping: 28 });
+  // Success state auto-dismiss after 1.5s
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccessState(true);
+      const timer = setTimeout(() => setShowSuccessState(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
+
+  // Retuned magnetic spring physics (24px zone, 4px max lean)
+  const springX = useSpring(0, { stiffness: 350, damping: 25 });
+  const springY = useSpring(0, { stiffness: 350, damping: 25 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (disabled) return;
+    if (disabled || isLoading) return;
     const rect = buttonRef.current?.getBoundingClientRect();
     if (!rect) return;
 
@@ -52,11 +75,9 @@ export function SnapButton({
     const deltaY = e.clientY - centerY;
     const distance = Math.hypot(deltaX, deltaY);
 
-    // Magnetic zone within 48px
-    if (distance < 72) {
-      // Lean up to 6px toward the cursor
-      const leanX = (deltaX / 72) * 6;
-      const leanY = (deltaY / 72) * 6;
+    if (distance < 36) {
+      const leanX = (deltaX / 36) * 4;
+      const leanY = (deltaY / 36) * 4;
       springX.set(leanX);
       springY.set(leanY);
     }
@@ -67,37 +88,43 @@ export function SnapButton({
     springY.set(0);
   };
 
+  const isPrimary = variant === "primary" || variant === "gold";
+  const isSecondary = variant === "secondary" || variant === "outline" || variant === "ghost";
+  const isAlert = variant === "alert" || variant === "danger";
+  const isMint = variant === "mint" || variant === "success";
+
   const getVariantStyles = () => {
-    switch (variant) {
-      case "primary":
-      case "gold":
-        return "bg-pix-gold text-black border-2 border-black shadow-[4px_4px_0_0_#000000]";
-      case "ink":
-        return "bg-pix-ink text-pix-bg border-2 border-black shadow-[4px_4px_0_0_#000000]";
-      case "secondary":
-      case "outline":
-        return "bg-pix-panel text-pix-ink border-2 border-pix-dim/40 shadow-[4px_4px_0_0_rgba(0,0,0,0.85)] hover:border-pix-gold";
-      case "alert":
-      case "danger":
-        return "bg-pix-alert text-black border-2 border-black shadow-[4px_4px_0_0_#000000]";
-      case "mint":
-        return "bg-pix-mint text-black border-2 border-black shadow-[4px_4px_0_0_#000000]";
-      case "ghost":
-        return "bg-pix-bg text-pix-dim border-2 border-pix-dim/30 hover:border-pix-gold hover:text-pix-ink";
-      default:
-        return "";
+    if (showSuccessState) {
+      return "bg-[var(--color-success)] text-[#0E0E12] border border-[var(--color-success)] shadow-md";
     }
+    if (isError) {
+      return "bg-[var(--color-panel)] text-[var(--color-alert)] border-2 border-[var(--color-alert)] shadow-md";
+    }
+    if (isPrimary) {
+      return "bg-[var(--color-accent)] text-[#1D1D26] font-semibold border border-black/15 shadow-sm hover:shadow-[0_6px_18px_rgba(255,180,84,0.28)] hover:-translate-y-[1px]";
+    }
+    if (isAlert) {
+      return "bg-[var(--color-alert)]/15 text-[var(--color-alert)] border border-[var(--color-alert)]/40 hover:bg-[var(--color-alert)]/25";
+    }
+    if (isMint) {
+      return "bg-[var(--color-success)]/15 text-[var(--color-success)] border border-[var(--color-success)]/40 hover:bg-[var(--color-success)]/25";
+    }
+    if (variant === "ink") {
+      return "bg-[var(--color-ink)] text-[var(--color-bg)] border border-transparent hover:opacity-90";
+    }
+    // Secondary / ghost default
+    return "bg-[var(--color-panel)] text-[var(--color-ink)] border border-[var(--color-hairline)] hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-accent)]/[0.06]";
   };
 
   const getSizeStyles = () => {
     switch (size) {
       case "sm":
-        return "text-[11px] px-3 py-1.5";
+        return "text-[13px] px-3.5 py-1.5 rounded-[8px]";
       case "lg":
-        return "text-sm sm:text-base px-6 py-3.5";
+        return "text-[16px] px-6 py-3.5 rounded-[10px]";
       case "md":
       default:
-        return "text-xs sm:text-sm px-4 py-2.5";
+        return "text-[14px] px-4 py-2.5 rounded-[10px]";
     }
   };
 
@@ -107,19 +134,18 @@ export function SnapButton({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
+      title={disabled && disabledReason ? disabledReason : undefined}
       style={{
         x: springX,
         y: springY,
       }}
-      whileTap={{
-        x: 2,
-        y: 2,
-        boxShadow: "2px 2px 0 0 #000000",
-      }}
+      whileTap={{ scale: 0.97 }}
+      animate={isError ? { x: [-4, 4, -4, 4, 0] } : {}}
+      transition={{ duration: 0.3 }}
       className={twMerge(
         clsx(
-          "inline-flex items-center justify-center font-heading font-bold uppercase tracking-wider select-none cursor-pointer transition-colors active:translate-x-[2px] active:translate-y-[2px] disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none",
+          "relative inline-flex items-center justify-center font-body font-medium select-none cursor-pointer transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none group",
           getVariantStyles(),
           getSizeStyles(),
           className
@@ -127,7 +153,41 @@ export function SnapButton({
       )}
       {...(props as any)}
     >
-      {children}
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <motion.span
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex items-center space-x-2"
+          >
+            <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" />
+            <span>{loadingText || "Processing…"}</span>
+          </motion.span>
+        ) : showSuccessState ? (
+          <motion.span
+            key="success"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="flex items-center space-x-1.5 font-semibold"
+          >
+            <Check className="w-4 h-4" />
+            <span>{successText || "Completed ✓"}</span>
+          </motion.span>
+        ) : (
+          <motion.span
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="inline-flex items-center space-x-1.5"
+          >
+            {children}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </motion.button>
   );
 }

@@ -22,15 +22,15 @@ export function Badge({
     switch (variant) {
       case "verified":
       case "released":
-        return "bg-pix-mint/10 text-pix-mint border-pix-mint";
+        return "bg-[var(--color-panel)] text-[var(--color-success)] border border-[var(--color-success)]/40";
       case "flagged":
       case "rejected":
-        return "bg-pix-alert/10 text-pix-alert border-pix-alert";
+        return "bg-[var(--color-panel)] text-[var(--color-alert)] border border-[var(--color-alert)]/40";
       case "testnet":
-        return "bg-pix-gold/10 text-pix-gold border-pix-gold";
+        return "bg-[var(--color-panel)] text-[var(--color-accent)] border border-[var(--color-accent)]/40";
       case "pending":
       default:
-        return "bg-pix-panel text-pix-dim border-pix-dim/40";
+        return "bg-[var(--color-panel)] text-[var(--color-dim)] border border-[var(--color-hairline)]";
     }
   };
 
@@ -39,15 +39,15 @@ export function Badge({
     switch (variant) {
       case "verified":
       case "released":
-        return <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-pix-mint" />;
+        return <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-[var(--color-success)] flex-shrink-0" />;
       case "flagged":
       case "rejected":
-        return <AlertTriangle className="w-3.5 h-3.5 mr-1 text-pix-alert" />;
+        return <AlertTriangle className="w-3.5 h-3.5 mr-1 text-[var(--color-alert)] flex-shrink-0" />;
       case "testnet":
-        return <ShieldCheck className="w-3.5 h-3.5 mr-1 text-pix-gold" />;
+        return <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[var(--color-accent)] flex-shrink-0" />;
       case "pending":
       default:
-        return <Clock className="w-3.5 h-3.5 mr-1 text-pix-dim" />;
+        return <Clock className="w-3.5 h-3.5 mr-1 text-[var(--color-dim)] flex-shrink-0" />;
     }
   };
 
@@ -55,14 +55,14 @@ export function Badge({
     <span
       className={twMerge(
         clsx(
-          "inline-flex items-center px-2 py-0.5 text-[11px] font-heading uppercase tracking-wider border-2 rounded-none transition-colors",
+          "inline-flex items-center px-2.5 py-0.5 text-[11px] font-body font-semibold uppercase tracking-wider rounded-[6px] transition-colors",
           getStyles(),
           className
         )
       )}
     >
       {renderIcon()}
-      {children}
+      <span>{children}</span>
     </span>
   );
 }

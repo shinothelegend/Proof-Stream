@@ -7,7 +7,7 @@ interface PixelProgressProps {
   current?: number;
   total?: number;
   value?: number;
-  variant?: "mint" | "gold" | "cyan";
+  variant?: "mint" | "gold" | "cyan" | "accent" | "success";
   height?: number; // default 14px
   showLabel?: boolean;
   className?: string;
@@ -17,7 +17,7 @@ export function PixelProgress({
   current,
   total,
   value,
-  variant = "gold",
+  variant = "accent",
   height = 14,
   showLabel = false,
   className = "",
@@ -30,37 +30,39 @@ export function PixelProgress({
   const getFillColor = () => {
     switch (variant) {
       case "mint":
-        return "bg-pix-mint";
-      case "cyan":
-        return "bg-pix-cyan";
+      case "success":
+        return "bg-[var(--color-success)]";
       case "gold":
+      case "cyan":
+      case "accent":
       default:
-        return "bg-pix-gold";
+        return "bg-[var(--color-accent)]";
     }
   };
 
   return (
     <div className={`space-y-1.5 ${className}`}>
       {showLabel && (
-        <div className="flex justify-between items-center text-[10px] font-heading uppercase text-pix-dim">
-          <span>XP PROGRESS</span>
-          <span className="font-mono text-pix-cyan font-bold">{percent}%</span>
+        <div className="flex justify-between items-center text-[12px] font-body uppercase font-semibold text-[var(--color-dim)] tracking-wider">
+          <span>FUNDING PROGRESS</span>
+          <span className="font-mono text-[var(--color-accent)] font-medium">{percent}%</span>
         </div>
       )}
 
-      {/* HP Bar Outer Border */}
+      {/* Progress Bar Container */}
       <div
-        className="w-full bg-black/60 border-2 border-[var(--color-pix-border)] p-[2px] shadow-[2px_2px_0_0_#000000] relative overflow-hidden"
-        style={{ height: `${height + 6}px` }}
+        className="w-full bg-black/40 border border-[var(--color-hairline)] p-[2px] rounded-[6px] relative overflow-hidden shadow-inner"
+        style={{ height: `${height + 4}px` }}
       >
-        {/* Animated Stepped Bar */}
+        {/* Animated Stepped Bar with subtle segments */}
         <motion.div
-          className={`h-full ${getFillColor()} relative`}
+          className={`h-full ${getFillColor()} rounded-[4px] relative`}
           initial={{ width: "0%" }}
           animate={{ width: `${percent}%` }}
-          transition={{ duration: 0.8, ease: "linear" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            backgroundImage: "repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(0, 0, 0, 0.35) 6px, rgba(0, 0, 0, 0.35) 8px)",
+            backgroundImage:
+              "repeating-linear-gradient(90deg, transparent, transparent 6px, rgba(0, 0, 0, 0.25) 6px, rgba(0, 0, 0, 0.25) 8px)",
           }}
         />
       </div>
