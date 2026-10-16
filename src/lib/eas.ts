@@ -1,6 +1,7 @@
 import { encodeAbiParameters, parseAbiParameters, keccak256, toHex, stringToHex, Hex } from "viem";
 import { getVerifierWalletClient, getVerifierAccount, publicClient } from "./chainsigner";
 
+// Verified canonical Base Sepolia EAS predeploy (Chain 84532)
 export const EAS_CONTRACT_ADDRESS =
   (process.env.NEXT_PUBLIC_EAS_ADDRESS as `0x${string}`) ||
   "0x4200000000000000000000000000000000000021";
