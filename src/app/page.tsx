@@ -455,59 +455,88 @@ export default function LandingPage() {
         {/* 6. FEATURED CAMPAIGN CARTRIDGE (§6.1: banner >= 280px tall) */}
         <section className="py-24 bg-pix-panel">
           <div className="max-w-4xl mx-auto px-5 sm:px-6">
-            <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="text-[12px] font-mono font-semibold px-3 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-accent)]/40 text-pix-accent">
-                  ACTIVE CAMPAIGN
-                </span>
-                <span className="text-[13px] font-mono text-pix-dim">
-                  {featuredCampaign?.location || "CENTRAL KALIMANTAN, INDONESIA"}
-                </span>
+            {statsLoading ? (
+              <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel animate-pulse">
+                <div className="flex items-center justify-between">
+                  <div className="h-6 w-32 bg-white/10 rounded" />
+                  <div className="h-4 w-40 bg-white/10 rounded" />
+                </div>
+                <div className="h-72 sm:h-80 bg-white/5 rounded-[6px]" />
+                <div className="space-y-3 pt-2">
+                  <div className="h-7 bg-white/10 rounded w-3/4" />
+                  <div className="h-4 bg-white/10 rounded w-full" />
+                  <div className="h-4 bg-white/10 rounded w-2/3" />
+                </div>
+                <div className="h-3 bg-white/10 rounded w-full" />
+                <div className="pt-4 flex items-center justify-between border-t border-[var(--color-pix-hairline)]">
+                  <div className="h-5 bg-white/10 rounded w-48" />
+                  <div className="h-10 bg-white/10 rounded w-44" />
+                </div>
               </div>
-
-              {/* Procedural Banner: >= 280px tall canvas with title overlay (§6.1) */}
-              <PixelBanner
-                seed={featuredCampaign?.id || "kalimantan-clean-water"}
-                title={featuredCampaign?.title || "Central Kalimantan Bio-Sand Filtration"}
-                className="h-72 sm:h-80"
-              />
-
-              <div className="space-y-3 pt-2">
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
-                  {featuredCampaign?.title || "Clean Drinking Water & Sanitation for Kahayan Basin Communities"}
-                </h3>
-                <p className="text-[15px] text-pix-dim leading-relaxed font-sans">
-                  {featuredCampaign?.description ||
-                    "Tirta Lestari Borneo Initiative deploys ceramic bio-sand water filtration units and family hygiene kits to 3,400 indigenous Dayak families."}
-                </p>
-              </div>
-
-              {/* Funding Progress */}
-              <PixelProgress
-                current={featuredCampaign ? featuredCampaign.totalFunded : 2500}
-                total={featuredCampaign ? featuredCampaign.targetAmount : 2500}
-                variant="gold"
-                height={12}
-                showLabel
-              />
-
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-hairline)]">
-                <span className="font-mono text-[15px] text-pix-accent font-medium">
-                  {featuredCampaign && featuredCampaign.targetAmount > 0
-                    ? `${Math.round((featuredCampaign.totalFunded / featuredCampaign.targetAmount) * 100)}% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`
-                    : "100% ESCROWED ($2,500.00 USDC)"}
-                </span>
-
-                <SnapButton
-                  href={featuredCampaign ? `/campaigns/${featuredCampaign.id}` : "/campaigns/kalimantan-clean-water"}
-                  variant="primary"
-                  size="md"
+            ) : statsError || !featuredCampaign ? (
+              <div className="flex items-center justify-center p-6 rounded-[10px] bg-pix-bg border border-[var(--color-alert)]/30 text-pix-alert text-sm space-x-3">
+                <span>Featured campaign data temporarily unavailable.</span>
+                <button
+                  onClick={fetchCampaigns}
+                  className="px-3 py-1 text-xs font-mono uppercase bg-pix-panel hover:bg-pix-alert/20 border border-[var(--color-alert)]/50 rounded cursor-pointer transition-colors"
                 >
-                  <span>VIEW CAMPAIGN DETAILS</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </SnapButton>
+                  Retry
+                </button>
               </div>
-            </div>
+            ) : (
+              <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="text-[12px] font-mono font-semibold px-3 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-accent)]/40 text-pix-accent">
+                    ACTIVE CAMPAIGN
+                  </span>
+                  <span className="text-[13px] font-mono text-pix-dim">
+                    {featuredCampaign.location}
+                  </span>
+                </div>
+
+                {/* Procedural Banner: >= 280px tall canvas with title overlay (§6.1) */}
+                <PixelBanner
+                  seed={featuredCampaign.id}
+                  title={featuredCampaign.title}
+                  className="h-72 sm:h-80"
+                />
+
+                <div className="space-y-3 pt-2">
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
+                    {featuredCampaign.title}
+                  </h3>
+                  <p className="text-[15px] text-pix-dim leading-relaxed font-sans">
+                    {featuredCampaign.description}
+                  </p>
+                </div>
+
+                {/* Funding Progress */}
+                <PixelProgress
+                  current={featuredCampaign.totalFunded}
+                  total={featuredCampaign.targetAmount}
+                  variant="gold"
+                  height={12}
+                  showLabel
+                />
+
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-hairline)]">
+                  <span className="font-mono text-[15px] text-pix-accent font-medium">
+                    {featuredCampaign.targetAmount > 0
+                      ? `${Math.round((featuredCampaign.totalFunded / featuredCampaign.targetAmount) * 100)}% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`
+                      : `0% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`}
+                  </span>
+
+                  <SnapButton
+                    href={`/campaigns/${featuredCampaign.id}`}
+                    variant="primary"
+                    size="md"
+                  >
+                    <span>VIEW CAMPAIGN DETAILS</span>
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </SnapButton>
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </main>
