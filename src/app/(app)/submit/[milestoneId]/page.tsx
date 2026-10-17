@@ -334,7 +334,7 @@ export default function SubmitEvidencePage() {
               {verdictResult.txHash && (
                 <div className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] space-y-1">
                   <span className="font-sans text-[13px] uppercase font-semibold text-pix-accent block">
-                    Base Sepolia Attestation Hash
+                    Base Sepolia Release Transaction
                   </span>
                   <a
                     href={`https://sepolia.basescan.org/tx/${verdictResult.txHash}`}
@@ -343,6 +343,24 @@ export default function SubmitEvidencePage() {
                     className="font-mono text-[12px] text-pix-accent hover:underline flex items-center space-x-1"
                   >
                     <span>{formatTxHash(verdictResult.txHash)}</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              )}
+
+              {/* EAS Attestation link */}
+              {verdictResult.attestationUid && (
+                <div className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] space-y-1">
+                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-accent block">
+                    EAS Attestation UID
+                  </span>
+                  <a
+                    href={`https://base-sepolia.easscan.org/attestation/view/${verdictResult.attestationUid}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[12px] text-pix-accent hover:underline flex items-center space-x-1"
+                  >
+                    <span>{formatTxHash(verdictResult.attestationUid)}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>

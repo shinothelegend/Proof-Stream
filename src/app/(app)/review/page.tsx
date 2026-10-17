@@ -62,11 +62,29 @@ export default function ReviewQueuePage() {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || "Action failed");
 
-      toast.success(
-        action === "APPROVE"
-          ? "Tranche approved and released on-chain!"
-          : "Submission marked as rejected"
-      );
+      if (action === "APPROVE" && data.txHash) {
+        toast.success(
+          <div className="space-y-1 font-sans text-xs">
+            <p className="font-semibold uppercase text-pix-success">Tranche Released on Base Sepolia!</p>
+            <a
+              href={`https://sepolia.basescan.org/tx/${data.txHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-pix-accent underline flex items-center space-x-1 font-mono"
+            >
+              <span>BaseScan: {formatTxHash(data.txHash)}</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>,
+          { duration: 8000 }
+        );
+      } else {
+        toast.success(
+          action === "APPROVE"
+            ? "Tranche approved and released on-chain!"
+            : "Submission marked as rejected"
+        );
+      }
 
       fetchQueue();
     } catch (err: any) {
