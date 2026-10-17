@@ -150,3 +150,11 @@
   background: var(--color-accent);
 }
 
+/* Hide native cursor only over data-snap targets on fine pointer devices */
+@media (pointer: fine) {
+  [data-snap]:hover {
+    cursor: none !important;
+  }
+}
+
+

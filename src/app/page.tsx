@@ -107,19 +107,19 @@ export default function LandingPage() {
 
           {/* Navigation Links (Inter 13px uppercase) */}
           <nav className="hidden md:flex items-center space-x-8 text-[13px] font-sans font-semibold uppercase tracking-wider text-pix-dim">
-            <a href="#how-it-works" className="hover:text-pix-accent transition-colors">
+            <a href="#how-it-works" data-snap className="hover:text-pix-accent transition-colors">
               How It Works
             </a>
-            <a href="#tech-stack" className="hover:text-pix-accent transition-colors">
+            <a href="#tech-stack" data-snap className="hover:text-pix-accent transition-colors">
               Architecture
             </a>
-            <a href="#impact" className="hover:text-pix-accent transition-colors">
+            <a href="#impact" data-snap className="hover:text-pix-accent transition-colors">
               Impact
             </a>
-            <Link href="/docs" className="hover:text-pix-accent transition-colors">
+            <Link href="/docs" data-snap className="hover:text-pix-accent transition-colors">
               Docs
             </Link>
-            <Link href="/audit" className="hover:text-pix-accent text-pix-accent transition-colors font-bold">
+            <Link href="/audit" data-snap className="hover:text-pix-accent text-pix-accent transition-colors font-bold">
               Public Audit
             </Link>
           </nav>

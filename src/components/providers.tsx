@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { Toaster } from "sonner";
 import { config } from "@/lib/wagmi";
+import { SnapCursorProvider } from "@/components/pixel/SnapCursorProvider";
 import "@rainbow-me/rainbowkit/styles.css";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -35,7 +36,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
               overlayBlur: "none",
             })}
           >
-            {children}
+            <SnapCursorProvider>
+              {children}
+            </SnapCursorProvider>
             <Toaster
               theme="dark"
               position="top-right"

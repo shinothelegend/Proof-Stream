@@ -191,6 +191,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.name}
                   href={item.href}
+                  data-snap
                   style={
                     isCurrent
                       ? {
