@@ -94,7 +94,14 @@ export function PixelDissolve() {
       {/* 18x10 Checkerboard Dissolve Portal Overlay */}
       <AnimatePresence>
         {isTransitioning && (
-          <div className="fixed inset-0 z-[200] grid grid-cols-18 grid-rows-10 pointer-events-none w-screen h-screen">
+          <div
+            className="fixed inset-0 z-[200] pointer-events-none w-screen h-screen"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(18, 1fr)",
+              gridTemplateRows: "repeat(10, 1fr)",
+            }}
+          >
             {Array.from({ length: totalCells }).map((_, i) => {
               const col = i % cols;
               const row = Math.floor(i / cols);
@@ -117,7 +124,7 @@ export function PixelDissolve() {
                     delay,
                     ease: "linear",
                   }}
-                  className="w-full h-full border border-black/10"
+                  className="w-full h-full"
                 />
               );
             })}
