@@ -83,6 +83,23 @@ export default function SubmitEvidencePage() {
     }
   };
 
+  // Demo Adversarial Test Input Loader (§2)
+  const handleLoadTamperedDemoAsset = async () => {
+    try {
+      const res = await fetch("/demo/fraud-attempt.jpg");
+      if (!res.ok) throw new Error("Asset not found");
+      const blob = await res.blob();
+      const file = new File([blob], "fraud-attempt.jpg", { type: "image/jpeg" });
+      setPhotoFile(file);
+      setPhotoPreview("/demo/fraud-attempt.jpg");
+      toast.info("Loaded adversarial test input: Tampered / Reused field evidence", {
+        description: "Ready for live dHash / EXIF fraud rejection pipeline.",
+      });
+    } catch (e: any) {
+      toast.error("Could not load demo fraud asset.");
+    }
+  };
+
   // Handle Receipt selection
   const handleReceiptSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -387,12 +404,22 @@ export default function SubmitEvidencePage() {
 
             {/* Photo Capture (Mandatory) */}
             <div data-tour="evidence-card" className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                   <Camera className="w-4 h-4 text-pix-accent" />
                   <span>Field Installation Photo (GPS EXIF)</span>
                 </label>
-                <span className="font-sans text-[11px] uppercase font-bold text-pix-alert">MANDATORY</span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="button"
+                    onClick={handleLoadTamperedDemoAsset}
+                    title="Adversarial test input: pre-loads a duplicate/tampered asset to test real AI fraud rejection"
+                    className="text-[12px] font-mono uppercase px-2 py-0.5 rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30 hover:bg-pix-alert/25 transition-colors cursor-pointer"
+                  >
+                    DEMO: try a tampered image
+                  </button>
+                  <span className="font-sans text-[11px] uppercase font-bold text-pix-alert">MANDATORY</span>
+                </div>
               </div>
 
               {photoPreview ? (
