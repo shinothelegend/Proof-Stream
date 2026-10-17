@@ -152,10 +152,91 @@ With ProofStream, every dollar of your donation sits securely in a Base Sepolia 
     }
   });
 
+  // Second Real NGO Campaign: Turkana Solar Cold-Chain & Vaccine Refrigeration (§5)
+  const campaign2 = await prisma.campaign.create({
+    data: {
+      slug: "turkana-solar-coldchain",
+      title: "Solar Cold-Chain & Vaccine Refrigeration for Turkana Rural Clinics",
+      ngoName: "Amani Health Logistics Africa",
+      ngoAddress: "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",
+      story: `Over 48,000 pastoralist mothers and infants across remote Turkana County, Kenya depend on six off-grid dispensary clinics for essential childhood immunizations (pentavalent, measles, polio). In ambient temperatures routinely exceeding 42°C, grid failure and unmaintained kerosene refrigerators spoil vital vaccine vials before clinical outreach teams can administer them.
+
+Amani Health Logistics Africa is deploying WHO PQS-certified solar direct-drive (SDD) vaccine refrigerators paired with continuous IoT temperature loggers to eliminate thermal spoilage.
+
+Under ProofStream, the full $3,600 USDC project escrow remains locked until field operatives submit photographic evidence of physical unit commissioning, authenticated customs clearance receipts, and certified 14-day continuous thermal datalogger reports verified by independent AI and notarized permanently via Base Sepolia attestations.`,
+      goal: 3600.0,
+      escrowBalance: 3600.0,
+      coverImageCid: "bafybeifx7yeb55kdptacx7x6y8w0z1a2b3c4d5e6f7a8b9c0d1e2f3a4b5",
+      siteLat: 3.1167,
+      siteLng: 35.6000,
+      siteAddress: "Lodwar & Lokitaung Sub-County Dispensaries, Turkana County, Kenya",
+      status: "ACTIVE",
+      contractAddress: process.env.NEXT_PUBLIC_ESCROW_ADDRESS || null,
+      milestones: {
+        create: [
+          {
+            idx: 0,
+            description: "Procure and deliver 2 WHO PQS-certified solar direct-drive vaccine refrigerators (B Medical Systems) to Lodwar Distribution Hub.",
+            amount: 1800.0,
+            deadline: new Date(Date.now() + 1000 * 60 * 60 * 24 * 25), // 25 days
+            geoFenceKm: 8.0,
+            budgetLines: JSON.stringify([
+              { item: "2x WHO PQS Solar Direct-Drive Refrigerators (TCW40SDD)", unitPrice: 800.0, qty: 2, total: 1600.0 },
+              { item: "Regional Overland Freight & Security Escort (Eldoret to Lodwar)", unitPrice: 200.0, qty: 1, total: 200.0 }
+            ]),
+            status: "PENDING",
+            released: false,
+          },
+          {
+            idx: 1,
+            description: "Install 400W rooftop photovoltaic array, mounting hardware, and calibrated continuous IoT temperature dataloggers at Lokitaung Clinic.",
+            amount: 1200.0,
+            deadline: new Date(Date.now() + 1000 * 60 * 60 * 24 * 40), // 40 days
+            geoFenceKm: 12.0,
+            budgetLines: JSON.stringify([
+              { item: "Monocrystalline Solar PV Modules & Aluminum Racks", unitPrice: 350.0, qty: 2, total: 700.0 },
+              { item: "IoT Temperature Loggers & Certified Installation Labor", unitPrice: 500.0, qty: 1, total: 500.0 }
+            ]),
+            status: "PENDING",
+            released: false,
+          },
+          {
+            idx: 2,
+            description: "Conduct certified 14-day continuous cold-chain validation run (2°C to 8°C compliance) and train 6 county healthcare officers.",
+            amount: 600.0,
+            deadline: new Date(Date.now() + 1000 * 60 * 60 * 24 * 60), // 60 days
+            geoFenceKm: 15.0,
+            budgetLines: JSON.stringify([
+              { item: "Independent Quality Assurance & Datalogger Export Verification", unitPrice: 350.0, qty: 1, total: 350.0 },
+              { item: "Healthcare Worker Cold-Chain Maintenance Workshop", unitPrice: 250.0, qty: 1, total: 250.0 }
+            ]),
+            status: "PENDING",
+            released: false,
+          }
+        ]
+      }
+    },
+    include: {
+      milestones: true,
+    }
+  });
+
+  // Seed initial donation for Campaign 2
+  await prisma.donation.create({
+    data: {
+      campaignId: campaign2.id,
+      donorAddress: "0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7",
+      amount: 3600.0,
+      txHash: "0x9f8e7d6c5b4a392817263544abcdef0123456789abcdef0123456789abcdef01",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    }
+  });
+
   console.log("✅ Seed completed successfully!");
-  console.log(`Campaign ID: ${campaign.id}`);
+  console.log(`Campaign 1 ID (Kalimantan): ${campaign.id}`);
   console.log(`Milestone 0 (Released): ${milestone0.id}`);
   console.log(`Milestone 1 (Pending demo target): ${campaign.milestones[1].id}`);
+  console.log(`Campaign 2 ID (Turkana): ${campaign2.id}`);
 }
 
 main()

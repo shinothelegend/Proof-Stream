@@ -11,7 +11,8 @@
     "db:seed": "node --loader ts-node/esm prisma/seed.ts || tsx prisma/seed.ts",
     "seed": "tsx prisma/seed.ts",
     "verify:tokens": "node scripts/verify-tokens.mjs",
-    "verify:routes": "node scripts/verify-routes.mjs"
+    "verify:routes": "node scripts/verify-routes.mjs",
+    "demo:preflight": "node scripts/demo-preflight.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.30.0",
