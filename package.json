@@ -12,6 +12,7 @@
     "seed": "tsx prisma/seed.ts",
     "verify:tokens": "node scripts/verify-tokens.mjs",
     "verify:routes": "node scripts/verify-routes.mjs",
+    "verify:api-shape": "node scripts/verify-api-shape.mjs",
     "demo:preflight": "node scripts/demo-preflight.mjs"
   },
   "dependencies": {

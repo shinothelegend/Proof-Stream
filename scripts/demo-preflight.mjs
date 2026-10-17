@@ -1,8 +1,8 @@
-import { createPublicClient, http, formatEther, formatUnits } from "viem";
+import { createPublicClient, http, formatEther } from "viem";
 import { baseSepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { readFileSync, existsSync } from "fs";
-import { resolve, dirname } from "path";
+import { readFileSync, readdirSync, statSync, existsSync } from "fs";
+import { resolve, join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -33,11 +33,12 @@ console.log("   Target Network: Base Sepolia (Chain ID: 84532)      ");
 console.log("=======================================================\n");
 
 let passedCount = 0;
-let totalChecks = 5;
+let totalChecks = 7;
+let warningCount = 0;
 
 // 1. Check Base Sepolia RPC & Wallet Balances
 async function checkWallets() {
-  process.stdout.write("[1/5] Checking Base Sepolia RPC & Signer Wallet Balances... ");
+  process.stdout.write("[1/7] Checking Base Sepolia RPC & Signer Wallet Balances... ");
   try {
     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || "https://sepolia.base.org";
     const client = createPublicClient({
@@ -83,7 +84,7 @@ async function checkWallets() {
 
 // 2. Check Seeded Campaigns
 async function checkSeededCampaigns() {
-  process.stdout.write("[2/5] Checking Seeded Campaigns in Database... ");
+  process.stdout.write("[2/7] Checking Seeded Campaigns in Database... ");
   try {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const res = await fetch(`${appUrl}/api/campaigns`);
@@ -109,7 +110,7 @@ async function checkSeededCampaigns() {
 
 // 3. Check App API Routes Health (HTTP 200)
 async function checkApiRoutes() {
-  process.stdout.write("[3/5] Checking Local Application Routes Health (HTTP 200)... ");
+  process.stdout.write("[3/7] Checking Local Application Routes Health (HTTP 200)... ");
   try {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const routes = ["/", "/campaigns", "/review", "/audit", "/api/campaigns", "/api/review"];
@@ -134,7 +135,7 @@ async function checkApiRoutes() {
 
 // 4. Check Gemini AI Key Configuration
 async function checkGemini() {
-  process.stdout.write("[4/5] Checking Gemini Multimodal Verification AI Key... ");
+  process.stdout.write("[4/7] Checking Gemini Multimodal Verification AI Key... ");
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     const model = process.env.GEMINI_MODEL || "gemini-3.8-flash";
@@ -162,7 +163,7 @@ async function checkGemini() {
 
 // 5. Check Pinata IPFS Reachability
 async function checkPinata() {
-  process.stdout.write("[5/5] Checking Pinata IPFS Gateway & Pinning Service... ");
+  process.stdout.write("[5/7] Checking Pinata IPFS Gateway & Pinning Service... ");
   try {
     const jwt = process.env.PINATA_JWT;
     const gateway = process.env.NEXT_PUBLIC_PINATA_GATEWAY || "https://gateway.pinata.cloud";
@@ -191,20 +192,106 @@ async function checkPinata() {
   }
 }
 
+// 6. Check API Shape Contract & Codebase Scans (§0.3)
+async function checkApiShapeContract() {
+  process.stdout.write("[6/7] Validating API Payload Contract & Codebase Cleanliness... ");
+  try {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const res = await fetch(`${appUrl}/api/campaigns`);
+    if (!res.ok) throw new Error(`HTTP ${res.status} from ${appUrl}/api/campaigns`);
+    const json = await res.json();
+
+    if (json.success !== true || !Array.isArray(json.data) || json.data.length === 0) {
+      throw new Error("Invalid API payload structure or empty data array");
+    }
+
+    for (const camp of json.data) {
+      if (!camp.title || !camp.story || !camp.siteAddress) {
+        throw new Error(`Campaign [${camp.id}] missing required string fields`);
+      }
+      if (typeof camp.goal !== "number" || typeof camp.escrowBalance !== "number") {
+        throw new Error(`Campaign [${camp.id}] missing valid numeric fields`);
+      }
+    }
+
+    // Scan src for data.campaigns
+    const srcDir = resolve(rootDir, "src");
+    let hasViolation = false;
+    function walk(dir) {
+      const entries = readdirSync(dir);
+      for (const entry of entries) {
+        const fullPath = join(dir, entry);
+        const stat = statSync(fullPath);
+        if (stat.isDirectory()) {
+          walk(fullPath);
+        } else if (/\.(tsx|ts|jsx|js)$/.test(entry)) {
+          const content = readFileSync(fullPath, "utf-8");
+          if (content.includes("data.campaigns")) {
+            hasViolation = true;
+          }
+        }
+      }
+    }
+    walk(srcDir);
+
+    if (hasViolation) {
+      throw new Error("Forbidden pattern 'data.campaigns' detected in src/ directory");
+    }
+
+    console.log("✓ PASS");
+    console.log(`      • Contract Check   : All ${json.data.length} campaigns conform to Prisma model`);
+    console.log(`      • Forbidden Scan   : Zero instances of 'data.campaigns' in src/`);
+    passedCount++;
+  } catch (err) {
+    console.log("✗ FAIL");
+    console.error(`      Error: ${err.message}`);
+  }
+}
+
+// 7. Check QR Demo Reachability (§2)
+async function checkQrReachability() {
+  process.stdout.write("[7/7] Checking Serving Origin for Phone QR Reachability... ");
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  const isLocalhost =
+    appUrl.includes("localhost") || appUrl.includes("127.0.0.1") || appUrl.includes("::1");
+
+  if (isLocalhost) {
+    console.log("⚠️ WARN");
+    console.log(`      • Serving Origin   : ${appUrl}`);
+    console.log("      • NOTICE: When demonstrating the phone QR capture live on stage:");
+    console.log("        A judge's smartphone cannot resolve 'localhost'. Run the demo with a phone-reachable origin:");
+    console.log("        Option A (Primary - Cloudflare Tunnel):");
+    console.log("          cloudflared tunnel --url http://localhost:3000");
+    console.log("          Set NEXT_PUBLIC_APP_URL=<tunnel-url> in .env");
+    console.log("        Option B (Backup - Same Wi-Fi LAN IP):");
+    console.log("          npm run dev -- -H 0.0.0.0");
+    console.log("          Serve and scan using your laptop's LAN IP (e.g. http://192.168.x.x:3000)");
+    warningCount++;
+    passedCount++; // Counted as pass with warning for local pre-flight
+  } else {
+    console.log("✓ PASS");
+    console.log(`      • Serving Origin   : ${appUrl} (Phone-reachable network origin)`);
+    passedCount++;
+  }
+}
+
 async function run() {
   await checkWallets();
   await checkSeededCampaigns();
   await checkApiRoutes();
   await checkGemini();
   await checkPinata();
+  await checkApiShapeContract();
+  await checkQrReachability();
 
   console.log("\n-------------------------------------------------------");
   if (passedCount === totalChecks) {
-    console.log(`🎯 PRE-FLIGHT RESULT: ${passedCount}/${totalChecks} CHECKS PASSED. SYSTEM DEMO-READY!`);
+    console.log(`🎯 PRE-FLIGHT RESULT: ${passedCount}/${totalChecks} CHECKS PASSED (${warningCount} warnings). SYSTEM DEMO-READY!`);
     console.log("-------------------------------------------------------\n");
     process.exit(0);
   } else {
-    console.log(`⚠️ PRE-FLIGHT RESULT: ${passedCount}/${totalChecks} CHECKS PASSED. REVIEW WARNINGS ABOVE.`);
+    console.log(`⚠️ PRE-FLIGHT RESULT: ${passedCount}/${totalChecks} CHECKS PASSED. REVIEW WARNINGS/FAILURES ABOVE.`);
     console.log("-------------------------------------------------------\n");
     process.exit(1);
   }

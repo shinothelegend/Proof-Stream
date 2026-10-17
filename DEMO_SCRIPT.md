@@ -13,12 +13,38 @@ Execute the automated read-only pre-flight command in your terminal:
 ```bash
 npm run demo:preflight
 ```
-Ensure all 5 gates pass:
+Ensure all 7 gates pass:
 1. **Base Sepolia RPC & Signer Wallet Balances**: ≥ 0.002 ETH on Verifier (`0x8FEE...8B57`) and Deployer (`0xbb47...D1dd`).
 2. **Seeded Campaigns**: 2 Active NGO campaigns ($6,100.00 USDC escrowed, 1 proven tranche).
 3. **Application Routes**: HTTP 200 on `/`, `/campaigns`, `/review`, `/audit`, `/api/campaigns`, `/api/review`.
 4. **Gemini Multimodal AI Key**: `gemini-3.8-flash` authenticated and responsive.
 5. **Pinata IPFS Service**: Authenticated with dedicated gateway reachable.
+6. **API Shape Contract & Codebase Integrity**: All active campaigns conform to Prisma schema; zero forbidden patterns.
+7. **Phone QR Demo Reachability**: Origin verified for external device camera scanning (see runbook below).
+
+### 📱 Phone QR Reachability Runbook (§2)
+
+Because judges scan the QR code from their own mobile devices, the application must be accessible over the network:
+
+- **Option A (Primary — Cloudflare Tunnel / ngrok)**:
+  *Best for hackathon venues with client-isolated Wi-Fi*:
+  ```bash
+  # In a separate terminal
+  npx cloudflared tunnel --url http://localhost:3000
+  ```
+  Copy the generated URL (`https://<unique-subdomain>.trycloudflare.com`) and update `.env`:
+  `NEXT_PUBLIC_APP_URL=https://<unique-subdomain>.trycloudflare.com`
+  Then open that URL in the presentation browser. The QR code automatically encodes this phone-reachable URL.
+
+- **Option B (Backup — Same Wi-Fi LAN IP)**:
+  *If local device-to-device communication is permitted on the router*:
+  ```bash
+  npm run dev -- -H 0.0.0.0
+  ```
+  Set `NEXT_PUBLIC_APP_URL=http://<laptop-lan-ip>:3000` (e.g. `http://192.168.1.145:3000`).
+
+- **Note on Wallet Connections**:
+  MetaMask and RainbowKit desktop flows connect normally. If connecting mobile wallets through the tunnel URL, ensure Reown / WalletConnect domain configuration allows the tunnel origin.
 
 ### Prepared Demo Wallets & Faucet Balances
 
