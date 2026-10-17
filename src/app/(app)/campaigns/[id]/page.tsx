@@ -182,11 +182,9 @@ export default function CampaignDetailPage() {
         <h2 className="font-display font-semibold text-lg text-pix-alert uppercase">Campaign Not Found</h2>
         <p className="text-[14px] font-sans text-pix-dim mt-2">The requested campaign ledger record does not exist.</p>
         <div className="mt-6">
-          <Link href="/campaigns">
-            <SnapButton variant="secondary" size="sm">
-              ← Return to Campaigns
-            </SnapButton>
-          </Link>
+          <SnapButton href="/campaigns" variant="secondary" size="sm">
+            ← Return to Campaigns
+          </SnapButton>
         </div>
       </GlassCard>
     );
@@ -276,12 +274,14 @@ export default function CampaignDetailPage() {
                 </p>
               </div>
 
-              <Link href={`/submit/${campaign.milestones?.[1]?.id || campaign.id}`}>
-                <SnapButton variant="secondary" size="sm">
-                  <UploadCloud className="w-3.5 h-3.5 mr-1 text-pix-accent" />
-                  SUBMIT PROOF
-                </SnapButton>
-              </Link>
+              <SnapButton
+                href={`/submit/${campaign.milestones?.[1]?.id || campaign.id}`}
+                variant="secondary"
+                size="sm"
+              >
+                <UploadCloud className="w-3.5 h-3.5 mr-1 text-pix-accent" />
+                SUBMIT PROOF
+              </SnapButton>
             </div>
 
             <div className="space-y-5">

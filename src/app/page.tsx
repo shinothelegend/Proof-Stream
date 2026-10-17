@@ -187,11 +187,9 @@ export default function LandingPage() {
               <ArrowRight className="w-4 h-4 ml-2" />
             </SnapButton>
 
-            <Link href="/audit" className="w-full sm:w-auto">
-              <SnapButton variant="secondary" size="lg" className="w-full sm:w-auto">
-                <span>VIEW LIVE AUDIT TRAIL</span>
-              </SnapButton>
-            </Link>
+            <SnapButton href="/audit" variant="secondary" size="lg" className="w-full sm:w-auto">
+              <span>VIEW LIVE AUDIT TRAIL</span>
+            </SnapButton>
           </div>
         </section>
 
@@ -485,12 +483,14 @@ export default function LandingPage() {
                     : "100% ESCROWED ($2,500.00 USDC)"}
                 </span>
 
-                <Link href={featuredCampaign ? `/campaigns/${featuredCampaign.id}` : "/campaigns/kalimantan-clean-water"}>
-                  <SnapButton variant="primary" size="md">
-                    <span>VIEW CAMPAIGN DETAILS</span>
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </SnapButton>
-                </Link>
+                <SnapButton
+                  href={featuredCampaign ? `/campaigns/${featuredCampaign.id}` : "/campaigns/kalimantan-clean-water"}
+                  variant="primary"
+                  size="md"
+                >
+                  <span>VIEW CAMPAIGN DETAILS</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </SnapButton>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, useSpring, AnimatePresence } from "framer-motion";
 import { Loader2, Check } from "lucide-react";
 import { clsx } from "clsx";
@@ -18,18 +19,25 @@ export type SnapButtonVariant =
   | "success"
   | "ink";
 
-interface SnapButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SnapButtonProps {
   children: React.ReactNode;
   variant?: SnapButtonVariant;
   size?: "sm" | "md" | "lg";
   className?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
   isLoading?: boolean;
   loadingText?: string;
   isSuccess?: boolean;
   successText?: string;
   isError?: boolean;
   disabledReason?: string;
+  disabled?: boolean;
+  href?: string;
+  target?: string;
+  rel?: string;
+  type?: "button" | "submit" | "reset";
+  id?: string;
+  title?: string;
 }
 
 export function SnapButton({
@@ -45,9 +53,13 @@ export function SnapButton({
   successText,
   isError = false,
   disabledReason,
+  href,
+  target,
+  rel,
+  type = "button",
   ...props
 }: SnapButtonProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const ref = useRef<any>(null);
   const [showSuccessState, setShowSuccessState] = useState(false);
 
   // Success state auto-dismiss after 1.5s
@@ -59,13 +71,13 @@ export function SnapButton({
     }
   }, [isSuccess]);
 
-  // Retuned magnetic spring physics (24px zone, 4px max lean)
-  const springX = useSpring(0, { stiffness: 350, damping: 25 });
-  const springY = useSpring(0, { stiffness: 350, damping: 25 });
+  // Spring physics for magnetic pull / lean (stiffness 400, damping 30)
+  const springX = useSpring(0, { stiffness: 400, damping: 30 });
+  const springY = useSpring(0, { stiffness: 400, damping: 30 });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (disabled || isLoading) return;
-    const rect = buttonRef.current?.getBoundingClientRect();
+    const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
 
     const centerX = rect.left + rect.width / 2;
@@ -89,7 +101,6 @@ export function SnapButton({
   };
 
   const isPrimary = variant === "primary" || variant === "gold";
-  const isSecondary = variant === "secondary" || variant === "outline" || variant === "ghost";
   const isAlert = variant === "alert" || variant === "danger";
   const isMint = variant === "mint" || variant === "success";
 
@@ -112,7 +123,6 @@ export function SnapButton({
     if (variant === "ink") {
       return "bg-[var(--color-ink)] text-[var(--color-bg)] border border-transparent hover:opacity-90";
     }
-    // Secondary / ghost default
     return "bg-[var(--color-panel)] text-[var(--color-ink)] border border-[var(--color-hairline)] hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-accent)]/[0.06]";
   };
 
@@ -128,66 +138,116 @@ export function SnapButton({
     }
   };
 
+  const combinedClassName = twMerge(
+    clsx(
+      "relative inline-flex items-center justify-center font-body font-medium select-none cursor-pointer transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none group",
+      getVariantStyles(),
+      getSizeStyles(),
+      className
+    )
+  );
+
+  const innerContent = (
+    <AnimatePresence mode="wait">
+      {isLoading ? (
+        <motion.span
+          key="loading"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex items-center space-x-2"
+        >
+          <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" />
+          <span>{loadingText || "Processing…"}</span>
+        </motion.span>
+      ) : showSuccessState ? (
+        <motion.span
+          key="success"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          className="flex items-center space-x-1.5 font-semibold"
+        >
+          <Check className="w-4 h-4" />
+          <span>{successText || "Completed ✓"}</span>
+        </motion.span>
+      ) : (
+        <motion.span
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="inline-flex items-center space-x-1.5"
+        >
+          {children}
+        </motion.span>
+      )}
+    </AnimatePresence>
+  );
+
+  if (href) {
+    const isExternal = href.startsWith("http") || href.startsWith("//") || target === "_blank";
+    if (isExternal) {
+      return (
+        <motion.a
+          ref={ref}
+          href={href}
+          target={target}
+          rel={rel || (target === "_blank" ? "noopener noreferrer" : undefined)}
+          data-snap
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onClick={onClick as any}
+          style={{ x: springX, y: springY }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          className={combinedClassName}
+          {...props}
+        >
+          {innerContent}
+        </motion.a>
+      );
+    }
+
+    return (
+      <Link href={href} passHref legacyBehavior={false} className="inline-block">
+        <motion.span
+          ref={ref}
+          data-snap
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onClick={onClick as any}
+          style={{ x: springX, y: springY }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
+          className={combinedClassName}
+          {...props}
+        >
+          {innerContent}
+        </motion.span>
+      </Link>
+    );
+  }
+
   return (
     <motion.button
-      ref={buttonRef}
+      ref={ref}
+      type={type}
+      data-snap
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       disabled={disabled || isLoading}
       title={disabled && disabledReason ? disabledReason : undefined}
-      style={{
-        x: springX,
-        y: springY,
-      }}
+      style={{ x: springX, y: springY }}
+      whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
       animate={isError ? { x: [-4, 4, -4, 4, 0] } : {}}
       transition={{ duration: 0.3 }}
-      className={twMerge(
-        clsx(
-          "relative inline-flex items-center justify-center font-body font-medium select-none cursor-pointer transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none group",
-          getVariantStyles(),
-          getSizeStyles(),
-          className
-        )
-      )}
+      className={combinedClassName}
       {...(props as any)}
     >
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <motion.span
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex items-center space-x-2"
-          >
-            <Loader2 className="w-4 h-4 animate-spin flex-shrink-0" />
-            <span>{loadingText || "Processing…"}</span>
-          </motion.span>
-        ) : showSuccessState ? (
-          <motion.span
-            key="success"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="flex items-center space-x-1.5 font-semibold"
-          >
-            <Check className="w-4 h-4" />
-            <span>{successText || "Completed ✓"}</span>
-          </motion.span>
-        ) : (
-          <motion.span
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="inline-flex items-center space-x-1.5"
-          >
-            {children}
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {innerContent}
     </motion.button>
   );
 }

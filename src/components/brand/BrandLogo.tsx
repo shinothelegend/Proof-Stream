@@ -11,7 +11,7 @@ interface BrandLogoProps {
 export function BrandLogo({
   className = "",
   showWordmark = true,
-  href = "/",
+  href,
   size = 28,
 }: BrandLogoProps) {
   const content = (

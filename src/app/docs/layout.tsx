@@ -38,11 +38,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <div className="flex items-center space-x-3">
-            <Link href="/campaigns" className="hidden sm:inline-block">
-              <SnapButton variant="secondary" size="sm">
-                LAUNCH QUEST BOARD →
-              </SnapButton>
-            </Link>
+            <SnapButton href="/campaigns" variant="secondary" size="sm" className="hidden sm:inline-flex">
+              LAUNCH QUEST BOARD →
+            </SnapButton>
             <PixelDissolve />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

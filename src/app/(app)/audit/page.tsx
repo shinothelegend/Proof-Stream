@@ -90,17 +90,17 @@ export default function PublicAuditPage() {
           </p>
         </div>
 
-        <a
+        <SnapButton
           href={BRAND.links.baseScan}
           target="_blank"
           rel="noopener noreferrer"
+          variant="secondary"
+          size="sm"
           className="self-start sm:self-center"
         >
-          <SnapButton variant="secondary" size="sm">
-            <span>BASESCAN EXPLORER</span>
-            <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-accent" />
-          </SnapButton>
-        </a>
+          <span>BASESCAN EXPLORER</span>
+          <ExternalLink className="w-3.5 h-3.5 ml-1.5 text-pix-accent" />
+        </SnapButton>
       </div>
 
       {/* Search Input */}

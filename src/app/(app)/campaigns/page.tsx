@@ -211,12 +211,15 @@ export default function CampaignsPage() {
 
                 {/* Card Footer Button */}
                 <div className="p-6 pt-0">
-                  <Link href={`/campaigns/${camp.slug || camp.id}`} className="block w-full">
-                    <SnapButton variant="primary" size="sm" className="w-full justify-between">
-                      <span>ENTER QUEST DETAILS</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </SnapButton>
-                  </Link>
+                  <SnapButton
+                    href={`/campaigns/${camp.slug || camp.id}`}
+                    variant="primary"
+                    size="sm"
+                    className="w-full justify-between"
+                  >
+                    <span>ENTER QUEST DETAILS</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </SnapButton>
                 </div>
               </div>
             );
