@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useInView } from "motion/react";
+import { Accent } from "@/components/ui/Accent";
 
 interface TypewriterProps {
   text: string;
@@ -57,18 +58,49 @@ export function Typewriter({
 
   const displayedText = text.slice(0, charIndex);
 
-  // Optional word highlighting in gold
+  // Optional word highlighting with Cursive Accent (§5)
   const renderFormattedText = () => {
-    if (!highlightWord || !displayedText.includes(highlightWord)) {
+    if (!highlightWord) {
       return displayedText;
     }
 
-    const parts = displayedText.split(highlightWord);
+    const lowerText = text.toLowerCase();
+    const lowerHighlight = highlightWord.toLowerCase();
+    const matchStart = lowerText.indexOf(lowerHighlight);
+
+    if (matchStart === -1) {
+      return displayedText;
+    }
+
+    const matchEnd = matchStart + highlightWord.length;
+
+    // Characters typed before highlight
+    if (charIndex <= matchStart) {
+      return text.slice(0, charIndex);
+    }
+
+    const before = text.slice(0, matchStart);
+
+    // Currently typing the highlight word
+    if (charIndex <= matchEnd) {
+      const currentHighlight = text.slice(matchStart, charIndex);
+      return (
+        <>
+          {before}
+          <Accent>{currentHighlight}</Accent>
+        </>
+      );
+    }
+
+    // Finished typing the highlight word, continuing text after
+    const fullHighlight = text.slice(matchStart, matchEnd);
+    const after = text.slice(matchEnd, charIndex);
+
     return (
       <>
-        {parts[0]}
-        <span className="text-[var(--color-accent)]">{highlightWord}</span>
-        {parts.slice(1).join(highlightWord)}
+        {before}
+        <Accent>{fullHighlight}</Accent>
+        {after}
       </>
     );
   };

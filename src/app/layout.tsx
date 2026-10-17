@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { BRAND } from "@/lib/brand";
@@ -25,6 +25,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const caveat = Caveat({
+  weight: ["500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-script",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: `${BRAND.name} — Autonomous Verification Streaming Protocol`,
   description: BRAND.subheadline,
@@ -42,7 +49,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen text-[var(--color-ink)] bg-[var(--color-bg)] font-body antialiased selection:bg-[var(--color-accent)] selection:text-black">
         <Providers>{children}</Providers>

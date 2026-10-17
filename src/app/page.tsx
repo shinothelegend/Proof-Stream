@@ -13,6 +13,7 @@ import {
   FileCheck2,
 } from "lucide-react";
 import { Typewriter } from "@/components/pixel/Typewriter";
+import { Accent } from "@/components/ui/Accent";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelDissolve } from "@/components/pixel/PixelDissolve";
 import { PixelProgress } from "@/components/pixel/PixelProgress";
@@ -169,7 +170,7 @@ export default function LandingPage() {
 
           {/* Typewriter H1: 56-72px Space Grotesk */}
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-[68px] text-pix-ink tracking-tight leading-[1.15] max-w-4xl mx-auto">
-            <Typewriter text="TRUST IS EARNED IN BLOCKS" highlightWord="BLOCKS" speed={45} />
+            <Typewriter text="Trust is earned in blocks." highlightWord="blocks" speed={45} />
           </h1>
 
           {/* Subtitle: 17px Inter */}
@@ -255,7 +256,7 @@ export default function LandingPage() {
               EXECUTION PIPELINE
             </span>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
-              How ProofStream Streams Aid
+              How ProofStream <Accent>streams</Accent> aid
             </h2>
             <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
               Four deterministic steps. Zero human gatekeepers. 100% cryptographic consensus.
@@ -324,7 +325,7 @@ export default function LandingPage() {
                 PRODUCTION STACK
               </span>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
-                What Powers ProofStream
+                What <Accent>powers</Accent> ProofStream
               </h2>
               <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
                 Engineered with production-grade protocols. Every layer independently auditable.
@@ -400,7 +401,7 @@ export default function LandingPage() {
               THE ACCOUNTABILITY GAP
             </span>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
-              Why Proof-of-Impact is Mandatory
+              Why proof-of-<Accent>impact</Accent> is mandatory
             </h2>
             <p className="text-[15px] text-pix-dim font-sans max-w-xl mx-auto">
               Uncontested humanitarian funding statistics from OCHA, UNDP, and UNCTAD.

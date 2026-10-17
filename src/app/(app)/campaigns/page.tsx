@@ -71,7 +71,7 @@ export default function CampaignsPage() {
             AVAILABLE BOUNTIES & IMPACT QUESTS
           </span>
           <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1.5">
-            <Typewriter text="SELECT A VERIFIABLE IMPACT QUEST" speed={35} />
+            <Typewriter text="Select a verifiable impact quest" highlightWord="verifiable" speed={35} />
           </h1>
         </div>
 

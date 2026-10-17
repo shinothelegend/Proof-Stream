@@ -92,7 +92,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {/* Left: Brand Logo & Wordmark + Section breadcrumb */}
           <div className="flex items-center space-x-4 w-full md:w-auto justify-between md:justify-start">
             <Link href="/" className="flex items-center space-x-3 group">
-              <BrandLogo size={28} showWordmark={true} />
+              <BrandLogo size={28} showWordmark={true} showTagline={true} />
             </Link>
 
             <span className="hidden sm:inline-block text-pix-hairline">/</span>

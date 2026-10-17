@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
+import { Accent } from "@/components/ui/Accent";
 
 interface BrandLogoProps {
   className?: string;
   showWordmark?: boolean;
+  showTagline?: boolean;
   href?: string;
   size?: number;
 }
@@ -11,6 +13,7 @@ interface BrandLogoProps {
 export function BrandLogo({
   className = "",
   showWordmark = true,
+  showTagline = false,
   href,
   size = 28,
 }: BrandLogoProps) {
@@ -44,9 +47,16 @@ export function BrandLogo({
       </svg>
 
       {showWordmark && (
-        <span className="font-display font-semibold text-lg tracking-tight text-[var(--color-ink)]">
-          ProofStream
-        </span>
+        <div className="flex flex-col text-left">
+          <span className="font-display font-semibold text-lg tracking-tight text-[var(--color-ink)] leading-none">
+            ProofStream
+          </span>
+          {showTagline && (
+            <span className="text-[11px] font-sans text-pix-dim leading-tight mt-1 hidden sm:inline-block">
+              streaming trust <Accent className="text-[13px]">on-chain</Accent>
+            </span>
+          )}
+        </div>
       )}
     </div>
   );

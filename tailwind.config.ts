@@ -41,6 +41,7 @@ const config: Config = {
         body: ["var(--font-body)", '"Inter"', "sans-serif"],
         sans: ["var(--font-body)", "Inter", "sans-serif"],
         mono: ["var(--font-mono)", '"JetBrains Mono"', "monospace"],
+        script: ["var(--font-script)", '"Caveat"', "cursive"],
       },
       spacing: {
         "18": "4.5rem",

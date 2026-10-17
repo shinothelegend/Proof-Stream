@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Layers, Lock, Cpu, FileCheck2, Terminal, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { Accent } from "@/components/ui/Accent";
 import { SnapButton } from "@/components/pixel/SnapButton";
 
 const DOCS_INDEX = [
@@ -45,7 +46,7 @@ export default function DocsIndexPage() {
           ENGINEERING DOCUMENTATION
         </Badge>
         <h1 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink tracking-tight mt-1">
-          ProofStream Documentation
+          ProofStream <Accent>architecture</Accent> & documentation
         </h1>
         <p className="text-[15px] text-pix-dim mt-2 leading-relaxed">
           ProofStream is an autonomous verification streaming protocol for humanitarian aid. Donors fund
