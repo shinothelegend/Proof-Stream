@@ -81,6 +81,12 @@ Always start by establishing a design system before writing components.
 }
 ```
 
+### Design Token Anti-Regression Sweep
+In utility CSS frameworks where custom token namespaces are used (e.g., `pix-*`, `brand-*`):
+- Undefined utility classes and CSS variables fail **silently** without throwing compiler errors, causing borders, hovers, and accents to invisibly vanish.
+- Always implement an automated token sweep script (`verify:tokens`) that scans all JSX/TSX template files for namespaced utility classes and CSS `var(--color-*)` usages, cross-referencing them against `tailwind.config.ts` and `globals.css`.
+- Wire `verify:tokens` as a mandatory CI and build gate alongside type-checking.
+
 ### Typography Scale
 
 ```css
@@ -148,11 +154,18 @@ Always start by establishing a design system before writing components.
 }
 ```
 
+### Stacking Contexts & Page Transition Invariants
+- **NEVER animate `filter: blur(...)` on route templates, layout containers, or ancestor wrappers.** Any non-`none` CSS `filter` on an element creates a new containing block for all descendants. This detaches all `position: fixed` children (such as modals, dialogs, custom cursor providers, toasts, and driver.js spotlights) from the viewport, causing severe displacement and stacking context breakage during scroll.
+- **Route transitions must strictly animate `opacity` and transform `y` (e.g. `opacity: 0 -> 1`, `y: 8 -> 0`).**
+- **Portal Rendering for Fullscreen Overlays:** Theme transition grids (like `PixelDissolve`), loading wipes, and global overlays must render directly via React `createPortal(content, document.body)` so they live outside route wrappers.
+
 ---
 
 ## Component Patterns
 
-### Buttons
+### Buttons & Interactive Polymorphism
+- **Prevent Invalid Button-in-Link Nesting:** Never wrap interactive `<button>` elements in Next.js/HTML `<Link>` tags (`<Link><button>...</button></Link>`), which violates HTML specs, breaks keyboard accessibility, and causes hydration mismatches.
+- **Polymorphic Href Support:** Button components must accept an `href` prop and conditionally render a framework Link or `motion.a` when `href` is provided, preserving identical styling and physics.
 
 ```css
 .btn {
