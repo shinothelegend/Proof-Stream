@@ -46,10 +46,10 @@ export default function LandingPage() {
   const [featuredCampaign, setFeaturedCampaign] = useState<{
     id: string;
     title: string;
-    location: string;
-    totalFunded: number;
-    targetAmount: number;
-    description: string;
+    siteAddress: string;
+    escrowBalance: number;
+    goal: number;
+    story: string;
   } | null>(null);
 
   const fetchCampaigns = () => {
@@ -68,15 +68,15 @@ export default function LandingPage() {
             totalVerdicts: data.stats.releasedTranchesCount ?? 0,
           });
         }
-        if (data.success && data.campaigns && data.campaigns.length > 0) {
-          const camp = data.campaigns[0];
+        if (data.success && data.data && data.data.length > 0) {
+          const camp = data.data[0];
           setFeaturedCampaign({
             id: camp.id,
             title: camp.title,
-            location: camp.location,
-            totalFunded: camp.totalFunded ?? 0,
-            targetAmount: camp.targetAmount ?? 0,
-            description: camp.description,
+            siteAddress: camp.siteAddress,
+            escrowBalance: camp.escrowBalance ?? 0,
+            goal: camp.goal ?? 0,
+            story: camp.story,
           });
         }
         setStatsLoading(false);
@@ -490,7 +490,7 @@ export default function LandingPage() {
                     ACTIVE CAMPAIGN
                   </span>
                   <span className="text-[13px] font-mono text-pix-dim">
-                    {featuredCampaign.location}
+                    {featuredCampaign.siteAddress}
                   </span>
                 </div>
 
@@ -505,25 +505,32 @@ export default function LandingPage() {
                   <h3 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
                     {featuredCampaign.title}
                   </h3>
-                  <p className="text-[15px] text-pix-dim leading-relaxed font-sans">
-                    {featuredCampaign.description}
+                  <p className="text-[15px] text-pix-dim leading-relaxed font-sans line-clamp-3">
+                    {featuredCampaign.story}
                   </p>
                 </div>
 
                 {/* Funding Progress */}
-                <PixelProgress
-                  current={featuredCampaign.totalFunded}
-                  total={featuredCampaign.targetAmount}
-                  variant="gold"
-                  height={12}
-                  showLabel
-                />
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex justify-between items-center text-[13px]">
+                    <span className="text-pix-dim font-sans uppercase tracking-wider font-semibold">Escrowed</span>
+                    <span className="text-pix-accent font-mono font-medium">
+                      {formatUSDC(featuredCampaign.escrowBalance)} / {formatUSDC(featuredCampaign.goal)}
+                    </span>
+                  </div>
+                  <PixelProgress
+                    current={featuredCampaign.escrowBalance}
+                    total={featuredCampaign.goal}
+                    variant="gold"
+                    height={12}
+                  />
+                </div>
 
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-hairline)]">
                   <span className="font-mono text-[15px] text-pix-accent font-medium">
-                    {featuredCampaign.targetAmount > 0
-                      ? `${Math.round((featuredCampaign.totalFunded / featuredCampaign.targetAmount) * 100)}% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`
-                      : `0% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`}
+                    {featuredCampaign.goal > 0
+                      ? `${Math.round((featuredCampaign.escrowBalance / featuredCampaign.goal) * 100)}% ESCROWED (${formatUSDC(featuredCampaign.escrowBalance)})`
+                      : `0% ESCROWED (${formatUSDC(featuredCampaign.escrowBalance)})`}
                   </span>
 
                   <SnapButton
