@@ -25,6 +25,7 @@ import { SnapButton } from "@/components/pixel/SnapButton";
 import { Typewriter } from "@/components/pixel/Typewriter";
 import { PixelProgress } from "@/components/pixel/PixelProgress";
 import { formatTxHash } from "@/lib/format";
+import { QRCapturePanel } from "@/components/submit/QRCapturePanel";
 
 export default function SubmitEvidencePage() {
   const params = useParams();
@@ -61,7 +62,7 @@ export default function SubmitEvidencePage() {
       .then((data) => {
         if (data.success && data.data?.length > 0) {
           const allMs = data.data.flatMap((c: any) =>
-            c.milestones.map((m: any) => ({ ...m, campaignTitle: c.title }))
+            c.milestones.map((m: any) => ({ ...m, campaignId: c.id, campaignTitle: c.title }))
           );
           setMilestones(allMs);
 
@@ -73,6 +74,8 @@ export default function SubmitEvidencePage() {
         }
       });
   }, [milestoneIdParam]);
+
+  const activeMilestone = milestones.find((m) => m.id === selectedMilestoneId);
 
   // Handle Photo selection
   const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -312,23 +315,40 @@ export default function SubmitEvidencePage() {
               </div>
 
               {/* Flags list */}
-              {verdictResult.flags?.length > 0 && (
-                <div className="space-y-1.5">
-                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-alert block">
-                    Security Flags Detected
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {verdictResult.flags.map((f: string, idx: number) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 text-[13px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
-                      >
-                        {f}
-                      </span>
-                    ))}
+              {(() => {
+                const parsedFlags: string[] = Array.isArray(verdictResult.flags)
+                  ? verdictResult.flags
+                  : typeof verdictResult.flags === "string"
+                  ? (() => {
+                      try {
+                        const parsed = JSON.parse(verdictResult.flags);
+                        return Array.isArray(parsed) ? parsed : [];
+                      } catch {
+                        return verdictResult.flags ? [verdictResult.flags] : [];
+                      }
+                    })()
+                  : [];
+
+                if (parsedFlags.length === 0) return null;
+
+                return (
+                  <div className="space-y-1.5">
+                    <span className="font-sans text-[13px] uppercase font-semibold text-pix-alert block">
+                      Security Flags Detected
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {parsedFlags.map((f: string, idx: number) => (
+                        <span
+                          key={idx}
+                          className="px-2.5 py-1 text-[13px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
+                        >
+                          {f}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* On-Chain Transaction link */}
               {verdictResult.txHash && (
@@ -387,12 +407,24 @@ export default function SubmitEvidencePage() {
             </div>
           </motion.div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Milestone Selector */}
-            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
-              <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">
-                Select Active Milestone Tranche
-              </label>
+          <div className="space-y-6">
+            <QRCapturePanel
+              milestoneId={selectedMilestoneId}
+              campaignId={activeMilestone?.campaignId}
+              onSubmissionDetected={(sub) => {
+                if (sub.verdict) {
+                  setVerdictResult(sub.verdict);
+                  setStage("VERDICT");
+                }
+              }}
+            />
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Milestone Selector */}
+              <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
+                <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">
+                  Select Active Milestone Tranche
+                </label>
               <select
                 value={selectedMilestoneId}
                 onChange={(e) => setSelectedMilestoneId(e.target.value)}
@@ -568,7 +600,8 @@ export default function SubmitEvidencePage() {
               </SnapButton>
             </div>
           </form>
-        )}
+        </div>
+      )}
       </AnimatePresence>
     </div>
   );
