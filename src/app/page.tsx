@@ -33,25 +33,60 @@ import { formatUSDC } from "@/lib/format";
 
 export default function LandingPage() {
   const [triggerSurfer, setTriggerSurfer] = useState(false);
-  const [stats, setStats] = useState({
-    totalEscrowed: 2500,
-    totalReleased: 1200,
-    totalVerdicts: 1,
-  });
+  const [stats, setStats] = useState<{
+    totalEscrowed: number;
+    totalReleased: number;
+    totalVerdicts: number;
+  } | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState(false);
+  const [featuredCampaign, setFeaturedCampaign] = useState<{
+    id: string;
+    title: string;
+    location: string;
+    totalFunded: number;
+    targetAmount: number;
+    description: string;
+  } | null>(null);
 
-  useEffect(() => {
+  const fetchCampaigns = () => {
+    setStatsLoading(true);
+    setStatsError(false);
     fetch("/api/campaigns")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch campaigns");
+        return res.json();
+      })
       .then((data) => {
         if (data.success && data.stats) {
           setStats({
-            totalEscrowed: data.stats.totalEscrowedUSDC || 2500,
-            totalReleased: data.stats.totalReleasedUSDC || 1200,
-            totalVerdicts: data.stats.releasedTranchesCount || 1,
+            totalEscrowed: data.stats.totalEscrowedUSDC ?? 0,
+            totalReleased: data.stats.totalReleasedUSDC ?? 0,
+            totalVerdicts: data.stats.releasedTranchesCount ?? 0,
           });
         }
+        if (data.success && data.campaigns && data.campaigns.length > 0) {
+          const camp = data.campaigns[0];
+          setFeaturedCampaign({
+            id: camp.id,
+            title: camp.title,
+            location: camp.location,
+            totalFunded: camp.totalFunded ?? 0,
+            targetAmount: camp.targetAmount ?? 0,
+            description: camp.description,
+          });
+        }
+        setStatsLoading(false);
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("Error loading stats and campaigns:", err);
+        setStatsError(true);
+        setStatsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchCampaigns();
   }, []);
 
   const handleGetStarted = () => {
@@ -166,26 +201,53 @@ export default function LandingPage() {
         {/* 2. Live Stats Strip */}
         <section className="py-12 bg-pix-panel border-y border-[var(--color-pix-hairline)]">
           <div className="max-w-7xl mx-auto px-5 sm:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <StatChip
-                label="TOTAL ESCROWED"
-                value={formatUSDC(stats.totalEscrowed)}
-                subValue="USDC ON BASE"
-                icon={<PixelChest />}
-              />
-              <StatChip
-                label="TRANCHES PROVEN"
-                value={`${stats.totalVerdicts} RELEASED`}
-                subValue="EAS ATTESTED"
-                icon={<PixelShield />}
-              />
-              <StatChip
-                label="SETTLEMENT CHAIN"
-                value="BASE SEPOLIA"
-                subValue="CHAIN ID 84532"
-                icon={<PixelScroll />}
-              />
-            </div>
+            {statsLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((n) => (
+                  <div
+                    key={n}
+                    className="p-4 rounded-[10px] bg-pix-bg/60 border border-[var(--color-pix-hairline)] animate-pulse flex items-center space-x-3 h-20"
+                  >
+                    <div className="w-9 h-9 rounded-[8px] bg-white/5 flex-shrink-0" />
+                    <div className="space-y-2 flex-1">
+                      <div className="h-3 bg-white/10 rounded w-24" />
+                      <div className="h-5 bg-white/10 rounded w-32" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : statsError || !stats ? (
+              <div className="flex items-center justify-center p-4 rounded-[10px] bg-pix-bg border border-[var(--color-alert)]/30 text-pix-alert text-sm space-x-3">
+                <span>Live on-chain stats temporarily unavailable.</span>
+                <button
+                  onClick={fetchCampaigns}
+                  className="px-3 py-1 text-xs font-mono uppercase bg-pix-panel hover:bg-pix-alert/20 border border-[var(--color-alert)]/50 rounded cursor-pointer transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <StatChip
+                  label="TOTAL ESCROWED"
+                  value={formatUSDC(stats.totalEscrowed)}
+                  subValue="USDC ON BASE"
+                  icon={<PixelChest />}
+                />
+                <StatChip
+                  label="TRANCHES PROVEN"
+                  value={`${stats.totalVerdicts} RELEASED`}
+                  subValue="EAS ATTESTED"
+                  icon={<PixelShield />}
+                />
+                <StatChip
+                  label="SETTLEMENT CHAIN"
+                  value="BASE SEPOLIA"
+                  subValue="CHAIN ID 84532"
+                  icon={<PixelScroll />}
+                />
+              </div>
+            )}
           </div>
         </section>
 
@@ -361,7 +423,7 @@ export default function LandingPage() {
                 </div>
 
                 <PixelProgress
-                  current={parseInt(item.metric) || 75}
+                  current={item.barPercent || 75}
                   total={100}
                   variant="gold"
                   height={10}
@@ -386,36 +448,44 @@ export default function LandingPage() {
                   ACTIVE CAMPAIGN
                 </span>
                 <span className="text-[13px] font-mono text-pix-dim">
-                  CENTRAL KALIMANTAN, INDONESIA
+                  {featuredCampaign?.location || "CENTRAL KALIMANTAN, INDONESIA"}
                 </span>
               </div>
 
               {/* Procedural Banner: >= 280px tall canvas with title overlay (§6.1) */}
               <PixelBanner
-                seed="kalimantan-clean-water"
-                title="Central Kalimantan Bio-Sand Filtration"
+                seed={featuredCampaign?.id || "kalimantan-clean-water"}
+                title={featuredCampaign?.title || "Central Kalimantan Bio-Sand Filtration"}
                 className="h-72 sm:h-80"
               />
 
               <div className="space-y-3 pt-2">
                 <h3 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
-                  Clean Drinking Water & Sanitation for Kahayan Basin Communities
+                  {featuredCampaign?.title || "Clean Drinking Water & Sanitation for Kahayan Basin Communities"}
                 </h3>
                 <p className="text-[15px] text-pix-dim leading-relaxed font-sans">
-                  Tirta Lestari Borneo Initiative deploys ceramic bio-sand water filtration
-                  units and family hygiene kits to 3,400 indigenous Dayak families.
+                  {featuredCampaign?.description ||
+                    "Tirta Lestari Borneo Initiative deploys ceramic bio-sand water filtration units and family hygiene kits to 3,400 indigenous Dayak families."}
                 </p>
               </div>
 
               {/* Funding Progress */}
-              <PixelProgress current={2500} total={2500} variant="gold" height={12} showLabel />
+              <PixelProgress
+                current={featuredCampaign ? featuredCampaign.totalFunded : 2500}
+                total={featuredCampaign ? featuredCampaign.targetAmount : 2500}
+                variant="gold"
+                height={12}
+                showLabel
+              />
 
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-pix-hairline)]">
                 <span className="font-mono text-[15px] text-pix-accent font-medium">
-                  100% ESCROWED ($2,500.00 USDC)
+                  {featuredCampaign && featuredCampaign.targetAmount > 0
+                    ? `${Math.round((featuredCampaign.totalFunded / featuredCampaign.targetAmount) * 100)}% ESCROWED (${formatUSDC(featuredCampaign.totalFunded)})`
+                    : "100% ESCROWED ($2,500.00 USDC)"}
                 </span>
 
-                <Link href="/campaigns/kalimantan-clean-water">
+                <Link href={featuredCampaign ? `/campaigns/${featuredCampaign.id}` : "/campaigns/kalimantan-clean-water"}>
                   <SnapButton variant="primary" size="md">
                     <span>VIEW CAMPAIGN DETAILS</span>
                     <ArrowRight className="w-4 h-4 ml-2" />

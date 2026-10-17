@@ -10,8 +10,6 @@ import {
   ShieldCheck,
   FileCheck2,
   BookOpen,
-  ArrowRight,
-  ExternalLink,
 } from "lucide-react";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelDissolve } from "@/components/pixel/PixelDissolve";
@@ -39,26 +37,52 @@ const navItems: NavItem[] = [
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [role, setRole] = useState<"Donor" | "Field Worker" | "Reviewer">("Donor");
-  const [stats, setStats] = useState({
-    totalEscrowed: 2500,
-    totalReleased: 1200,
-    totalVerdicts: 1,
-  });
+  const [stats, setStats] = useState<{
+    totalEscrowed: number;
+    totalReleased: number;
+    totalVerdicts: number;
+  } | null>(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsError, setStatsError] = useState(false);
 
   useEffect(() => {
+    // Load persisted role
+    try {
+      const savedRole = localStorage.getItem("proofstream.role") as any;
+      if (savedRole && ["Donor", "Field Worker", "Reviewer"].includes(savedRole)) {
+        setRole(savedRole);
+      }
+    } catch {}
+
+    setStatsLoading(true);
     fetch("/api/campaigns")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load HUD stats");
+        return res.json();
+      })
       .then((data) => {
         if (data.success && data.stats) {
           setStats({
-            totalEscrowed: data.stats.totalEscrowedUSDC || 2500,
-            totalReleased: data.stats.totalReleasedUSDC || 1200,
-            totalVerdicts: data.stats.releasedTranchesCount || 1,
+            totalEscrowed: data.stats.totalEscrowedUSDC ?? 0,
+            totalReleased: data.stats.totalReleasedUSDC ?? 0,
+            totalVerdicts: data.stats.releasedTranchesCount ?? 0,
           });
         }
+        setStatsLoading(false);
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("HUD stats load error:", err);
+        setStatsError(true);
+        setStatsLoading(false);
+      });
   }, []);
+
+  const handleRoleChange = (newRole: "Donor" | "Field Worker" | "Reviewer") => {
+    setRole(newRole);
+    try {
+      localStorage.setItem("proofstream.role", newRole);
+    } catch {}
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-pix-bg text-pix-ink">
@@ -85,31 +109,51 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {/* Right: Live Escrow StatChips + Role Pill + Theme Toggle + Wallet Connect */}
           <div className="flex flex-wrap items-center justify-end gap-3 w-full md:w-auto">
             <div className="hidden lg:flex items-center space-x-2.5">
-              <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
-                <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Escrowed</span>
-                <span className="text-pix-accent font-mono font-medium text-[14px]">{formatUSDC(stats.totalEscrowed)}</span>
-              </div>
-              <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
-                <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Proven</span>
-                <span className="text-pix-accent font-mono font-medium text-[14px]">{stats.totalVerdicts} Tranche</span>
-              </div>
+              {statsLoading ? (
+                <div className="h-8 w-44 rounded-[10px] bg-pix-bg/60 border border-[var(--color-pix-hairline)] animate-pulse" />
+              ) : statsError || !stats ? (
+                <span className="text-[11px] font-mono text-pix-dim">STATS OFFLINE</span>
+              ) : (
+                <>
+                  <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
+                    <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Escrowed</span>
+                    <span className="text-pix-accent font-mono font-medium text-[14px]">{formatUSDC(stats.totalEscrowed)}</span>
+                  </div>
+                  <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
+                    <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Proven</span>
+                    <span className="text-pix-accent font-mono font-medium text-[14px]">{stats.totalVerdicts} Tranche</span>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Role Switcher Pill */}
             <div className="flex items-center bg-pix-bg border border-[var(--color-pix-hairline)] rounded-[10px] p-1">
-              {(["Donor", "Field Worker", "Reviewer"] as const).map((r) => (
-                <button
-                  key={r}
-                  onClick={() => setRole(r)}
-                  className={`text-[12px] font-sans font-semibold uppercase tracking-wider px-3 py-1 rounded-[8px] transition-all cursor-pointer ${
-                    role === r
-                      ? "bg-pix-accent text-[#1D1D26] shadow-sm"
-                      : "text-pix-dim hover:text-pix-ink"
-                  }`}
-                >
-                  {r === "Field Worker" ? "Worker" : r}
-                </button>
-              ))}
+              {(["Donor", "Field Worker", "Reviewer"] as const).map((r) => {
+                const isSelected = role === r;
+                return (
+                  <button
+                    key={r}
+                    onClick={() => handleRoleChange(r)}
+                    style={
+                      isSelected
+                        ? {
+                            backgroundColor: "var(--color-accent)",
+                            color: "#0E0E12",
+                            fontWeight: 700,
+                          }
+                        : undefined
+                    }
+                    className={`text-[12px] font-sans font-semibold uppercase tracking-wider px-3 py-1 rounded-[8px] transition-all cursor-pointer ${
+                      isSelected
+                        ? "shadow-sm"
+                        : "text-pix-dim hover:text-pix-ink"
+                    }`}
+                  >
+                    {r === "Field Worker" ? "Worker" : r}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Desktop Theme Toggle */}
@@ -135,17 +179,37 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="border-t border-[var(--color-pix-hairline)] bg-pix-bg/70 px-5">
           <div className="max-w-7xl mx-auto flex items-center space-x-2 overflow-x-auto py-2.5 scrollbar-none">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== "/campaigns" && pathname.startsWith(item.href));
+              const isCurrent =
+                item.href === "/campaigns"
+                  ? pathname === "/campaigns" || (pathname.startsWith("/campaigns/") && !pathname.includes("/submit"))
+                  : item.href.startsWith("/submit")
+                  ? pathname.startsWith("/submit")
+                  : pathname === item.href || pathname.startsWith(item.href);
               const Icon = item.icon;
 
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-[13px] font-sans font-semibold uppercase tracking-wider px-4 py-2 rounded-[10px] border transition-all flex items-center space-x-2 flex-shrink-0 ${
-                    isActive
-                      ? "bg-pix-accent text-[#1D1D26] border-pix-accent shadow-sm"
-                      : "bg-pix-panel text-pix-dim border-[var(--color-pix-hairline)] hover:text-pix-ink hover:border-[var(--color-pix-accent)]/40"
+                  style={
+                    isCurrent
+                      ? {
+                          backgroundColor: "var(--color-accent)",
+                          color: "#0E0E12",
+                          borderColor: "var(--color-accent)",
+                          fontWeight: 700,
+                          boxShadow: "0 0 16px rgba(255, 180, 84, 0.45)",
+                        }
+                      : {
+                          backgroundColor: "var(--color-panel)",
+                          color: "var(--color-dim)",
+                          borderColor: "var(--color-hairline)",
+                        }
+                  }
+                  className={`text-[13px] font-sans uppercase tracking-wider px-4 py-2 rounded-[10px] border transition-all flex items-center space-x-2 flex-shrink-0 cursor-pointer ${
+                    isCurrent
+                      ? ""
+                      : "hover:text-pix-ink hover:border-[var(--color-accent)]/50"
                   }`}
                 >
                   <Icon className="w-4 h-4" />

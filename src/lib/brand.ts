@@ -20,24 +20,28 @@ export const BRAND = {
       label: "Direct Aid Reaching Local NGOs",
       description: "Only 4.5% of humanitarian funding reached local/national actors in 2023 vs 25% Grand Bargain target (OCHA/FTS, 2024).",
       source: "OCHA/FTS via Défis Humanitaires, 2024",
+      barPercent: 18,
     },
     {
       metric: "1.2%",
       label: "Direct Funding Historical Low",
       description: "Direct funding to frontline local NGOs dropped to a five-year low in 2021 before slow recovery.",
       source: "Development Initiatives / The New Humanitarian",
+      barPercent: 12,
     },
     {
       metric: "10×",
       label: "Lost to Corruption vs ODA",
       description: "UNDP estimates illicit financial flows and corruption in developing nations exceed total official development assistance by 10×.",
       source: "UNDP Global Report on Illicit Flows",
+      barPercent: 90,
     },
     {
       metric: "$88B+",
       label: "Annual Illegal Capital Flight",
       description: "Over $88 Billion lost annually from Africa alone, starving critical infrastructure projects of verified resources.",
       source: "UNCTAD Economic Development in Africa",
+      barPercent: 88,
     },
   ],
 };
