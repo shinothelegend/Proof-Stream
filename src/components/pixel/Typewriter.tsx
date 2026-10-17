@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "motion/react";
 
 interface TypewriterProps {
   text: string;
@@ -39,8 +39,6 @@ export function Typewriter({
       setCharIndex((prev) => {
         if (prev >= text.length) {
           clearInterval(interval);
-          // Hide cursor after ~1.5s (2 blinks)
-          setTimeout(() => setShowCursor(false), 1500);
           return prev;
         }
         return prev + 1;
@@ -49,6 +47,13 @@ export function Typewriter({
 
     return () => clearInterval(interval);
   }, [isInView, text, speed]);
+
+  useEffect(() => {
+    if (charIndex >= text.length && text.length > 0) {
+      const timer = setTimeout(() => setShowCursor(false), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [charIndex, text.length]);
 
   const displayedText = text.slice(0, charIndex);
 

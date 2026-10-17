@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Camera,
   MapPin,
@@ -20,7 +20,6 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { Typewriter } from "@/components/pixel/Typewriter";
@@ -214,7 +213,7 @@ export default function SubmitEvidencePage() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
           >
-            <GlassCard className="p-8 sm:p-10 text-center space-y-6 border border-pix-accent/50 shadow-2xl">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel p-8 sm:p-10 text-center space-y-6 border border-pix-accent/50 shadow-2xl">
               <div className="relative w-16 h-16 mx-auto rounded-[12px] bg-pix-accent/15 border border-pix-accent flex items-center justify-center text-pix-accent">
                 <Loader2 className="w-8 h-8 animate-spin" />
               </div>
@@ -243,7 +242,7 @@ export default function SubmitEvidencePage() {
                   <span>Base Sepolia Attestation</span>
                 </div>
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
         ) : stage === "VERDICT" && verdictResult ? (
           <motion.div
@@ -252,8 +251,8 @@ export default function SubmitEvidencePage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
           >
-            <GlassCard
-              className={`p-6 sm:p-8 space-y-6 border ${
+            <div
+              className={`rounded-[10px] card-chamfer bg-pix-panel p-6 sm:p-8 space-y-6 border shadow-card ${
                 verdictResult.verdict === "PASSED"
                   ? "border-pix-success/40 bg-pix-success/[0.03]"
                   : verdictResult.verdict === "REJECTED"
@@ -350,12 +349,12 @@ export default function SubmitEvidencePage() {
                   INSPECT PUBLIC AUDIT →
                 </SnapButton>
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Milestone Selector */}
-            <GlassCard className="p-5 space-y-2">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
               <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
                 Select Active Milestone Tranche
               </label>
@@ -370,10 +369,10 @@ export default function SubmitEvidencePage() {
                   </option>
                 ))}
               </select>
-            </GlassCard>
+            </div>
 
             {/* Field Worker Identity */}
-            <GlassCard className="p-5 space-y-2">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
               <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
                 Field Operative Identity
               </label>
@@ -384,10 +383,10 @@ export default function SubmitEvidencePage() {
                 placeholder="Worker Name / Lead Engineer"
                 className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent shadow-sm"
               />
-            </GlassCard>
+            </div>
 
             {/* Photo Capture (Mandatory) */}
-            <GlassCard className="p-5 space-y-3">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                   <Camera className="w-4 h-4 text-pix-accent" />
@@ -426,10 +425,10 @@ export default function SubmitEvidencePage() {
                   />
                 </label>
               )}
-            </GlassCard>
+            </div>
 
             {/* Geolocation Tagging Helper */}
-            <GlassCard className="p-5 flex items-center justify-between">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 flex items-center justify-between">
               <div className="space-y-0.5">
                 <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1">
                   <MapPin className="w-4 h-4 text-pix-accent" />
@@ -450,10 +449,10 @@ export default function SubmitEvidencePage() {
               >
                 {isGettingGps ? "Acquiring…" : "Get GPS"}
               </SnapButton>
-            </GlassCard>
+            </div>
 
             {/* Receipt / Invoice Upload (OCR) */}
-            <GlassCard className="p-5 space-y-3">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
               <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                 <FileText className="w-4 h-4 text-pix-accent" />
                 <span>Supplier Invoice / Receipt (OCR Verification)</span>
@@ -480,10 +479,10 @@ export default function SubmitEvidencePage() {
                   <input type="file" accept="image/*,application/pdf" onChange={handleReceiptSelect} className="hidden" />
                 </label>
               )}
-            </GlassCard>
+            </div>
 
             {/* Optional Voice Note */}
-            <GlassCard className="p-5 flex items-center justify-between">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 flex items-center justify-between">
               <div>
                 <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Local Language Voice Note</span>
                 <span className="font-sans text-[13px] text-pix-dim">Gemini transcribes and translates</span>
@@ -497,10 +496,10 @@ export default function SubmitEvidencePage() {
                 {isRecording ? <MicOff className="w-3.5 h-3.5 mr-1" /> : <Mic className="w-3.5 h-3.5 mr-1" />}
                 {isRecording ? "Stop Recording" : audioBlob ? "Recorded ✓" : "Record Voice"}
               </SnapButton>
-            </GlassCard>
+            </div>
 
             {/* Field Notes */}
-            <GlassCard className="p-5 space-y-2">
+            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
               <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Field Notes & Observations</label>
               <textarea
                 value={notes}
@@ -509,7 +508,7 @@ export default function SubmitEvidencePage() {
                 rows={3}
                 className="w-full p-3.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent resize-none shadow-sm"
               />
-            </GlassCard>
+            </div>
 
             {/* Submit Button */}
             <div className="pt-2">

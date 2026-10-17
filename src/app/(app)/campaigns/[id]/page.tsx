@@ -22,7 +22,6 @@ import {
 import { useAccount, useWriteContract } from "wagmi";
 import { parseUnits } from "viem";
 import { toast } from "sonner";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelProgress } from "@/components/pixel/PixelProgress";
@@ -178,7 +177,7 @@ export default function CampaignDetailPage() {
 
   if (!campaign) {
     return (
-      <GlassCard className="p-12 text-center max-w-lg mx-auto">
+      <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-12 text-center max-w-lg mx-auto">
         <h2 className="font-display font-semibold text-lg text-pix-alert uppercase">Campaign Not Found</h2>
         <p className="text-[14px] font-sans text-pix-dim mt-2">The requested campaign ledger record does not exist.</p>
         <div className="mt-6">
@@ -186,7 +185,7 @@ export default function CampaignDetailPage() {
             ← Return to Campaigns
           </SnapButton>
         </div>
-      </GlassCard>
+      </div>
     );
   }
 
@@ -253,14 +252,14 @@ export default function CampaignDetailPage() {
         {/* Left Column (2 cols): Story & Tranche Pipeline */}
         <div className="lg:col-span-2 space-y-8">
           {/* Story Card */}
-          <GlassCard className="p-6 md:p-8 space-y-4">
+          <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-6 md:p-8 space-y-4">
             <h2 className="font-display font-bold text-xl text-pix-ink border-b border-[var(--color-pix-hairline)] pb-3">
               Frontline Mission & Verification Terms
             </h2>
             <div className="font-sans text-[15px] text-pix-dim leading-relaxed whitespace-pre-line">
               {campaign.story}
             </div>
-          </GlassCard>
+          </div>
 
           {/* Milestone Tranche Pipeline */}
           <div className="space-y-6">
@@ -291,9 +290,9 @@ export default function CampaignDetailPage() {
                 const isReleased = milestone.released;
 
                 return (
-                  <GlassCard
+                  <div
                     key={milestone.id}
-                    className={`p-6 transition-all ${
+                    className={`rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-6 transition-all ${
                       isReleased ? "border-pix-success/40 bg-pix-success/[0.03]" : ""
                     }`}
                   >
@@ -387,7 +386,7 @@ export default function CampaignDetailPage() {
                         )}
                       </div>
                     )}
-                  </GlassCard>
+                  </div>
                 );
               })}
             </div>
@@ -396,7 +395,7 @@ export default function CampaignDetailPage() {
 
         {/* Right Column (1 col): Escrow Fund Form Card */}
         <div className="space-y-6">
-          <GlassCard className="p-6 sticky top-24 space-y-6">
+          <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-panel p-6 sticky top-24 space-y-6">
             <div>
               <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent tracking-widest block">
                 Smart Contract Escrow
@@ -486,7 +485,7 @@ export default function CampaignDetailPage() {
                 donors can call <code className="text-pix-accent font-mono text-xs">refund()</code> to reclaim locked USDC.
               </p>
             </div>
-          </GlassCard>
+          </div>
         </div>
       </div>
     </div>

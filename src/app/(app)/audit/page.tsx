@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   FileCheck2,
   ExternalLink,
@@ -16,7 +16,6 @@ import {
   FileText,
   Lock,
 } from "lucide-react";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { Typewriter } from "@/components/pixel/Typewriter";
@@ -123,7 +122,7 @@ export default function PublicAuditPage() {
           ))}
         </div>
       ) : filteredRows.length === 0 ? (
-        <GlassCard className="p-12 text-center max-w-md mx-auto">
+        <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-12 text-center max-w-md mx-auto">
           <div className="w-12 h-12 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] flex items-center justify-center mx-auto text-pix-dim mb-4">
             <FileCheck2 className="w-6 h-6" />
           </div>
@@ -131,13 +130,13 @@ export default function PublicAuditPage() {
           <p className="font-sans text-[14px] text-pix-dim mt-1">
             Verified milestones will appear here as soon as field proofs pass audit.
           </p>
-        </GlassCard>
+        </div>
       ) : (
         <div className="space-y-4">
           {filteredRows.map((row) => (
-            <GlassCard
+            <div
               key={row.id}
-              className="p-5 sm:p-6 cursor-pointer hover:border-[var(--color-pix-accent)]/50 transition-all"
+              className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 sm:p-6 cursor-pointer hover:border-[var(--color-pix-accent)]/50 transition-all"
               onClick={() => setSelectedItem(row)}
             >
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -187,7 +186,7 @@ export default function PublicAuditPage() {
                   </SnapButton>
                 </div>
               </div>
-            </GlassCard>
+            </div>
           ))}
         </div>
       )}

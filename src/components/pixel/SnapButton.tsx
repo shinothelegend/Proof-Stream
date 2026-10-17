@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useSpring, AnimatePresence } from "motion/react";
 import { Loader2, Check } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";

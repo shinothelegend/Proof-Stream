@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { motion, useSpring } from "motion/react";
 
 interface PixelBannerProps {
   seed?: string;

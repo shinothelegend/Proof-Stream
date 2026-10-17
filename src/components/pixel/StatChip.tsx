@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "motion/react";
 
 interface StatChipProps {
   label: string;

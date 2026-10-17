@@ -1,6 +1,6 @@
 import { z } from "zod";
 import exifr from "exifr";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import { db } from "../db";
 import { hammingDistance, computeImageDHash } from "./hasher";
 import { calculateDistanceKm } from "./geofence";
@@ -124,10 +124,7 @@ export async function verifySubmission(submissionId: string) {
     );
   }
 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({
-    model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
-  });
+  const ai = new GoogleGenAI({ apiKey });
 
   const prompt = `You are the Lead Verification Auditor for ProofStream, an impact-gated humanitarian escrow platform.
 Analyze the submitted field evidence against the following declared milestone claim and budget:
@@ -158,14 +155,15 @@ Return a STRICT JSON response adhering to this schema:
   "flags": string[] // Subsets of ["NO_GPS", "OUT_OF_GEOFENCE", "REUSED_IMAGE", "PHOTO_MISMATCH", "BUDGET_MISMATCH", "RECEIPT_UNREADABLE", "LOW_QUALITY"]
 }`;
 
-  const result = await model.generateContent({
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-    generationConfig: {
+  const result = await ai.models.generateContent({
+    model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+    contents: prompt,
+    config: {
       responseMimeType: "application/json",
     },
   });
 
-  const responseText = result.response.text();
+  const responseText = result.text || "";
   let aiVerdict: VerdictResult;
 
   try {

@@ -14,7 +14,6 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
-import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { Typewriter } from "@/components/pixel/Typewriter";
@@ -113,7 +112,7 @@ export default function ReviewQueuePage() {
           ))}
         </div>
       ) : submissions.length === 0 ? (
-        <GlassCard className="p-12 text-center max-w-md mx-auto">
+        <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-12 text-center max-w-md mx-auto">
           <div className="w-12 h-12 rounded-[10px] bg-pix-success/10 border border-pix-success/30 text-pix-success flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="w-6 h-6" />
           </div>
@@ -121,7 +120,7 @@ export default function ReviewQueuePage() {
           <p className="font-sans text-[14px] text-pix-dim mt-1">
             All submitted proofs have been automatically resolved or verified.
           </p>
-        </GlassCard>
+        </div>
       ) : (
         <div className="space-y-6">
           {submissions.map((sub) => {
@@ -130,7 +129,7 @@ export default function ReviewQueuePage() {
             const isProcessing = processingId === sub.id;
 
             return (
-              <GlassCard key={sub.id} className="p-6 md:p-8 space-y-6">
+              <div key={sub.id} className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-6 md:p-8 space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
                     <span className="font-sans text-[11px] font-semibold text-pix-accent uppercase tracking-wider">
@@ -240,7 +239,7 @@ export default function ReviewQueuePage() {
                     </SnapButton>
                   </div>
                 </div>
-              </GlassCard>
+              </div>
             );
           })}
         </div>

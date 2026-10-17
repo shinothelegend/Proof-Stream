@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { motion, useSpring } from "framer-motion";
+import { motion, useSpring } from "motion/react";
 
 export function SnapCursorProvider({ children }: { children?: React.ReactNode }) {
   const [enabled, setEnabled] = useState(false);
