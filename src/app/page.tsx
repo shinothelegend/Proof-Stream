@@ -11,6 +11,7 @@ import {
   Globe2,
   Cpu,
   FileCheck2,
+  Sparkles,
 } from "lucide-react";
 import { Typewriter } from "@/components/pixel/Typewriter";
 import { Accent } from "@/components/ui/Accent";

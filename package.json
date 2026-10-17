@@ -10,7 +10,8 @@
     "db:push": "prisma db push",
     "db:seed": "node --loader ts-node/esm prisma/seed.ts || tsx prisma/seed.ts",
     "seed": "tsx prisma/seed.ts",
-    "verify:tokens": "node scripts/verify-tokens.mjs"
+    "verify:tokens": "node scripts/verify-tokens.mjs",
+    "verify:routes": "node scripts/verify-routes.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.30.0",

@@ -201,6 +201,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   : pathname === item.href || pathname.startsWith(item.href);
               const Icon = item.icon;
 
+              const isRecommended =
+                (role === "Donor" && item.href === "/campaigns") ||
+                (role === "Field Worker" && item.href.startsWith("/submit")) ||
+                (role === "Reviewer" && item.href === "/review");
+
               return (
                 <Link
                   key={item.name}
@@ -214,6 +219,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                           borderColor: "var(--color-accent)",
                           fontWeight: 700,
                           boxShadow: "0 0 16px rgba(255, 180, 84, 0.45)",
+                        }
+                      : isRecommended
+                      ? {
+                          backgroundColor: "var(--color-panel)",
+                          color: "var(--color-ink)",
+                          borderColor: "var(--color-accent)",
+                          boxShadow: "0 0 10px rgba(255, 180, 84, 0.2)",
                         }
                       : {
                           backgroundColor: "var(--color-panel)",
@@ -229,6 +241,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 >
                   <Icon className="w-4 h-4" />
                   <span>{item.name}</span>
+                  {isRecommended && !isCurrent && (
+                    <span className="ml-1.5 px-1.5 py-0.2 text-[9px] font-mono font-bold bg-pix-accent/20 text-pix-accent border border-pix-accent/40 rounded">
+                      FOCUS
+                    </span>
+                  )}
                 </Link>
               );
             })}

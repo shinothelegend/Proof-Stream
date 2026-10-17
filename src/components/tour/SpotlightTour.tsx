@@ -165,13 +165,32 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
         stageRadius: 10,
         stagePadding: 8,
         popoverClass: "proofstream-tour-popover",
-        nextBtnText: isLastStep ? "Finish Tour ✓" : "Next →",
+        nextBtnText: "Next →",
+        doneBtnText: isLastStep ? "Finish Tour ✓" : "Next →",
+        progressText: `${stepNum} of ${TOUR_STEPS.length}`,
         prevBtnText: stepNum > 1 ? "← Back" : "",
         showButtons: stepNum > 1 ? ["next", "previous", "close"] : ["next", "close"],
         onDestroyed: () => {
           // If closed manually via X or ESC
           if (sessionStorage.getItem("proofstream.tour.step") === String(stepNum)) {
             stopTour();
+          }
+        },
+        onDoneClick: () => {
+          driverObj.destroy();
+          if (isLastStep) {
+            stopTour();
+          } else {
+            const nextStepNum = stepNum + 1;
+            const nextConfig = TOUR_STEPS.find((s) => s.step === nextStepNum);
+            if (nextConfig) {
+              if (pathname !== nextConfig.route) {
+                sessionStorage.setItem("proofstream.tour.step", String(nextStepNum));
+                router.push(nextConfig.route);
+              } else {
+                executeStep(nextStepNum);
+              }
+            }
           }
         },
         onNextClick: () => {
@@ -212,6 +231,8 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
               description: stepConfig.description,
               side: "bottom",
               align: "start",
+              progressText: `${stepNum} of ${TOUR_STEPS.length}`,
+              doneBtnText: isLastStep ? "Finish Tour ✓" : "Next →",
             },
           },
         ],
