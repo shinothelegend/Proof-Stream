@@ -112,7 +112,7 @@ export default function ReviewQueuePage() {
           ))}
         </div>
       ) : submissions.length === 0 ? (
-        <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-12 text-center max-w-md mx-auto">
+        <div data-tour="review-queue" className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-12 text-center max-w-md mx-auto">
           <div className="w-12 h-12 rounded-[10px] bg-pix-success/10 border border-pix-success/30 text-pix-success flex items-center justify-center mx-auto mb-4">
             <CheckCircle2 className="w-6 h-6" />
           </div>
@@ -122,7 +122,7 @@ export default function ReviewQueuePage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div data-tour="review-queue" className="space-y-6">
           {submissions.map((sub) => {
             const verdict = sub.verdict;
             const flags: string[] = verdict?.flags ? JSON.parse(verdict.flags) : [];

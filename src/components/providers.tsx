@@ -8,6 +8,7 @@ import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowki
 import { Toaster } from "sonner";
 import { config } from "@/lib/wagmi";
 import { SnapCursorProvider } from "@/components/pixel/SnapCursorProvider";
+import { SpotlightTourProvider } from "@/components/tour/SpotlightTour";
 import "@rainbow-me/rainbowkit/styles.css";
 
 function ThemedProviders({ children }: { children: React.ReactNode }) {
@@ -33,7 +34,9 @@ function ThemedProviders({ children }: { children: React.ReactNode }) {
   return (
     <RainbowKitProvider theme={rainbowTheme}>
       <SnapCursorProvider>
-        {children}
+        <SpotlightTourProvider>
+          {children}
+        </SpotlightTourProvider>
       </SnapCursorProvider>
       <Toaster
         theme={isDark ? "dark" : "light"}

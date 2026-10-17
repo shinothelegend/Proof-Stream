@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   FileCheck2,
   BookOpen,
+  Sparkles,
 } from "lucide-react";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelDissolve } from "@/components/pixel/PixelDissolve";
@@ -17,6 +18,7 @@ import { StatChip } from "@/components/pixel/StatChip";
 import { PixelChest, PixelShield, PixelScroll } from "@/components/pixel/PixelIcons";
 import { BRAND } from "@/lib/brand";
 import { formatUSDC } from "@/lib/format";
+import { useTour } from "@/components/tour/SpotlightTour";
 
 import { BrandLogo } from "@/components/brand/BrandLogo";
 
@@ -36,6 +38,7 @@ const navItems: NavItem[] = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { startTour } = useTour();
   const [role, setRole] = useState<"Donor" | "Field Worker" | "Reviewer">("Donor");
   const [stats, setStats] = useState<{
     totalEscrowed: number;
@@ -160,6 +163,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="hidden md:block">
               <PixelDissolve />
             </div>
+
+            {/* Spotlight Tour Trigger */}
+            <button
+              onClick={() => startTour(1)}
+              data-snap
+              className="hidden lg:flex items-center space-x-1 px-2.5 py-1.5 rounded-[8px] bg-pix-bg hover:bg-pix-panel border border-[var(--color-pix-hairline)] text-xs font-mono uppercase text-pix-dim hover:text-pix-accent transition-colors cursor-pointer"
+              title="Test It Yourself — Guided Tour"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-pix-accent" />
+              <span>Tour</span>
+            </button>
 
             {/* Wallet Connect */}
             <div className="overflow-hidden">

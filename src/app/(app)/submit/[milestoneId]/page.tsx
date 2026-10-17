@@ -386,7 +386,7 @@ export default function SubmitEvidencePage() {
             </div>
 
             {/* Photo Capture (Mandatory) */}
-            <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
+            <div data-tour="evidence-card" className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                   <Camera className="w-4 h-4 text-pix-accent" />

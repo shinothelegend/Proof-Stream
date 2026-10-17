@@ -157,4 +157,91 @@
   }
 }
 
+/* driver.js Spotlight Tour Theme Styling (§7) */
+.driver-popover.proofstream-tour-popover {
+  background-color: var(--color-panel) !important;
+  color: var(--color-ink) !important;
+  border: 1px solid var(--color-pix-hairline) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--color-pix-hairline) !important;
+  padding: 18px 20px !important;
+  max-width: 360px !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-title {
+  font-family: var(--font-display), "Space Grotesk", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--color-ink) !important;
+  letter-spacing: -0.01em !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-description {
+  font-family: var(--font-body), "Inter", sans-serif !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  color: var(--color-dim) !important;
+  margin-top: 6px !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-footer {
+  margin-top: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-progress-text {
+  font-family: var(--font-mono), monospace !important;
+  font-size: 11px !important;
+  color: var(--color-dim) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-footer-btn {
+  font-family: var(--font-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  transition: all 0.15s ease !important;
+  cursor: pointer !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-next-btn,
+.driver-popover.proofstream-tour-popover .driver-popover-done-btn {
+  background-color: var(--color-accent) !important;
+  color: #0E0E12 !important;
+  border: 1px solid transparent !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-next-btn:hover,
+.driver-popover.proofstream-tour-popover .driver-popover-done-btn:hover {
+  filter: brightness(1.1) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-prev-btn {
+  background-color: transparent !important;
+  color: var(--color-dim) !important;
+  border: 1px solid var(--color-pix-hairline) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-prev-btn:hover {
+  color: var(--color-ink) !important;
+  border-color: var(--color-dim) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-close-btn {
+  color: var(--color-dim) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-close-btn:hover {
+  color: var(--color-accent) !important;
+}
+
+.driver-popover.proofstream-tour-popover .driver-popover-arrow {
+  border-color: var(--color-panel) !important;
+}
+
+
 

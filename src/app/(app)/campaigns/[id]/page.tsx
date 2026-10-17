@@ -262,7 +262,7 @@ export default function CampaignDetailPage() {
           </div>
 
           {/* Milestone Tranche Pipeline */}
-          <div className="space-y-6">
+          <div data-tour="milestone-pipeline" className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--color-pix-hairline)] pb-4">
               <div>
                 <h2 className="font-display font-bold text-2xl text-pix-ink">
@@ -394,7 +394,7 @@ export default function CampaignDetailPage() {
         </div>
 
         {/* Right Column (1 col): Escrow Fund Form Card */}
-        <div className="space-y-6">
+        <div data-tour="fund-form" className="space-y-6">
           <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-panel p-6 sticky top-24 space-y-6">
             <div>
               <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent tracking-widest block">

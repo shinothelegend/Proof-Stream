@@ -30,8 +30,10 @@ import { PixelBanner } from "@/components/pixel/PixelBanner";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { BRAND } from "@/lib/brand";
 import { formatUSDC } from "@/lib/format";
+import { useTour } from "@/components/tour/SpotlightTour";
 
 export default function LandingPage() {
+  const { startTour } = useTour();
   const [triggerSurfer, setTriggerSurfer] = useState(false);
   const [stats, setStats] = useState<{
     totalEscrowed: number;
@@ -181,14 +183,26 @@ export default function LandingPage() {
           </p>
 
           {/* CTAs */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <SnapButton onClick={handleGetStarted} variant="primary" size="lg" className="w-full sm:w-auto">
-              <span>EXPLORE ACTIVE CAMPAIGNS</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </SnapButton>
+          <div data-tour="hero-escrow" className="pt-4 flex flex-col items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <SnapButton onClick={handleGetStarted} variant="primary" size="lg" className="w-full sm:w-auto">
+                <span>EXPLORE ACTIVE CAMPAIGNS</span>
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </SnapButton>
 
-            <SnapButton href="/audit" variant="secondary" size="lg" className="w-full sm:w-auto">
-              <span>VIEW LIVE AUDIT TRAIL</span>
+              <SnapButton href="/audit" variant="secondary" size="lg" className="w-full sm:w-auto">
+                <span>VIEW LIVE AUDIT TRAIL</span>
+              </SnapButton>
+            </div>
+
+            <SnapButton
+              onClick={() => startTour(1)}
+              variant="ghost"
+              size="sm"
+              className="mt-1 text-pix-dim hover:text-pix-accent transition-colors"
+            >
+              <Sparkles className="w-4 h-4 mr-2 text-pix-accent" />
+              <span>TEST IT YOURSELF (GUIDED TOUR)</span>
             </SnapButton>
           </div>
         </section>

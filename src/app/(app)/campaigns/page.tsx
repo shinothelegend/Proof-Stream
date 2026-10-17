@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, MapPin, Clock, ArrowRight } from "lucide-react";
+import { Search, MapPin, Clock, ArrowRight, Sparkles, X } from "lucide-react";
 import { Typewriter } from "@/components/pixel/Typewriter";
 import { SnapButton } from "@/components/pixel/SnapButton";
 import { PixelProgress } from "@/components/pixel/PixelProgress";
 import { PixelBanner } from "@/components/pixel/PixelBanner";
 import { PixelShield } from "@/components/pixel/PixelIcons";
 import { formatUSDC } from "@/lib/format";
+import { useTour } from "@/components/tour/SpotlightTour";
 
 interface CampaignItem {
   id: string;
@@ -33,12 +34,21 @@ interface CampaignItem {
 }
 
 export default function CampaignsPage() {
+  const { startTour } = useTour();
+  const [showTourOffer, setShowTourOffer] = useState(false);
   const [campaigns, setCampaigns] = useState<CampaignItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<"ALL" | "ACTIVE" | "COMPLETED">("ALL");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    try {
+      const dismissed = localStorage.getItem("proofstream.tour.dismissed");
+      if (!dismissed) {
+        setShowTourOffer(true);
+      }
+    } catch {}
+
     fetch("/api/campaigns")
       .then((res) => res.json())
       .then((data) => {
@@ -48,6 +58,13 @@ export default function CampaignsPage() {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  const dismissTourOffer = () => {
+    setShowTourOffer(false);
+    try {
+      localStorage.setItem("proofstream.tour.dismissed", "true");
+    } catch {}
+  };
 
   const filteredCampaigns = campaigns.filter((c) => {
     const matchesSearch =
@@ -80,6 +97,37 @@ export default function CampaignsPage() {
           <span className="text-pix-accent font-bold">{filteredCampaigns.length}</span>
         </div>
       </div>
+
+      {/* Auto-Offer Tour Banner (§7) */}
+      {showTourOffer && (
+        <div className="p-3.5 px-4 rounded-[10px] bg-pix-panel border border-pix-accent/30 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-fade-in">
+          <div className="flex items-center space-x-2.5">
+            <Sparkles className="w-4 h-4 text-pix-accent flex-shrink-0" />
+            <span className="text-sm font-sans text-pix-ink">
+              New to ProofStream? Take the 60-second guided interactive walkthrough.
+            </span>
+          </div>
+          <div className="flex items-center space-x-2 self-end sm:self-auto">
+            <SnapButton
+              variant="primary"
+              size="sm"
+              onClick={() => {
+                dismissTourOffer();
+                startTour(2);
+              }}
+            >
+              START TOUR
+            </SnapButton>
+            <button
+              onClick={dismissTourOffer}
+              className="p-1 text-pix-dim hover:text-pix-ink text-xs font-mono rounded cursor-pointer"
+              aria-label="Dismiss tour prompt"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Cartridge Tabs Filters & Search Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -139,6 +187,7 @@ export default function CampaignsPage() {
             return (
               <div
                 key={camp.id}
+                data-tour={camp.id === filteredCampaigns[0]?.id ? "quest-card" : undefined}
                 className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] overflow-hidden shadow-card hover:border-[var(--color-pix-accent)]/50 transition-all duration-200 flex flex-col justify-between group"
               >
                 <div>
