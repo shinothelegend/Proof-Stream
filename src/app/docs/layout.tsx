@@ -75,7 +75,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center space-x-2.5 px-3 py-2 rounded-[8px] text-[13px] font-sans font-medium transition-all ${
                       isActive
-                        ? "bg-pix-accent text-[#1D1D26] font-semibold shadow-sm"
+                        ? "bg-pix-accent text-[var(--color-accent-fg)] font-semibold shadow-sm"
                         : "text-pix-dim hover:text-pix-ink hover:bg-pix-bg"
                     }`}
                   >

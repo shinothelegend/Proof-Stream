@@ -153,7 +153,7 @@ export default function CampaignsPage() {
               onClick={() => setFilterStatus(status)}
               className={`text-[13px] font-sans font-semibold uppercase px-4 py-1.5 rounded-[8px] transition-all cursor-pointer ${
                 filterStatus === status
-                  ? "bg-pix-accent text-[#1D1D26] shadow-sm font-bold"
+                  ? "bg-pix-accent text-[var(--color-accent-fg)] shadow-sm font-bold"
                   : "text-pix-dim hover:text-pix-ink hover:bg-pix-bg"
               }`}
             >
@@ -183,7 +183,7 @@ export default function CampaignsPage() {
         </div>
       ) : filteredCampaigns.length === 0 ? (
         <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] p-12 text-center max-w-md mx-auto space-y-3 shadow-panel">
-          <div className="w-12 h-12 rounded-[10px] bg-pix-accent text-[#1D1D26] font-bold flex items-center justify-center mx-auto font-display text-lg">
+          <div className="w-12 h-12 rounded-[10px] bg-pix-accent text-[var(--color-accent-fg)] font-bold flex items-center justify-center mx-auto font-display text-lg">
             ?
           </div>
           <h3 className="font-display font-semibold text-lg text-pix-ink">No Quests Found</h3>

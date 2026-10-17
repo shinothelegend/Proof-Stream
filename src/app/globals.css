@@ -11,6 +11,7 @@
     --color-ink: #F2F0EA;          /* warm white */
     --color-dim: #9C9CA8;
     --color-accent: #FFB454;       /* amber — interactive, CTAs, key words, ALL data values */
+    --color-accent-fg: #0E0E12;    /* high-contrast foreground on amber */
     --color-success: #6FCF8E;      /* semantic only */
     --color-alert: #F0787E;        /* semantic only */
 
@@ -23,6 +24,7 @@
     --color-pix-ink: var(--color-ink);
     --color-pix-dim: var(--color-dim);
     --color-pix-accent: var(--color-accent);
+    --color-pix-accent-fg: var(--color-accent-fg);
     --color-pix-gold: var(--color-accent);
     --color-pix-cyan: var(--color-accent);
     --color-pix-success: var(--color-success);
@@ -39,6 +41,7 @@
     --color-ink: #1D1D26;
     --color-dim: #63636E;
     --color-accent: #B36612;     /* darker amber for contrast on paper */
+    --color-accent-fg: #FFFFFF;  /* crisp white text on darker amber */
     --color-success: #22794A;
     --color-alert: #C0453B;
 
@@ -50,6 +53,7 @@
     --color-pix-ink: var(--color-ink);
     --color-pix-dim: var(--color-dim);
     --color-pix-accent: var(--color-accent);
+    --color-pix-accent-fg: var(--color-accent-fg);
     --color-pix-gold: var(--color-accent);
     --color-pix-cyan: var(--color-accent);
     --color-pix-success: var(--color-success);
@@ -75,6 +79,9 @@
 }
 .text-pix-accent {
   color: var(--color-accent) !important;
+}
+.text-pix-accent-fg {
+  color: var(--color-accent-fg) !important;
 }
 .shadow-accent-glow {
   box-shadow: 0 0 16px rgba(255, 180, 84, 0.45) !important;
@@ -211,7 +218,7 @@
 .driver-popover.proofstream-tour-popover .driver-popover-next-btn,
 .driver-popover.proofstream-tour-popover .driver-popover-done-btn {
   background-color: var(--color-accent) !important;
-  color: #0E0E12 !important;
+  color: var(--color-accent-fg) !important;
   border: 1px solid transparent !important;
 }
 

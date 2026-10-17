@@ -97,7 +97,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen text-pix-ink bg-pix-bg font-sans selection:bg-pix-accent selection:text-[#1D1D26]">
+    <div className="min-h-screen text-pix-ink bg-pix-bg font-sans selection:bg-pix-accent selection:text-[var(--color-accent-fg)]">
       {/* Surfer Transition (§6.4) */}
       <SurferTransition trigger={triggerSurfer} onComplete={() => setTriggerSurfer(false)} />
 

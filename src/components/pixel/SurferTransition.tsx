@@ -34,6 +34,10 @@ export function SurferTransition({
   const startRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
   const pushedRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+  const destinationRef = useRef(destination);
+  destinationRef.current = destination;
 
   useEffect(() => {
     setMounted(true);
@@ -51,8 +55,8 @@ export function SurferTransition({
     // Check reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
-      router.push(destination);
-      onComplete?.();
+      router.push(destinationRef.current);
+      onCompleteRef.current?.();
       return;
     }
 
@@ -69,7 +73,7 @@ export function SurferTransition({
       // Mount destination route at ~1450ms before wipeout completes
       if (currentElapsed >= 1450 && !pushedRef.current) {
         pushedRef.current = true;
-        router.push(destination);
+        router.push(destinationRef.current);
       }
 
       if (currentElapsed < 1900) {
@@ -77,7 +81,7 @@ export function SurferTransition({
       } else {
         setActive(false);
         setElapsed(0);
-        onComplete?.();
+        onCompleteRef.current?.();
       }
     };
 
@@ -86,7 +90,7 @@ export function SurferTransition({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [trigger, destination, router, onComplete]);
+  }, [trigger, router]);
 
   if (!mounted || !active) return null;
 

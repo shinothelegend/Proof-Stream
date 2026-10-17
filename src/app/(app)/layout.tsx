@@ -160,7 +160,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                       isSelected
                         ? {
                             backgroundColor: "var(--color-accent)",
-                            color: "#0E0E12",
+                            color: "var(--color-accent-fg)",
                             fontWeight: 700,
                           }
                         : undefined
@@ -233,7 +233,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     isCurrent
                       ? {
                           backgroundColor: "var(--color-accent)",
-                          color: "#0E0E12",
+                          color: "var(--color-accent-fg)",
                           borderColor: "var(--color-accent)",
                           fontWeight: 700,
                           boxShadow: "0 0 16px rgba(255, 180, 84, 0.45)",

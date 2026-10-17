@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider, useTheme } from "next-themes";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,7 +13,15 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 function ThemedProviders({ children }: { children: React.ReactNode }) {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme !== "light";
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSR and initial client hydration, guarantee darkTheme to match server rendering.
+  // Once mounted on client, seamlessly resolve the active theme.
+  const isDark = mounted ? resolvedTheme !== "light" : true;
 
   const rainbowTheme = isDark
     ? darkTheme({

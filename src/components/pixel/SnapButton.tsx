@@ -106,13 +106,13 @@ export function SnapButton({
 
   const getVariantStyles = () => {
     if (showSuccessState) {
-      return "bg-[var(--color-success)] text-[#0E0E12] border border-[var(--color-success)] shadow-md";
+      return "bg-[var(--color-success)] text-white border border-[var(--color-success)] shadow-md";
     }
     if (isError) {
       return "bg-[var(--color-panel)] text-[var(--color-alert)] border-2 border-[var(--color-alert)] shadow-md";
     }
     if (isPrimary) {
-      return "bg-[var(--color-accent)] text-[#1D1D26] font-semibold border border-black/15 shadow-sm hover:shadow-[0_6px_18px_rgba(255,180,84,0.28)] hover:-translate-y-[1px]";
+      return "bg-[var(--color-accent)] text-[var(--color-accent-fg)] font-semibold border border-black/15 shadow-sm hover:shadow-[0_6px_18px_rgba(255,180,84,0.28)] hover:-translate-y-[1px]";
     }
     if (isAlert) {
       return "bg-[var(--color-alert)]/15 text-[var(--color-alert)] border border-[var(--color-alert)]/40 hover:bg-[var(--color-alert)]/25";
@@ -122,6 +122,12 @@ export function SnapButton({
     }
     if (variant === "ink") {
       return "bg-[var(--color-ink)] text-[var(--color-bg)] border border-transparent hover:opacity-90";
+    }
+    if (variant === "ghost") {
+      return "bg-transparent text-[var(--color-dim)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/[0.08] border border-transparent";
+    }
+    if (variant === "outline") {
+      return "bg-transparent text-[var(--color-ink)] border border-[var(--color-hairline)] hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-accent)]/[0.06]";
     }
     return "bg-[var(--color-panel)] text-[var(--color-ink)] border border-[var(--color-hairline)] hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-accent)]/[0.06]";
   };
@@ -172,15 +178,9 @@ export function SnapButton({
           <span>{successText || "Completed ✓"}</span>
         </motion.span>
       ) : (
-        <motion.span
-          key="content"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="inline-flex items-center space-x-1.5"
-        >
+        <span className="inline-flex items-center space-x-1.5">
           {children}
-        </motion.span>
+        </span>
       )}
     </AnimatePresence>
   );

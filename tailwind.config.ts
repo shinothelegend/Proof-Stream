@@ -17,6 +17,7 @@ const config: Config = {
         ink: "var(--color-ink)",
         dim: "var(--color-dim)",
         accent: "var(--color-accent)",
+        "accent-fg": "var(--color-accent-fg)",
         success: "var(--color-success)",
         alert: "var(--color-alert)",
 
@@ -28,6 +29,7 @@ const config: Config = {
           ink: "var(--color-ink)",
           dim: "var(--color-dim)",
           accent: "var(--color-accent)",
+          "accent-fg": "var(--color-accent-fg)",
           success: "var(--color-success)",
           alert: "var(--color-alert)",
           gold: "var(--color-accent)",
