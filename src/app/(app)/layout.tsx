@@ -28,18 +28,11 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-const navItems: NavItem[] = [
-  { name: "QUESTS", href: "/campaigns", icon: Compass },
-  { name: "SUBMIT PROOF", href: "/submit/kalimantan-clean-water", icon: UploadCloud },
-  { name: "AUDITOR QUEUE", href: "/review", icon: ShieldCheck },
-  { name: "PUBLIC AUDIT", href: "/audit", icon: FileCheck2 },
-  { name: "DOCS", href: "/docs", icon: BookOpen },
-];
-
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { startTour } = useTour();
   const [role, setRole] = useState<"Donor" | "Field Worker" | "Reviewer">("Donor");
+  const [submitHref, setSubmitHref] = useState("/campaigns");
   const [stats, setStats] = useState<{
     totalEscrowed: number;
     totalReleased: number;
@@ -71,6 +64,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             totalVerdicts: data.stats.releasedTranchesCount ?? 0,
           });
         }
+        if (data.success && data.data && data.data.length > 0) {
+          let pendingMilestoneId: string | null = null;
+          for (const c of data.data) {
+            if (c.milestones && c.milestones.length > 0) {
+              const pm = c.milestones.find((m: any) => !m.released && m.status === "PENDING");
+              if (pm) {
+                pendingMilestoneId = pm.id;
+                break;
+              }
+            }
+          }
+          if (pendingMilestoneId) {
+            setSubmitHref(`/submit/${pendingMilestoneId}`);
+          } else {
+            setSubmitHref("/campaigns");
+          }
+        }
         setStatsLoading(false);
       })
       .catch((err) => {
@@ -79,6 +89,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         setStatsLoading(false);
       });
   }, []);
+
+  const navItems: NavItem[] = [
+    { name: "QUESTS", href: "/campaigns", icon: Compass },
+    { name: "SUBMIT PROOF", href: submitHref, icon: UploadCloud },
+    { name: "AUDITOR QUEUE", href: "/review", icon: ShieldCheck },
+    { name: "PUBLIC AUDIT", href: "/audit", icon: FileCheck2 },
+    { name: "DOCS", href: "/docs", icon: BookOpen },
+  ];
 
   const handleRoleChange = (newRole: "Donor" | "Field Worker" | "Reviewer") => {
     setRole(newRole);
