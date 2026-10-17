@@ -55,7 +55,7 @@ export function Badge({
     <span
       className={twMerge(
         clsx(
-          "inline-flex items-center px-2.5 py-0.5 text-[11px] font-body font-semibold uppercase tracking-wider rounded-[6px] transition-colors",
+          "inline-flex items-center px-2.5 py-0.5 text-[13px] font-body font-semibold uppercase tracking-wider rounded-[6px] transition-colors",
           getStyles(),
           className
         )

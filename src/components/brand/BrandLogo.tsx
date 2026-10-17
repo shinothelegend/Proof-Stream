@@ -52,8 +52,8 @@ export function BrandLogo({
             ProofStream
           </span>
           {showTagline && (
-            <span className="text-[11px] font-sans text-pix-dim leading-tight mt-1 hidden sm:inline-block">
-              streaming trust <Accent className="text-[13px]">on-chain</Accent>
+            <span className="text-[13px] font-sans text-pix-dim leading-tight mt-1 hidden sm:inline-block">
+              streaming trust <Accent className="text-[14px]">on-chain</Accent>
             </span>
           )}
         </div>

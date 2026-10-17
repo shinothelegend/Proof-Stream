@@ -297,14 +297,14 @@ export default function SubmitEvidencePage() {
               {/* Flags list */}
               {verdictResult.flags?.length > 0 && (
                 <div className="space-y-1.5">
-                  <span className="font-sans text-[12px] uppercase font-semibold text-pix-alert block">
+                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-alert block">
                     Security Flags Detected
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {verdictResult.flags.map((f: string, idx: number) => (
                       <span
                         key={idx}
-                        className="px-2.5 py-1 text-[11px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
+                        className="px-2.5 py-1 text-[13px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
                       >
                         {f}
                       </span>
@@ -316,14 +316,14 @@ export default function SubmitEvidencePage() {
               {/* On-Chain Transaction link */}
               {verdictResult.txHash && (
                 <div className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] space-y-1">
-                  <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent block">
+                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-accent block">
                     Base Sepolia Attestation Hash
                   </span>
                   <a
                     href={`https://sepolia.basescan.org/tx/${verdictResult.txHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-xs text-pix-accent hover:underline flex items-center space-x-1"
+                    className="font-mono text-[12px] text-pix-accent hover:underline flex items-center space-x-1"
                   >
                     <span>{formatTxHash(verdictResult.txHash)}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -355,13 +355,13 @@ export default function SubmitEvidencePage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Milestone Selector */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
-              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
+              <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">
                 Select Active Milestone Tranche
               </label>
               <select
                 value={selectedMilestoneId}
                 onChange={(e) => setSelectedMilestoneId(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent transition-all shadow-sm"
+                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[15px] text-pix-ink focus:outline-none focus:border-pix-accent transition-all shadow-sm"
               >
                 {milestones.map((m) => (
                   <option key={m.id} value={m.id} className="bg-pix-panel text-pix-ink">
@@ -373,7 +373,7 @@ export default function SubmitEvidencePage() {
 
             {/* Field Worker Identity */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
-              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
+              <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">
                 Field Operative Identity
               </label>
               <input
@@ -381,18 +381,18 @@ export default function SubmitEvidencePage() {
                 value={workerName}
                 onChange={(e) => setWorkerName(e.target.value)}
                 placeholder="Worker Name / Lead Engineer"
-                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent shadow-sm"
+                className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[15px] text-pix-ink focus:outline-none focus:border-pix-accent shadow-sm"
               />
             </div>
 
             {/* Photo Capture (Mandatory) */}
             <div data-tour="evidence-card" className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
               <div className="flex items-center justify-between">
-                <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
+                <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                   <Camera className="w-4 h-4 text-pix-accent" />
                   <span>Field Installation Photo (GPS EXIF)</span>
                 </label>
-                <span className="font-sans text-[10px] uppercase font-bold text-pix-alert">MANDATORY</span>
+                <span className="font-sans text-[11px] uppercase font-bold text-pix-alert">MANDATORY</span>
               </div>
 
               {photoPreview ? (
@@ -414,8 +414,8 @@ export default function SubmitEvidencePage() {
               ) : (
                 <label className="flex flex-col items-center justify-center p-8 rounded-[10px] border border-dashed border-[var(--color-pix-hairline)] cursor-pointer hover:border-pix-accent hover:bg-pix-accent/5 transition-all">
                   <Camera className="w-8 h-8 text-pix-dim mb-2" />
-                  <span className="font-sans text-[14px] font-medium text-pix-ink">Take photo with camera or upload</span>
-                  <span className="font-sans text-[12px] text-pix-dim mt-0.5">Location tagging must be enabled</span>
+                  <span className="font-sans text-[15px] font-medium text-pix-ink">Take photo with camera or upload</span>
+                  <span className="font-sans text-[13px] text-pix-dim mt-0.5">Location tagging must be enabled</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -430,7 +430,7 @@ export default function SubmitEvidencePage() {
             {/* Geolocation Tagging Helper */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1">
+                <span className="font-sans text-[13px] uppercase font-semibold text-pix-ink flex items-center space-x-1">
                   <MapPin className="w-4 h-4 text-pix-accent" />
                   <span>Device Geolocation</span>
                 </span>
@@ -453,7 +453,7 @@ export default function SubmitEvidencePage() {
 
             {/* Receipt / Invoice Upload (OCR) */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-3">
-              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
+              <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink flex items-center space-x-1.5">
                 <FileText className="w-4 h-4 text-pix-accent" />
                 <span>Supplier Invoice / Receipt (OCR Verification)</span>
               </label>
@@ -484,7 +484,7 @@ export default function SubmitEvidencePage() {
             {/* Optional Voice Note */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 flex items-center justify-between">
               <div>
-                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Local Language Voice Note</span>
+                <span className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">Local Language Voice Note</span>
                 <span className="font-sans text-[13px] text-pix-dim">Gemini transcribes and translates</span>
               </div>
 
@@ -500,13 +500,13 @@ export default function SubmitEvidencePage() {
 
             {/* Field Notes */}
             <div className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-5 space-y-2">
-              <label className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Field Notes & Observations</label>
+              <label className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">Field Notes & Observations</label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Details of installation, community recipient count, testing results..."
                 rows={3}
-                className="w-full p-3.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink focus:outline-none focus:border-pix-accent resize-none shadow-sm"
+                className="w-full p-3.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[15px] text-pix-ink focus:outline-none focus:border-pix-accent resize-none shadow-sm"
               />
             </div>
 

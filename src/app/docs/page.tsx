@@ -73,7 +73,7 @@ export default function DocsIndexPage() {
                     <h2 className="font-display font-semibold text-lg text-pix-ink group-hover:text-pix-accent transition-colors">
                       {item.title}
                     </h2>
-                    <p className="text-[14px] text-pix-dim mt-1 max-w-xl font-sans leading-relaxed">{item.desc}</p>
+                    <p className="text-[15px] text-pix-dim mt-1 max-w-xl font-sans leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
                 <ArrowRight className="w-5 h-5 text-pix-dim group-hover:text-pix-accent group-hover:translate-x-1 transition-all mt-2" />
@@ -84,10 +84,10 @@ export default function DocsIndexPage() {
       </div>
 
       <div className="p-5 rounded-[10px] bg-pix-panel border border-[var(--color-pix-hairline)] text-sm text-pix-dim space-y-1 shadow-card">
-        <span className="font-sans text-[12px] font-semibold uppercase text-pix-accent block">
+        <span className="font-sans text-[13px] font-semibold uppercase text-pix-accent block">
           Judge Note:
         </span>
-        <p className="text-[14px] leading-relaxed">
+        <p className="text-[15px] leading-relaxed">
           All data referenced across these documents is backed by real smart contracts on Base Sepolia
           and real multimodal models via Google Gemini API.
         </p>

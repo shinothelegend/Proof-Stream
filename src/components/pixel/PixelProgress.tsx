@@ -43,7 +43,7 @@ export function PixelProgress({
   return (
     <div className={`space-y-1.5 ${className}`}>
       {showLabel && (
-        <div className="flex justify-between items-center text-[12px] font-body uppercase font-semibold text-[var(--color-dim)] tracking-wider">
+        <div className="flex justify-between items-center text-[13px] font-body uppercase font-semibold text-[var(--color-dim)] tracking-wider">
           <span>FUNDING PROGRESS</span>
           <span className="font-mono text-[var(--color-accent)] font-medium">{percent}%</span>
         </div>

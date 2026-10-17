@@ -145,7 +145,7 @@ export default function PublicAuditPage() {
                     <Badge variant={row.released ? "released" : "pending"}>
                       {row.released ? "Tranche Released · 94%" : "Pending"}
                     </Badge>
-                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-accent">
+                    <span className="font-sans text-[13px] uppercase font-semibold text-pix-accent">
                       Tranche #{row.milestoneIdx} · <span className="font-mono text-pix-accent font-medium text-sm">{formatUSDC(row.amount)}</span>
                     </span>
                     <span className="font-sans text-[13px] text-pix-dim">({row.campaignTitle})</span>
@@ -157,12 +157,12 @@ export default function PublicAuditPage() {
 
                   <div className="flex flex-wrap items-center gap-4 text-[13px] font-mono text-pix-dim pt-1">
                     {row.attestationUID && (
-                      <span>
+                      <span title={row.attestationUID}>
                         UID: <span className="text-pix-accent">{formatTxHash(row.attestationUID)}</span>
                       </span>
                     )}
                     {row.txHash && (
-                      <span>
+                      <span title={row.txHash}>
                         Tx: <span className="text-pix-accent">{formatTxHash(row.txHash)}</span>
                       </span>
                     )}
@@ -219,31 +219,41 @@ export default function PublicAuditPage() {
                 <h2 className="font-display font-bold text-xl sm:text-2xl text-pix-ink">
                   Cryptographic Audit Inspection
                 </h2>
-                <p className="font-sans text-[14px] text-pix-dim mt-1">
+                <p className="font-sans text-[15px] text-pix-dim mt-1">
                   Tranche #{selectedItem.milestoneIdx} of {selectedItem.campaignTitle}
                 </p>
               </div>
 
               {/* Hashes & Explorer Links */}
-              <div className="space-y-3 p-4 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] font-mono text-xs">
+              <div className="space-y-3 p-4 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] font-mono text-[13px]">
                 <div className="flex justify-between items-center">
-                  <span className="font-sans text-[11px] uppercase font-semibold text-pix-dim">EAS Attestation UID</span>
-                  <span className="text-pix-accent truncate max-w-[260px]">
-                    {selectedItem.attestationUID || "Logged via Contract Event"}
-                  </span>
+                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-dim">EAS Attestation UID</span>
+                  {selectedItem.attestationUID ? (
+                    <a
+                      href={`https://base-sepolia.easscan.org/attestation/view/${selectedItem.attestationUID}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-pix-accent hover:underline flex items-center space-x-1"
+                    >
+                      <span className="truncate max-w-[260px]">{formatTxHash(selectedItem.attestationUID)}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  ) : (
+                    <span className="text-pix-dim">Logged via Contract Event</span>
+                  )}
                 </div>
 
                 {selectedItem.txHash && (
                   <div className="flex justify-between items-center">
-                    <span className="font-sans text-[11px] uppercase font-semibold text-pix-dim">Base Sepolia Tx</span>
+                    <span className="font-sans text-[13px] uppercase font-semibold text-pix-dim">Base Sepolia Tx</span>
                     <a
                       href={`https://sepolia.basescan.org/tx/${selectedItem.txHash}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-pix-accent hover:underline flex items-center space-x-1"
                     >
-                      <span className="truncate max-w-[220px]">{selectedItem.txHash}</span>
-                      <ExternalLink className="w-3 h-3" />
+                      <span className="truncate max-w-[220px]">{formatTxHash(selectedItem.txHash)}</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   </div>
                 )}
@@ -252,14 +262,14 @@ export default function PublicAuditPage() {
               {/* Gemini Agent Reasoning */}
               {selectedItem.verdict && (
                 <div className="space-y-2">
-                  <span className="font-sans text-xs uppercase font-semibold text-pix-success flex items-center space-x-1.5">
+                  <span className="font-sans text-[13px] uppercase font-semibold text-pix-success flex items-center space-x-1.5">
                     <ShieldCheck className="w-4 h-4 text-pix-success" />
                     <span>
                       Gemini Multimodal Auditor Reasoning ({Math.round(selectedItem.verdict.confidence * 100)}% Confidence)
                     </span>
                   </span>
 
-                  <div className="p-4 rounded-[8px] bg-pix-bg border border-pix-success/20 text-[14px] font-sans text-pix-dim leading-relaxed whitespace-pre-line">
+                  <div className="p-4 rounded-[8px] bg-pix-bg border border-pix-success/20 text-[15px] font-sans text-pix-dim leading-relaxed whitespace-pre-line">
                     {selectedItem.verdict.reasoning}
                   </div>
                 </div>
@@ -267,14 +277,14 @@ export default function PublicAuditPage() {
 
               {/* Evidence & IPFS CIDs */}
               <div className="space-y-2">
-                <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">
+                <span className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">
                   IPFS Pinned Evidence (Pinata Gateway)
                 </span>
                 <div className="space-y-2">
                   {selectedItem.evidence?.map((ev: any) => (
                     <div
                       key={ev.id}
-                      className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] flex items-center justify-between text-xs"
+                      className="p-3.5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)] flex items-center justify-between text-[13px]"
                     >
                       <div className="flex items-center space-x-2">
                         <FileText className="w-4 h-4 text-pix-accent" />

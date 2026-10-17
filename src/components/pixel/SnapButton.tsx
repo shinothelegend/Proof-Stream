@@ -134,7 +134,7 @@ export function SnapButton({
         return "text-[16px] px-6 py-3.5 rounded-[10px]";
       case "md":
       default:
-        return "text-[14px] px-4 py-2.5 rounded-[10px]";
+        return "text-[15px] px-4 py-2.5 rounded-[10px]";
     }
   };
 

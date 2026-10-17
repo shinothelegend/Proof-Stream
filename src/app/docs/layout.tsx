@@ -61,7 +61,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           }`}
         >
           <div className="sticky top-24 bg-pix-panel rounded-[10px] border border-[var(--color-pix-hairline)] p-4 space-y-4 shadow-card">
-            <div className="font-sans text-[11px] font-semibold uppercase tracking-widest text-pix-accent border-b border-[var(--color-pix-hairline)] pb-2.5">
+            <div className="font-sans text-[13px] font-semibold uppercase tracking-widest text-pix-accent border-b border-[var(--color-pix-hairline)] pb-2.5">
               Documentation Index
             </div>
             <nav className="space-y-1">
@@ -89,7 +89,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <div className="pt-4 border-t border-[var(--color-pix-hairline)]">
               <Link
                 href="/"
-                className="font-sans text-[12px] uppercase font-semibold text-pix-dim hover:text-pix-accent flex items-center space-x-1.5 transition-colors"
+                className="font-sans text-[13px] uppercase font-semibold text-pix-dim hover:text-pix-accent flex items-center space-x-1.5 transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Return to Landing</span>

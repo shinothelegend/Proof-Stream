@@ -142,7 +142,7 @@ export default function LandingPage() {
       {/* Main Content Landmark */}
       <main className="flex-1">
         {/* 1. Hero Section (§6.3) */}
-        <section className="relative pt-16 pb-20 sm:pt-24 sm:pb-32 max-w-5xl mx-auto px-5 sm:px-6 text-center space-y-8 overflow-hidden">
+        <section className="relative pt-12 pb-16 sm:pt-16 sm:pb-24 max-w-5xl mx-auto px-5 sm:px-6 text-center space-y-8 overflow-hidden">
           {/* Pixel Wave Motif SVG scene decoration behind/below headline (blurred 0%, opacity 60%) */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-[720px] max-w-full opacity-60 pointer-events-none select-none">
             <svg viewBox="0 0 400 120" className="w-full h-auto" shapeRendering="crispEdges">
@@ -165,7 +165,7 @@ export default function LandingPage() {
           <div className="flex justify-center mb-2">
             <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-pix-panel border border-[var(--color-pix-hairline)] shadow-sm">
               <span className="w-2 h-2 rounded-full bg-pix-accent animate-pulse" />
-              <span className="text-[12px] font-sans font-semibold uppercase tracking-widest text-pix-accent">
+              <span className="text-[13px] font-sans font-semibold uppercase tracking-widest text-pix-accent">
                 Base Sepolia · Verifiable Escrow
               </span>
             </div>
@@ -265,9 +265,9 @@ export default function LandingPage() {
         </section>
 
         {/* 3. HOW IT WORKS — 4 Deterministic Steps (§6.5: 24px section gaps) */}
-        <section id="how-it-works" className="py-24 max-w-7xl mx-auto px-5 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-[12px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
+        <section id="how-it-works" className="py-16 max-w-7xl mx-auto px-5 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+            <span className="text-[13px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
               EXECUTION PIPELINE
             </span>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
@@ -284,9 +284,9 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
                 <Lock className="w-5 h-5" />
               </div>
-              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 01</div>
+              <div className="text-[13px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 01</div>
               <h3 className="font-display font-semibold text-lg text-pix-ink">Tranche Escrow</h3>
-              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+              <p className="text-base text-pix-dim leading-relaxed font-sans">
                 Donors fund campaigns in USDC. Capital sits locked in <code className="text-xs bg-pix-bg px-1.5 py-0.5 rounded text-pix-accent font-mono">CampaignEscrow.sol</code>, partitioned into milestone tranches.
               </p>
             </div>
@@ -296,9 +296,9 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
                 <PixelCamera className="w-5 h-5" />
               </div>
-              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 02</div>
+              <div className="text-[13px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 02</div>
               <h3 className="font-display font-semibold text-lg text-pix-ink">Field Evidence</h3>
-              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+              <p className="text-base text-pix-dim leading-relaxed font-sans">
                 Workers capture geotagged photos and supplier invoices in the field. Files are pinned cryptographically to IPFS via Pinata.
               </p>
             </div>
@@ -308,9 +308,9 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
                 <Cpu className="w-5 h-5" />
               </div>
-              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 03</div>
+              <div className="text-[13px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 03</div>
               <h3 className="font-display font-semibold text-lg text-pix-ink">AI Audit Gate</h3>
-              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+              <p className="text-base text-pix-dim leading-relaxed font-sans">
                 Multimodal Gemini Flash validates scene content, runs invoice OCR, verifies GPS fences, and rejects duplicate dHashes.
               </p>
             </div>
@@ -320,9 +320,9 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-[8px] bg-pix-accent/15 flex items-center justify-center text-pix-accent border border-pix-accent/30">
                 <FileCheck2 className="w-5 h-5" />
               </div>
-              <div className="text-[12px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 04</div>
+              <div className="text-[13px] font-mono text-pix-accent font-semibold uppercase tracking-wider">STEP 04</div>
               <h3 className="font-display font-semibold text-lg text-pix-ink">On-Chain Release</h3>
-              <p className="text-[14px] text-pix-dim leading-relaxed font-sans">
+              <p className="text-base text-pix-dim leading-relaxed font-sans">
                 Verified audits issue EAS attestations and release USDC directly to the verified frontline NGO wallet.
               </p>
             </div>
@@ -333,10 +333,10 @@ export default function LandingPage() {
         <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
 
         {/* 4. WHAT POWERS PROOFSTREAM — Tech Architecture */}
-        <section id="tech-stack" className="py-24 bg-pix-panel">
+        <section id="tech-stack" className="py-16 bg-pix-panel">
           <div className="max-w-7xl mx-auto px-5 sm:px-6">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-              <span className="text-[12px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
+            <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+              <span className="text-[13px] font-sans font-semibold uppercase text-pix-accent tracking-widest block">
                 PRODUCTION STACK
               </span>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
@@ -398,8 +398,8 @@ export default function LandingPage() {
                     <PixelCartridge />
                     <span className="font-display font-semibold text-sm text-pix-ink">{cart.name}</span>
                   </div>
-                  <div className="text-[12px] font-mono text-pix-accent font-medium uppercase tracking-wider">{cart.role}</div>
-                  <p className="text-[14px] text-pix-dim leading-relaxed font-sans">{cart.desc}</p>
+                  <div className="text-[13px] font-mono text-pix-accent font-medium uppercase tracking-wider">{cart.role}</div>
+                  <p className="text-[15px] text-pix-dim leading-relaxed font-sans">{cart.desc}</p>
                 </div>
               ))}
             </div>
@@ -410,9 +410,9 @@ export default function LandingPage() {
         <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
 
         {/* 5. IMPACT DATA STRIP — Real statistics */}
-        <section id="impact" className="py-24 max-w-7xl mx-auto px-5 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-            <span className="text-[12px] font-sans font-semibold uppercase text-pix-alert tracking-widest block">
+        <section id="impact" className="py-16 max-w-7xl mx-auto px-5 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
+            <span className="text-[13px] font-sans font-semibold uppercase text-pix-alert tracking-widest block">
               THE ACCOUNTABILITY GAP
             </span>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-pix-ink">
@@ -442,8 +442,8 @@ export default function LandingPage() {
                   height={10}
                 />
 
-                <p className="text-[14px] text-pix-dim leading-relaxed font-sans">{item.description}</p>
-                <div className="text-[12px] font-mono text-pix-dim italic">Source: {item.source}</div>
+                <p className="text-[15px] text-pix-dim leading-relaxed font-sans">{item.description}</p>
+                <div className="text-[13px] font-mono text-pix-dim italic">Source: {item.source}</div>
               </div>
             ))}
           </div>
@@ -453,7 +453,7 @@ export default function LandingPage() {
         <div className="w-full h-px bg-[var(--color-pix-hairline)]" />
 
         {/* 6. FEATURED CAMPAIGN CARTRIDGE (§6.1: banner >= 280px tall) */}
-        <section className="py-24 bg-pix-panel">
+        <section className="py-16 bg-pix-panel">
           <div className="max-w-4xl mx-auto px-5 sm:px-6">
             {statsLoading ? (
               <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel animate-pulse">
@@ -486,7 +486,7 @@ export default function LandingPage() {
             ) : (
               <div className="rounded-[10px] card-chamfer bg-pix-bg border border-[var(--color-pix-hairline)] p-6 sm:p-8 space-y-6 shadow-panel">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="text-[12px] font-mono font-semibold px-3 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-accent)]/40 text-pix-accent">
+                  <span className="text-[13px] font-mono font-semibold px-3 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-accent)]/40 text-pix-accent">
                     ACTIVE CAMPAIGN
                   </span>
                   <span className="text-[13px] font-mono text-pix-dim">

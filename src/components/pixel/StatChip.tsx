@@ -60,7 +60,7 @@ export function StatChip({
       )}
 
       <div className="min-w-0">
-        <span className="text-[12px] font-body uppercase font-semibold tracking-wider text-[var(--color-dim)] block truncate">
+        <span className="text-[13px] font-body uppercase font-semibold tracking-wider text-[var(--color-dim)] block truncate">
           {label}
         </span>
         <div className="flex items-baseline space-x-1.5 mt-0.5">
@@ -68,7 +68,7 @@ export function StatChip({
             {typeof displayValue === "number" ? displayValue.toLocaleString() : displayValue}
           </span>
           {subValue && (
-            <span className="text-[11px] font-mono text-[var(--color-dim)] uppercase">{subValue}</span>
+            <span className="text-[13px] font-mono text-[var(--color-dim)] uppercase">{subValue}</span>
           )}
         </div>
       </div>

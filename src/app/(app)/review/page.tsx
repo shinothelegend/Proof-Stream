@@ -132,8 +132,8 @@ export default function ReviewQueuePage() {
               <div key={sub.id} className="rounded-[10px] card-chamfer bg-pix-panel border border-[var(--color-pix-hairline)] shadow-card p-6 md:p-8 space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <span className="font-sans text-[11px] font-semibold text-pix-accent uppercase tracking-wider">
-                      Campaign: {sub.milestone?.campaign?.title || "Kalimantan Clean Water"}
+                    <span className="font-sans text-[13px] font-semibold text-pix-accent uppercase tracking-wider">
+                      Campaign: {sub.milestone?.campaign?.title || "Active Campaign"}
                     </span>
                     <h3 className="font-display font-semibold text-lg text-pix-ink mt-1">
                       {sub.milestone?.description}
@@ -153,11 +153,11 @@ export default function ReviewQueuePage() {
                 {/* Agent Reasoning & Flags Breakdown */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 rounded-[8px] bg-pix-bg border border-[var(--color-pix-hairline)]">
                   <div className="space-y-2">
-                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-alert flex items-center space-x-1.5">
+                    <span className="font-sans text-[13px] uppercase font-semibold text-pix-alert flex items-center space-x-1.5">
                       <ShieldAlert className="w-4 h-4 text-pix-alert" />
                       <span>Gemini Audit Finding</span>
                     </span>
-                    <p className="font-sans text-[14px] text-pix-dim leading-relaxed">
+                    <p className="font-sans text-[15px] text-pix-dim leading-relaxed">
                       {verdict?.reasoning || "Pending agent analysis or EXIF extraction."}
                     </p>
                     {verdict?.confidence !== undefined && (
@@ -168,13 +168,13 @@ export default function ReviewQueuePage() {
                   </div>
 
                   <div className="space-y-2">
-                    <span className="font-sans text-[12px] uppercase font-semibold text-pix-ink block">Security Flags</span>
+                    <span className="font-sans text-[13px] uppercase font-semibold text-pix-ink block">Security Flags</span>
                     {flags.length > 0 ? (
                       <div className="flex flex-wrap gap-1.5">
                         {flags.map((flag, idx) => (
                           <span
                             key={idx}
-                            className="px-2.5 py-1 text-[11px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
+                            className="px-2.5 py-1 text-[13px] font-mono rounded-[6px] bg-pix-alert/15 text-pix-alert border border-pix-alert/30"
                           >
                             {flag}
                           </span>
@@ -186,14 +186,14 @@ export default function ReviewQueuePage() {
 
                     {/* Evidence files preview */}
                     <div className="pt-2">
-                      <span className="font-sans text-[11px] uppercase font-semibold text-pix-accent block mb-1.5">
+                      <span className="font-sans text-[13px] uppercase font-semibold text-pix-accent block mb-1.5">
                         Attached Evidence
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {sub.evidence?.map((ev: any) => (
                           <span
                             key={ev.id}
-                            className="px-2.5 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-hairline)] text-[12px] font-mono text-pix-dim flex items-center space-x-1.5"
+                            className="px-2.5 py-1 rounded-[6px] bg-pix-panel border border-[var(--color-pix-hairline)] text-[13px] font-mono text-pix-dim flex items-center space-x-1.5"
                           >
                             <FileText className="w-3.5 h-3.5 text-pix-accent" />
                             <span>{ev.fileName || ev.kind}</span>
@@ -213,7 +213,7 @@ export default function ReviewQueuePage() {
                       setReviewerNotes({ ...reviewerNotes, [sub.id]: e.target.value })
                     }
                     placeholder="Enter audit notes / justification for manual override..."
-                    className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[14px] text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-accent shadow-sm"
+                    className="w-full px-4 py-2.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] font-sans text-[15px] text-pix-ink placeholder:text-pix-dim/50 focus:outline-none focus:border-pix-accent shadow-sm"
                   />
 
                   <div className="flex items-center justify-end space-x-3">

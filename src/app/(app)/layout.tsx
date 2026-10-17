@@ -115,16 +115,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {statsLoading ? (
                 <div className="h-8 w-44 rounded-[10px] bg-pix-bg/60 border border-[var(--color-pix-hairline)] animate-pulse" />
               ) : statsError || !stats ? (
-                <span className="text-[11px] font-mono text-pix-dim">STATS OFFLINE</span>
+                <span className="text-[13px] font-mono text-pix-dim">STATS OFFLINE</span>
               ) : (
                 <>
                   <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
-                    <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Escrowed</span>
-                    <span className="text-pix-accent font-mono font-medium text-[14px]">{formatUSDC(stats.totalEscrowed)}</span>
+                    <span className="text-pix-dim font-sans text-[13px] uppercase tracking-wider mr-1.5">Escrowed</span>
+                    <span className="text-pix-accent font-mono font-medium text-[15px]">{formatUSDC(stats.totalEscrowed)}</span>
                   </div>
                   <div className="px-3 py-1.5 rounded-[10px] bg-pix-bg border border-[var(--color-pix-hairline)] text-xs font-medium">
-                    <span className="text-pix-dim font-sans text-[12px] uppercase tracking-wider mr-1.5">Proven</span>
-                    <span className="text-pix-accent font-mono font-medium text-[14px]">{stats.totalVerdicts} Tranche</span>
+                    <span className="text-pix-dim font-sans text-[13px] uppercase tracking-wider mr-1.5">Proven</span>
+                    <span className="text-pix-accent font-mono font-medium text-[15px]">{stats.totalVerdicts} Tranche</span>
                   </div>
                 </>
               )}
@@ -147,7 +147,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                           }
                         : undefined
                     }
-                    className={`text-[12px] font-sans font-semibold uppercase tracking-wider px-3 py-1 rounded-[8px] transition-all cursor-pointer ${
+                    className={`text-[13px] font-sans font-semibold uppercase tracking-wider px-3 py-1 rounded-[8px] transition-all cursor-pointer ${
                       isSelected
                         ? "shadow-sm"
                         : "text-pix-dim hover:text-pix-ink"
