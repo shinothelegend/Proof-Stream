@@ -24,19 +24,26 @@ const config: Config = {
         pix: {
           bg: "var(--color-bg)",
           panel: "var(--color-panel)",
+          hairline: "var(--color-hairline)",
           ink: "var(--color-ink)",
           dim: "var(--color-dim)",
+          accent: "var(--color-accent)",
+          success: "var(--color-success)",
+          alert: "var(--color-alert)",
           gold: "var(--color-accent)",
           cyan: "var(--color-accent)",
           mint: "var(--color-success)",
-          alert: "var(--color-alert)",
         },
       },
       fontFamily: {
         display: ["var(--font-display)", '"Space Grotesk"', "sans-serif"],
         heading: ["var(--font-display)", '"Space Grotesk"', "sans-serif"],
         body: ["var(--font-body)", '"Inter"', "sans-serif"],
+        sans: ["var(--font-body)", "Inter", "sans-serif"],
         mono: ["var(--font-mono)", '"JetBrains Mono"', "monospace"],
+      },
+      spacing: {
+        "18": "4.5rem",
       },
       boxShadow: {
         card: "0 4px 14px rgba(0, 0, 0, 0.25)",

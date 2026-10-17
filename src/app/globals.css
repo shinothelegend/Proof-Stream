@@ -19,10 +19,13 @@
     --color-pix-panel: var(--color-panel);
     --color-pix-border: var(--color-hairline);
     --color-pix-border-subtle: rgba(255, 255, 255, 0.05);
+    --color-pix-hairline: var(--color-hairline);
     --color-pix-ink: var(--color-ink);
     --color-pix-dim: var(--color-dim);
+    --color-pix-accent: var(--color-accent);
     --color-pix-gold: var(--color-accent);
     --color-pix-cyan: var(--color-accent);
+    --color-pix-success: var(--color-success);
     --color-pix-mint: var(--color-success);
     --color-pix-alert: var(--color-alert);
   }
@@ -43,10 +46,13 @@
     --color-pix-panel: var(--color-panel);
     --color-pix-border: var(--color-hairline);
     --color-pix-border-subtle: rgba(20, 20, 30, 0.06);
+    --color-pix-hairline: var(--color-hairline);
     --color-pix-ink: var(--color-ink);
     --color-pix-dim: var(--color-dim);
+    --color-pix-accent: var(--color-accent);
     --color-pix-gold: var(--color-accent);
     --color-pix-cyan: var(--color-accent);
+    --color-pix-success: var(--color-success);
     --color-pix-mint: var(--color-success);
     --color-pix-alert: var(--color-alert);
   }
@@ -58,6 +64,20 @@
     line-height: 1.6;
     min-height: 100vh;
   }
+}
+
+/* Core Brand Utility Classes (Guaranteed compilation) */
+.bg-pix-accent {
+  background-color: var(--color-accent) !important;
+}
+.border-pix-accent {
+  border-color: var(--color-accent) !important;
+}
+.text-pix-accent {
+  color: var(--color-accent) !important;
+}
+.shadow-accent-glow {
+  box-shadow: 0 0 16px rgba(255, 180, 84, 0.45) !important;
 }
 
 /* Pixel notch chamfer: top-right 8px cut */
@@ -130,10 +150,3 @@
   background: var(--color-accent);
 }
 
-/* Suppress Next.js dev overlay indicator */
-nextjs-portal,
-[data-nextjs-toast],
-[data-nextjs-dialog-overlay],
-div[data-nextjs-rendered-overlay] {
-  display: none !important;
-}
