@@ -158,7 +158,7 @@ journey
 In accordance with §5 requirements, a continuous, full 60–90 second fallback video demonstrating the complete live flow is archived in the repository:
 - **Location**: `docs/demo-backup/`
 - **Recorded Coverage**:
-  1. Landing page aurora aesthetic + stats strip.
+  1. Landing page Ember & Paper aesthetic + stats strip.
   2. Surfer transition into `/campaigns` 2-column layout.
   3. Interactive QR capture panel with live 5s polling.
   4. Real adversarial fraud rejection with dHash collision and Gemini reasoning.
