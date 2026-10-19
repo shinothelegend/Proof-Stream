@@ -11,8 +11,8 @@ const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 const ROUTES = [
   { path: "/", name: "Landing Hero & Stats", expectJson: false },
   { path: "/campaigns", name: "Campaigns Index & Quest Cards", expectJson: false },
-  { path: "/campaigns/cmvba68ow0000u8tkmoa6o86t", name: "Campaign Detail & Escrow Funding", expectJson: false },
-  { path: "/submit/cmvba68ox0002u8tkzdbxp1ed", name: "Submit Evidence Field Portal", expectJson: false },
+  { path: "/campaigns/cmvcbyzup0000u8h0o29ruvak", name: "Campaign Detail & Escrow Funding", expectJson: false },
+  { path: "/submit/cmvcbyzuq0002u8h0pe92hgd7", name: "Submit Evidence Field Portal", expectJson: false },
   { path: "/review", name: "Reviewer Queue & Auditor Window", expectJson: false },
   { path: "/audit", name: "Public Audit & EAS Attestations", expectJson: false },
   { path: "/docs", name: "Documentation Overview", expectJson: false },

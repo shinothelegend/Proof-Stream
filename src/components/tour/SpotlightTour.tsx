@@ -31,27 +31,27 @@ export const TOUR_STEPS: TourStepConfig[] = [
     selector: '[data-tour="quest-card"]',
     title: "2. Verifiable Impact Quests",
     description: "Each card is escrowed USDC on Base Sepolia. Funds unlock only via verified proof.",
-    nextRoute: "/campaigns/cmvba68ow0000u8tkmoa6o86t",
+    nextRoute: "/campaigns/cmvcbyzup0000u8h0o29ruvak",
   },
   {
     step: 3,
-    route: "/campaigns/cmvba68ow0000u8tkmoa6o86t",
+    route: "/campaigns/cmvcbyzup0000u8h0o29ruvak",
     selector: '[data-tour="fund-form"]',
     title: "3. Smart Contract Escrow",
     description: "Approve USDC then fund — the money locks in the contract.",
-    nextRoute: "/campaigns/cmvba68ow0000u8tkmoa6o86t",
+    nextRoute: "/campaigns/cmvcbyzup0000u8h0o29ruvak",
   },
   {
     step: 4,
-    route: "/campaigns/cmvba68ow0000u8tkmoa6o86t",
+    route: "/campaigns/cmvcbyzup0000u8h0o29ruvak",
     selector: '[data-tour="milestone-pipeline"]',
     title: "4. Milestone Tranche Pipeline",
     description: "Funds only unlock per milestone when proof is verified.",
-    nextRoute: "/submit/cmvba68ox0002u8tkzdbxp1ed",
+    nextRoute: "/submit/cmvcbyzuq0002u8h0pe92hgd7",
   },
   {
     step: 5,
-    route: "/submit/cmvba68ox0002u8tkzdbxp1ed",
+    route: "/submit/cmvcbyzuq0002u8h0pe92hgd7",
     selector: '[data-tour="evidence-card"]',
     title: "5. Frontline Evidence Capture",
     description: "Field workers upload geotagged evidence here.",
@@ -93,7 +93,7 @@ export function useTour() {
 }
 
 // Utility: wait for a DOM element to be mounted
-function waitForSelector(selector: string, timeoutMs = 4000): Promise<Element | null> {
+function waitForSelector(selector: string, timeoutMs = 10000): Promise<Element | null> {
   return new Promise((resolve) => {
     const el = document.querySelector(selector);
     if (el) return resolve(el);
@@ -148,7 +148,7 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
       }
 
       // Wait for target element to mount
-      const targetEl = await waitForSelector(stepConfig.selector, 4000);
+      const targetEl = await waitForSelector(stepConfig.selector, 12000);
       if (!targetEl) {
         // Element not found on this page, retry once or gracefully move
         console.warn(`[SpotlightTour] Target selector ${stepConfig.selector} not found`);
@@ -177,16 +177,17 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
           }
         },
         onDoneClick: () => {
-          driverObj.destroy();
           if (isLastStep) {
+            driverObj.destroy();
             stopTour();
           } else {
             const nextStepNum = stepNum + 1;
             const nextConfig = TOUR_STEPS.find((s) => s.step === nextStepNum);
+            sessionStorage.setItem("proofstream.tour.step", String(nextStepNum));
+            driverObj.destroy();
             if (nextConfig) {
               if (pathname !== nextConfig.route) {
-                sessionStorage.setItem("proofstream.tour.step", String(nextStepNum));
-                router.push(nextConfig.route);
+                window.location.href = nextConfig.route;
               } else {
                 executeStep(nextStepNum);
               }
@@ -194,16 +195,17 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
           }
         },
         onNextClick: () => {
-          driverObj.destroy();
           if (isLastStep) {
+            driverObj.destroy();
             stopTour();
           } else {
             const nextStepNum = stepNum + 1;
             const nextConfig = TOUR_STEPS.find((s) => s.step === nextStepNum);
+            sessionStorage.setItem("proofstream.tour.step", String(nextStepNum));
+            driverObj.destroy();
             if (nextConfig) {
               if (pathname !== nextConfig.route) {
-                sessionStorage.setItem("proofstream.tour.step", String(nextStepNum));
-                router.push(nextConfig.route);
+                window.location.href = nextConfig.route;
               } else {
                 executeStep(nextStepNum);
               }
@@ -211,13 +213,13 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
           }
         },
         onPrevClick: () => {
-          driverObj.destroy();
           const prevStepNum = stepNum - 1;
           const prevConfig = TOUR_STEPS.find((s) => s.step === prevStepNum);
+          sessionStorage.setItem("proofstream.tour.step", String(prevStepNum));
+          driverObj.destroy();
           if (prevConfig) {
             if (pathname !== prevConfig.route) {
-              sessionStorage.setItem("proofstream.tour.step", String(prevStepNum));
-              router.push(prevConfig.route);
+              window.location.href = prevConfig.route;
             } else {
               executeStep(prevStepNum);
             }
@@ -263,7 +265,7 @@ export function SpotlightTourProvider({ children }: { children: React.ReactNode 
 
       if (pathname !== targetConfig.route) {
         sessionStorage.setItem("proofstream.tour.step", String(fromStep));
-        router.push(targetConfig.route);
+        window.location.href = targetConfig.route;
       } else {
         executeStep(fromStep);
       }
