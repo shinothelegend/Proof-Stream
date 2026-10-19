@@ -14,6 +14,24 @@ Every verification decision is written permanently on-chain as a cryptographic a
 
 ---
 
+## 📹 Demo Video
+
+<!-- Paste YouTube demo video link below -->
+
+---
+
+## 📸 Product Preview
+
+| Landing Page (Dark — "Ember") | Landing Page (Light — "Paper") |
+|:---:|:---:|
+| ![Landing Page Dark](screenshots/landing_dark.png) | ![Landing Page Light](screenshots/landing_light.png) |
+
+| Campaign Detail & On-Chain Escrow | Public Attestation Audit Trail |
+|:---:|:---:|
+| ![Campaign Detail Dark](screenshots/campaign_detail_dark.png) | ![Public Audit Dark](screenshots/audit_dark.png) |
+
+---
+
 ## ⚡ 60-Second Quick Start
 
 ### 1. Prerequisites
@@ -24,8 +42,8 @@ Every verification decision is written permanently on-chain as a cryptographic a
 ### 2. Installation & Setup
 ```bash
 # 1. Clone & install dependencies
-git clone https://github.com/proofstream/proofstream.git
-cd proofstream
+git clone https://github.com/shinothelegend/Proof-Stream.git
+cd Proof-Stream
 npm install --legacy-peer-deps
 
 # 2. Configure environment
@@ -72,7 +90,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the application.
 ## 🛡️ Anti-Slop & Real-Data Constitution
 
 ProofStream adheres to a strict zero-tolerance policy against fake numbers and UI shortcuts:
-1. **Zero Mock Data**: All numbers in the UI are read from on-chain smart contracts or the seeded relational database ($2,500 total campaign goal; $1,200 / $800 / $500 milestone tranches).
+1. **Zero Mock Data**: All numbers in the UI are read from on-chain smart contracts or the live relational database: **2 active campaigns**, **$6,100.00 total USDC escrowed** across 6 milestone tranches (**Kalimantan $2,500** [$1,200 / $800 / $500] + **Turkana $3,600** [$1,800 / $1,200 / $600], with 1 tranche already cryptographically proven and released on Base Sepolia).
 2. **Real AI Multimodal Verification**: The verification pipeline executes actual Google Gemini calls to extract receipt totals via OCR and evaluate scene authenticity against GPS fences.
 3. **Real Image Reuse Fraud Detection**: A 64-bit gradient difference hash (`dHash`) calculates Hamming distance against historical submissions. Submissions with distance $< 8$ are automatically rejected for fraud.
 4. **Foundry Test Verification**: All 5 contract tests in `CampaignEscrow.t.sol` execute and pass with 0 failures under `forge test -vvv`.
