@@ -1,105 +1,157 @@
-# ProofStream — Verifiable Autonomous Streaming Aid Protocol
+# ProofStream — Autonomous Impact-Gated Streaming Aid Protocol
 
-> **Web3 for Social Good Hackathon 2026**  
-> Built for **Base Sepolia (Chain ID: 84532)**  
-> Verifiable, zero-trust humanitarian aid streaming through smart contract escrows, multimodal AI audits, and Ethereum Attestation Service (EAS) records.
+<p align="center">
+  <img src="screenshots/landing_dark.png" alt="ProofStream Hero Banner" width="100%" style="border-radius: 10px; border: 1px solid #2a2a34;" />
+</p>
 
----
-
-## 🌟 Overview
-
-ProofStream transforms traditional charity funding from opaque lump-sum transfers into **impact-gated streaming escrows**. Donors deposit official testnet USDC directly into `CampaignEscrow.sol`. Funds sit locked in milestone tranches and are released to verified frontline NGO wallets **only when field workers submit verifiable geotagged field photos and supplier receipts** audited by a multimodal AI verification agent.
-
-Every verification decision is written permanently on-chain as a cryptographic attestation on Base Sepolia, allowing anyone in the world to audit humanitarian impact without login or intermediaries.
-
----
-
-## 📹 Demo Video
-
-<!-- Paste YouTube demo video link below -->
+<p align="center">
+  <a href="https://proofstream-ashen.vercel.app/"><img src="https://img.shields.io/badge/Live_Demo-proofstream--ashen.vercel.app-FFB454?style=for-the-badge&logo=vercel&logoColor=black" alt="Live Demo" /></a>
+  <a href="https://youtu.be/PWt_gj1h2lo"><img src="https://img.shields.io/badge/Demo_Video-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Demo Video" /></a>
+  <a href="https://sepolia.basescan.org/address/0xa0eb087d35d33d2306bc182beaa4222c6dd7d3e7"><img src="https://img.shields.io/badge/Base_Sepolia-84532-0052FF?style=for-the-badge&logo=coinbase&logoColor=white" alt="Base Sepolia" /></a>
+  <a href="https://github.com/shinothelegend/Proof-Stream"><img src="https://img.shields.io/badge/GitHub-Proof--Stream-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo" /></a>
+</p>
 
 ---
 
-## 📸 Product Preview
+## 🔗 Quick Links
 
-| Landing Page (Dark — "Ember") | Landing Page (Light — "Paper") |
+| Resource | Link |
+|---|---|
+| 🌐 **Live Web Application** | [https://proofstream-ashen.vercel.app/](https://proofstream-ashen.vercel.app/) |
+| 📹 **Walkthrough Video** | [https://youtu.be/PWt_gj1h2lo](https://youtu.be/PWt_gj1h2lo) |
+| 💻 **Source Code Repository** | [https://github.com/shinothelegend/Proof-Stream](https://github.com/shinothelegend/Proof-Stream) |
+| ⛓️ **Escrow Smart Contract** | [`0xa0eb087d35d33d2306bc182beaa4222c6dd7d3e7` (BaseScan)](https://sepolia.basescan.org/address/0xa0eb087d35d33d2306bc182beaa4222c6dd7d3e7) |
+| 📜 **EAS Schema Registry** | [`0xd3de6adb8faf789116a05f59a390b23af5b491a252a0bda2d11c0e8c194062b3`](https://base-sepolia.easscan.org/schema/view/0xd3de6adb8faf789116a05f59a390b23af5b491a252a0bda2d11c0e8c194062b3) |
+
+---
+
+## 💡 What is ProofStream?
+
+Traditional humanitarian aid suffers from an existential trust gap: **only 4.5% of international donations reach local NGOs**, and over **$3.7B is lost annually to procurement fraud and opaque lump-sum wire transfers**.
+
+**ProofStream** replaces blind lump-sum aid with **autonomous impact-gated streaming escrows**:
+1. Donors deposit official testnet USDC into a **Base Sepolia smart contract escrow** (`CampaignEscrow.sol`).
+2. Funds remain **locked on-chain** in milestone tranches.
+3. Frontline NGO teams complete work and upload **geotagged field photos + supplier receipts**.
+4. An autonomous **multimodal AI verification agent** (Google Gemini) inspects EXIF GPS coordinates, parses receipt itemizations via OCR, and runs 64-bit gradient dHash checks for duplicate image reuse.
+5. Once verified, the escrow **instantly releases that tranche's funds** to the frontline NGO wallet and emits a permanent **Ethereum Attestation Service (EAS)** record on Base Sepolia.
+
+---
+
+## 🔄 How It Works (The Lifecycle)
+
+```
+[ Donors ] ────> Deposit USDC ────> [ CampaignEscrow.sol ] (Locked in Tranches)
+                                             │
+[ Frontline NGO ] ──> Submits Photo + Receipt │ (GPS EXIF + Vendor Invoices)
+                                             ▼
+                             [ Multimodal AI Agent ]
+                             ├─ EXIF Geofence validation (<5 km)
+                             ├─ Gemini Vision scene audit
+                             ├─ OCR itemized invoice sum check
+                             └─ 64-bit perceptual dHash (reuse detection)
+                                             │
+                       ┌─────────────────────┴─────────────────────┐
+                       ▼ PASSED                                    ▼ REJECTED
+              [ Tranche Released ]                         [ Funds Retained ]
+          Funds streamed to NGO wallet                  Detailed audit flags logged;
+        + Base Sepolia EAS Attestation emitted         Human review escalation enabled
+```
+
+---
+
+## 📸 Product Walkthrough
+
+| Live Escrow & Campaign Overview | Public On-Chain Audit Explorer |
 |:---:|:---:|
-| ![Landing Page Dark](screenshots/landing_dark.png) | ![Landing Page Light](screenshots/landing_light.png) |
+| <img src="screenshots/landing_dark.png" width="100%" /> | <img src="screenshots/audit_dark.png" width="100%" /> |
+| *Real-time on-chain stats ($6,100 USDC escrowed)* | *Immutable BaseScan & EAS attestations per tranche* |
 
-| Campaign Detail & On-Chain Escrow | Public Attestation Audit Trail |
+| Milestone Pipeline & Tranches | Field Evidence Submission & AI Review |
 |:---:|:---:|
-| ![Campaign Detail Dark](screenshots/campaign_detail_dark.png) | ![Public Audit Dark](screenshots/audit_dark.png) |
+| <img src="screenshots/campaign_detail_dark.png" width="100%" /> | <img src="screenshots/submit_page.png" width="100%" /> |
+| *Funded milestones locked pending verified evidence* | *Mobile camera QR bridge & real-time verification* |
 
 ---
 
-## ⚡ 60-Second Quick Start
+## 🎯 Key Practical Features
+
+- **🎮 Spotlight Interactive Tour**: 1-click guided walkthrough (`driver.js`) anchored to live DOM elements so judges and reviewers can explore the entire flow in under 60 seconds.
+- **📱 Mobile QR Evidence Capture Bridge**: Real-time QR code generator allowing field workers to snap high-resolution on-site photos directly on mobile devices with live 5-second polling synchronization to the desktop review dashboard.
+- **🛡️ Adversarial Fraud Rejection Demo**: Includes pre-staged adversarial duplicate assets (`public/demo/fraud-attempt.jpg`) to demonstrate live dHash Hamming distance rejection ($< 8$ bit distance) during pitch demos.
+- **⚡ Dual-Mode Database Architecture**: Seamless local development with SQLite/Postgres and cloud serverless production powered by **Neon PostgreSQL**.
+- **🎨 "Ember & Paper" Design System**: Ultra-clean neutral palette (Space Grotesk headers, Inter body, JetBrains Mono hashes, warm amber accents) with tactile magnetic snap cursor and 8px signature chamfered cards.
+
+---
+
+## ⛓️ On-Chain Smart Contracts & Addresses
+
+| Contract / Asset | Network | Address / Identifier | Explorer Link |
+|---|---|---|---|
+| **CampaignEscrow** | Base Sepolia | `0xa0eb087d35d33d2306bc182beaa4222c6dd7d3e7` | [BaseScan](https://sepolia.basescan.org/address/0xa0eb087d35d33d2306bc182beaa4222c6dd7d3e7) |
+| **Circle USDC (Testnet)** | Base Sepolia | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` | [BaseScan](https://sepolia.basescan.org/token/0x036CbD53842c5426634e7929541eC2318f3dCF7e) |
+| **EAS Predeploy** | Base Sepolia | `0x4200000000000000000000000000000000000021` | [BaseScan](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021) |
+| **EAS Schema Registry** | Base Sepolia | `0x4200000000000000000000000000000000000020` | [BaseScan](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000020) |
+| **Attestation Schema UID** | Base Sepolia | `0xd3de6adb8faf789116a05f59a390b23af5b491a252a0bda2d11c0e8c194062b3` | [EAS Scan](https://base-sepolia.easscan.org/schema/view/0xd3de6adb8faf789116a05f59a390b23af5b491a252a0bda2d11c0e8c194062b3) |
+
+---
+
+## 💻 Local Developer Quickstart
 
 ### 1. Prerequisites
-- Node.js 18+ (tested on Node v20/v24)
-- Git
-- Foundry (`forge`) for smart contract test execution
+- **Node.js** v20+ 
+- **Foundry** (`forge`) for Solidity contract tests
 
-### 2. Installation & Setup
+### 2. Clone & Install Dependencies
 ```bash
-# 1. Clone & install dependencies
 git clone https://github.com/shinothelegend/Proof-Stream.git
 cd Proof-Stream
 npm install --legacy-peer-deps
-
-# 2. Configure environment
-cp .env.example .env
-
-# 3. Synchronize database & seed realistic demo campaign
-npx prisma db push
-npx tsx prisma/seed.ts
-
-# 4. Run Foundry test suite (all 5 tests passing)
-forge test -vvv
-
-# 5. Launch development server
-npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to view the application.
+### 3. Environment Configuration
+Copy the template and provide your keys:
+```bash
+cp .env.example .env
+```
+Key environment variables:
+- `DATABASE_URL`: Connection string (Neon PostgreSQL or `file:./dev.db`)
+- `GEMINI_API_KEY`: Google GenAI API Key for multimodal verification
+- `VERIFIER_PRIVATE_KEY`: Server-side key authorized to call `releaseMilestoneWithAttestation`
+
+### 4. Database Setup & Demo Seed
+```bash
+npx prisma generate
+npx prisma db push
+npx tsx prisma/seed.ts
+```
+*Seeds 2 realistic NGO campaigns (Kalimantan Clean Water $2,500 USDC & Turkana Solar Cold-Chain $3,600 USDC).*
+
+### 5. Smart Contract Tests
+Execute the comprehensive Foundry test suite:
+```bash
+forge test -vvv
+```
+*(5/5 tests passing with zero failures)*
+
+### 6. Start Development Server
+```bash
+npm run dev
+```
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ---
 
-## 🔗 Official Smart Contract & Network Addresses
+## 🏗️ Technical Architecture
 
-- **Network**: Base Sepolia (`84532`)
-- **RPC URL**: `https://sepolia.base.org`
-- **Block Explorer**: `https://sepolia.basescan.org`
-- **Official Circle USDC**: `0x036CbD53842c5426634e7929541eC2318f3dCF7e`
-- **EAS Contract**: `0x4200000000000000000000000000000000000021` (Canonical OP-Stack Predeploy)
-- **EAS Schema Registry**: `0x4200000000000000000000000000000000000020` (Canonical OP-Stack Predeploy)
-- **CampaignEscrow Contract**: `contracts/src/CampaignEscrow.sol`
-- **Circle USDC Faucet**: [Circle Faucet](https://faucet.circle.com) / [Alchemy Base Sepolia](https://www.alchemy.com/faucets/base-sepolia)
+- **Frontend & Serverless API**: Next.js 15 (App Router), React 19, Tailwind CSS, RainbowKit, Wagmi, Viem
+- **Smart Contracts**: Solidity 0.8.24, OpenZeppelin v5 (ReentrancyGuard, SafeERC20, Ownable), Foundry
+- **AI Verification Engine**: Google Gemini Multimodal SDK (`@google/genai`), Exifr, Canvas OCR, Gradient dHash
+- **Database & Storage**: Prisma ORM, Neon PostgreSQL, IPFS (Pinata gateway)
+- **Attestations & Trust**: Ethereum Attestation Service (EAS) SDK on Base Sepolia
 
 ---
 
-## 🎨 Design System: "Ember & Paper" (v3)
+## 📜 License
 
-- **Typography**: Space Grotesk (Hero & Titles 56–72px / 36–42px), Inter (Descriptions & Body, min 14px), JetBrains Mono (Numbers, USDC, and on-chain hashes). Zero pixelated fonts for human-readable content.
-- **Palette**: Neutral-first (~90% neutrals) with single hero amber accent (`#FFB454` dark, `#B36612` light). Zero cyan. Semantic badges only for status (`#6FCF8E` success, `#F0787E` alert).
-- **Retro-Modern Surfaces**: 10px rounded panels with 1px hairline border, soft shadows, and 8px top-right chamfered signature corner (`card-chamfer`).
-- **Button System**: 4 state morphs (loading spinner, success checkmark, error shake, disabled with tooltip) and retuned magnetic snap cursor (24px radius, 4px lean).
-- **Brand Identity**: 28x28 inline SVG brand mark (amber coin with wave) + Space Grotesk wordmark across HUD, landing nav, audit explorer, and favicon (`app/icon.svg`).
-
----
-
-## 🛡️ Anti-Slop & Real-Data Constitution
-
-ProofStream adheres to a strict zero-tolerance policy against fake numbers and UI shortcuts:
-1. **Zero Mock Data**: All numbers in the UI are read from on-chain smart contracts or the live relational database: **2 active campaigns**, **$6,100.00 total USDC escrowed** across 6 milestone tranches (**Kalimantan $2,500** [$1,200 / $800 / $500] + **Turkana $3,600** [$1,800 / $1,200 / $600], with 1 tranche already cryptographically proven and released on Base Sepolia).
-2. **Real AI Multimodal Verification**: The verification pipeline executes actual Google Gemini calls to extract receipt totals via OCR and evaluate scene authenticity against GPS fences.
-3. **Real Image Reuse Fraud Detection**: A 64-bit gradient difference hash (`dHash`) calculates Hamming distance against historical submissions. Submissions with distance $< 8$ are automatically rejected for fraud.
-4. **Foundry Test Verification**: All 5 contract tests in `CampaignEscrow.t.sol` execute and pass with 0 failures under `forge test -vvv`.
-5. **Isolated Key Management**: `VERIFIER_PRIVATE_KEY` exists exclusively in backend memory and is never bundled in client code.
-
----
-
-## 📊 Real-World Humanitarian Data Sources
-
-- **4.5% direct aid reaching local NGOs**: OCHA/FTS via Défis Humanitaires, 2024.
-- **$3.7B annual procurement fraud loss**: UN Global Compact / UNDP Transparency Studies.
-- **30-day average emergency cash delay**: UNCTAD & World Bank Disaster Financing Reports.
+MIT License — free for non-profit and open-source humanitarian aid distribution.
