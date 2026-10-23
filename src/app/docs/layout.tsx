@@ -38,6 +38,14 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <div className="flex items-center space-x-3">
+            <a
+              href={BRAND.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center space-x-1.5 text-xs font-semibold uppercase tracking-wider text-pix-dim hover:text-pix-ink transition-colors px-2.5 py-1.5 rounded-[8px] border border-[var(--color-pix-hairline)] bg-pix-bg"
+            >
+              GitHub ↗
+            </a>
             <SnapButton href="/campaigns" variant="secondary" size="sm" className="hidden sm:inline-flex">
               LAUNCH QUEST BOARD →
             </SnapButton>
@@ -86,7 +94,15 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               })}
             </nav>
 
-            <div className="pt-4 border-t border-[var(--color-pix-hairline)]">
+            <div className="pt-4 border-t border-[var(--color-pix-hairline)] space-y-2">
+              <a
+                href={BRAND.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-[13px] uppercase font-semibold text-pix-dim hover:text-pix-accent flex items-center space-x-1.5 transition-colors"
+              >
+                <span>GitHub Repository ↗</span>
+              </a>
               <Link
                 href="/"
                 className="font-sans text-[13px] uppercase font-semibold text-pix-dim hover:text-pix-accent flex items-center space-x-1.5 transition-colors"

@@ -27,8 +27,8 @@ export default function DocsSetupPage() {
             <span>Clone & Install Dependencies</span>
           </div>
           <pre className="p-3 bg-pix-panel border border-pix-dim/20 text-xs text-pix-cyan font-body overflow-x-auto">
-{`git clone https://github.com/your-org/proofstream.git
-cd proofstream
+{`git clone https://github.com/shinothelegend/Proof-Stream.git
+cd Proof-Stream
 npm install`}
           </pre>
         </div>

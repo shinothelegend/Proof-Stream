@@ -570,6 +570,9 @@ export default function LandingPage() {
             <a href={BRAND.links.baseScan} target="_blank" rel="noopener noreferrer" className="hover:text-pix-accent transition-colors">
               BaseScan
             </a>
+            <a href={BRAND.links.github} target="_blank" rel="noopener noreferrer" className="hover:text-pix-accent transition-colors">
+              GitHub
+            </a>
           </div>
         </div>
       </footer>

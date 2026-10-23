@@ -8,7 +8,7 @@ export const BRAND = {
   chainId: 84532,
   currency: "USDC",
   links: {
-    github: "https://github.com/proofstream/proofstream",
+    github: "https://github.com/shinothelegend/Proof-Stream",
     baseScan: "https://sepolia.basescan.org",
     easScan: "https://base-sepolia.easscan.org",
     circleFaucet: "https://faucet.circle.com",
